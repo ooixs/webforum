@@ -8,21 +8,28 @@ import PostPage from "./pages/PostPage";
 import Register from "./pages/Register";
 import ReplyPage from "./pages/ReplyPage";
 import TopicPage from "./pages/TopicPage";
-import { BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { blue, orange } from "@mui/material/colors";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/topics" element={<TopicPage />} />
-          <Route path="/" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <div className="App">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/register" element={<Register />} />
+            <Route path="/topics" element={<TopicPage />} />
+            <Route path="/" element={<Login />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </ThemeProvider>
   );
 }
 

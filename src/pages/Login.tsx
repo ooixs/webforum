@@ -1,22 +1,19 @@
-import React from "react";
-import {
-  Button,
-  Card,
-  CardContent,
-  Fade,
-  Typography,
-  TextField,
-} from "@mui/material";
+import { Button, TextField } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function Login() {
   return (
     <div>
-      <h1>Login Page</h1>
-      <TextField id="user-login" label="username" variant="outlined" />
+      <h1>Login</h1>
+      <TextField label="username" variant="outlined" />
       <br />
-      <Button sx={{ mt: "10px" }} variant="contained">
+      <Button sx={{ mt: 2 }} variant="contained">
         Login
       </Button>
+      <br />
+      <p>
+        First time user? <Link to="/register">Register</Link> here instead.
+      </p>
     </div>
   );
 }

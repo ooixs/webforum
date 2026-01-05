@@ -1,4 +1,5 @@
 import Post from "../types/Post";
+import { Card, CardContent } from "@mui/material";
 
 type Props = {
   username: string;
@@ -9,9 +10,13 @@ type Props = {
 function ReplyItem({ username, post, content }: Props) {
   return (
     <div>
-      <h3>Reply by: {username}</h3>
-      <p>{content}</p>
-      <p>In response to post titled: {post.heading}</p>
+      <Card>
+        <CardContent>
+          <h3>Reply by: {username}</h3>
+          <p>{content}</p>
+          <p>In response to post titled: {post.heading}</p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

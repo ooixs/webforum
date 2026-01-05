@@ -26,6 +26,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/topics" element={<TopicPage />} />
             <Route path="/" element={<Login />} />
+            <Route path="/posts/:topicId" element={<PostPage />} />
+            <Route path="/replies/:postId" element={<ReplyPage />} />
           </Routes>
         </BrowserRouter>
       </div>

@@ -2,11 +2,10 @@ package router
 
 import (
 	"github.com/go-chi/chi/v5"
-	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/ooixs/webforum/internal/handlers"
 )
 
-func Setup(db *pgxpool.Pool) chi.Router {
+func Setup() chi.Router {
 	r := chi.NewRouter()
 	setUpRoutes(r)
 	return r

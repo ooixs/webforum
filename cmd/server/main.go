@@ -22,8 +22,8 @@ func main() {
 		log.Fatalf("Unable to connect to database: %v\n", err)
 	}
 	defer db.Close()
-	r := router.Setup(db)
-	fmt.Print("Listening on port 8000 at http://localhost:8000!")
+	r := router.Setup()
+	fmt.Print("Listening on port 8080 at http://localhost:8080!")
 
-	log.Fatalln(http.ListenAndServe(":8000", r))
+	log.Fatalln(http.ListenAndServe(":8080", r))
 }

@@ -2,6 +2,8 @@ package router
 
 import (
 	"github.com/go-chi/chi/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/ooixs/webforum/internal/handlers"
 )
 
 func Setup(db *pgxpool.Pool) chi.Router {
@@ -12,11 +14,6 @@ func Setup(db *pgxpool.Pool) chi.Router {
 
 func setUpRoutes(r chi.Router) {
 	r.Group(func(r chi.Router) {
-		r.Get("/users", func(w http.ResponseWriter, req *http.Request) {
-			response, _ := users.HandleList(w, req)
-
-			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(response)
-		})
+		r.Post("/login", login.HandleGetUser)
 	})
 }

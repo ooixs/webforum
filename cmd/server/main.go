@@ -5,11 +5,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"context"
 
-	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
 	"github.com/ooixs/webforum/internal/router"
+	"github.com/ooixs/webforum/internal/database"
 )
 
 func main() {
@@ -18,7 +17,11 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	db, err := pgxpool.New(context.Background(), os.Getenv("url"))
+	db, err := database.InitDB(os.Getenv("connStr"))
+	if err != nil {
+		log.Fatalf("Unable to connect to database: %v\n", err)
+	}
+	defer db.Close()
 	r := router.Setup(db)
 	fmt.Print("Listening on port 8000 at http://localhost:8000!")
 

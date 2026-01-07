@@ -13,6 +13,7 @@ func Setup() chi.Router {
 
 func setUpRoutes(r chi.Router) {
 	r.Group(func(r chi.Router) {
-		r.Post("/login", login.HandleGetUser)
+		r.Post("/login", handlers.HandleGetUser)
+		r.Get("/topics", handlers.HandleGetTopic)
 	})
 }

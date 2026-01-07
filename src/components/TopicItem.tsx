@@ -1,7 +1,8 @@
 import { Card, CardContent } from "@mui/material";
+import Topic from "../types/Topic";
 
 type Props = {
-  topic: string;
+  topic: Topic;
 };
 
 function TopicItem({ topic }: Props) {
@@ -9,7 +10,7 @@ function TopicItem({ topic }: Props) {
     <div>
       <Card>
         <CardContent>
-          <h2>{topic}</h2>
+          <h2>{topic.topic}</h2>
         </CardContent>
       </Card>
     </div>

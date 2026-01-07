@@ -11,7 +11,7 @@ CREATE TABLE users (
 --Create topics table
 CREATE TABLE topics (
 	id SERIAL PRIMARY KEY,
-	topics VARCHAR(100) UNIQUE
+	topic VARCHAR(100) UNIQUE
 )
 
 --Create posts table
@@ -32,3 +32,6 @@ CREATE TABLE replies (
     content TEXT,
     time_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
+
+--Insert values into topics table
+INSERT INTO topics(topics) VALUES ('Tech'), ('Games'), ('Lifestyle'), ('Music'), ('Automotive'), ('Culture')

@@ -76,8 +76,14 @@ export default defineConfig([
 
 Usage of AI can be found under AI_usage.docx, for better formatting.
 
-Start the server using
+Start the frontend server using
 
 ```cmd
 npm run dev
+```
+
+and backend using
+
+```cmd
+go run cmd/server/main.go
 ```

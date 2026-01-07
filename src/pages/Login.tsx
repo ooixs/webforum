@@ -1,5 +1,5 @@
 import { Button, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
 
 function Login() {
@@ -8,6 +8,7 @@ function Login() {
   const [taken, setTaken] = useState(true);
   const [hasOtherError, setHasOtherError] = useState(false);
   const [otherError, setOtherError] = useState("");
+  const [userId, setUserId] = useState(0);
 
   async function handleClick() {
     const res = await fetch("/api/login", {
@@ -27,8 +28,9 @@ function Login() {
       }
       console.error("Error:", res.status, res.statusText);
     } else {
-      setTaken(true);
       const data = await res.json();
+      setUserId(data.id);
+      sessionStorage.setItem("userId", data.id.toString());
       console.log(data);
     }
   }
@@ -46,6 +48,7 @@ function Login() {
       <Button onClick={handleClick} sx={{ mt: 2 }} variant="contained">
         Login
       </Button>
+      {userId !== 0 && <Navigate to="/topics" replace={true} />}
       <br />
       <p style={{ color: "red" }}>
         {taken ? "" : "Username does not exist. Please register instead."}

@@ -1,4 +1,4 @@
-package login
+package handlers
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 	"github.com/ooixs/webforum/internal/database"
-	login "github.com/ooixs/webforum/internal/models"
+	 "github.com/ooixs/webforum/internal/models"
 	"github.com/pkg/errors"
 )
 
@@ -22,7 +22,7 @@ func HandleGetUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	db := database.GetDB()
-	res, err := login.GetUserByUsername(db, user.Username)
+	res, err := models.GetUserByUsername(db, user.Username)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			http.Error(w, "User not found", 404)

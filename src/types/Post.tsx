@@ -1,6 +1,8 @@
+import Topic from "./Topic";
+
 type Post = {
   username: string;
-  topic: string;
+  topic: Topic;
   heading: string;
   content: string;
   timestamp: string;

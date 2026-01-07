@@ -31,7 +31,6 @@ function Login() {
       const data = await res.json();
       setUserId(data.id);
       sessionStorage.setItem("userId", data.id.toString());
-      console.log(data);
     }
   }
 

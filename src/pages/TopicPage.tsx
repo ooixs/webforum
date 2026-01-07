@@ -3,6 +3,7 @@ import Topic from "../types/Topic";
 import TopicItem from "../components/TopicItem";
 
 function TopicPage() {
+  //Include logic for unlogged in users later
   const [topics, setTopics] = useState<Topic[]>([]);
 
   useEffect(() => {

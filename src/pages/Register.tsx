@@ -1,10 +1,37 @@
 import { Button, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
 
 function Register() {
   const [username, setUsername] = useState("");
   const [taken, setTaken] = useState(false);
+  const [hasOtherError, setHasOtherError] = useState(false);
+  const [otherError, setOtherError] = useState("");
+  const [userId, setUserId] = useState(0);
+
+  async function handleClick() {
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username: username }),
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      if (err.startsWith("Username already taken")) {
+        setTaken(true);
+      } else {
+        setHasOtherError(true);
+        setOtherError(err);
+      }
+      console.error("Error:", res.status, res.statusText);
+    } else {
+      const data = await res.json();
+      setUserId(data.id);
+      sessionStorage.setItem("userId", data.id.toString());
+    }
+  }
 
   return (
     <div>
@@ -16,14 +43,16 @@ function Register() {
         onChange={(e) => setUsername(e.target.value)}
       />
       <br />
-      <Button sx={{ mt: 2 }} variant="contained">
+      <Button onClick={handleClick} sx={{ mt: 2 }} variant="contained">
         Register
       </Button>
+      {userId !== 0 && <Navigate to="/topics" replace={true} />}
       <p style={{ color: "red" }}>
         {taken ? "Username is taken. Please choose another username" : ""}
+        {hasOtherError ? otherError : ""}
       </p>
       <p>
-        Registered? <Link to="/login">Login</Link> here instead.
+        Registered? <Link to="/">Login</Link> here instead.
       </p>
     </div>
   );

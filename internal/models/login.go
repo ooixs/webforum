@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -17,7 +18,9 @@ func GetUserByUsername(db *pgxpool.Pool, username string) (*User, error) {
 	return &user, err
 }
 
-func CreateUser(db *pgxpool.Pool, username string) error {
-	_, err := db.Exec(context.Background(), "INSERT INTO users (username) VALUES ($1)", username)
-	return err
+func CreateUser(db *pgxpool.Pool, username string) (int, error) {
+	var userId int
+	row := db.QueryRow(context.Background(), "INSERT INTO users (username) VALUES ($1) RETURNING id", username)
+	err := row.Scan(&userId)
+	return userId, err
 }

@@ -11,7 +11,7 @@ type User struct {
 	Username string `json:"username"`
 }
 
-func GetUserByUsername(db *pgxpool.Pool, username string) (*User, error) {
+func GetUser(db *pgxpool.Pool, username string) (*User, error) {
 	var user User
 	row := db.QueryRow(context.Background(), "SELECT id, username FROM users WHERE username=$1", username)
 	err := row.Scan(&user.ID, &user.Username)

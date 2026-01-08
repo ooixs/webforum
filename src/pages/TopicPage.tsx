@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import Topic from "../types/Topic";
 import TopicItem from "../components/TopicItem";
 
 function TopicPage() {
-  //Include logic for unlogged in users later
+  const userId = sessionStorage.getItem("userId");
+  if (!userId) {
+    return <Navigate to="/" replace={true} />;
+  }
   const [topics, setTopics] = useState<Topic[]>([]);
 
   useEffect(() => {
@@ -14,7 +18,7 @@ function TopicPage() {
         console.error("Error:", res.status, err);
       } else {
         const data = await res.json();
-        setTopics(data);
+        setTopics(data || []);
       }
     }
     fetchTopics();
@@ -23,9 +27,11 @@ function TopicPage() {
   return (
     <div>
       <h1>Topics</h1>
-      {topics.map((topic) => (
-        <TopicItem key={topic.id} topic={topic} />
-      ))}
+      {topics.length !== 0 ? (
+        topics.map((topic) => <TopicItem key={topic.id} topic={topic} />)
+      ) : (
+        <p>No topics available!</p>
+      )}
     </div>
   );
 }

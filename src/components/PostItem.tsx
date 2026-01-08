@@ -1,20 +1,18 @@
 import { Card, CardContent } from "@mui/material";
-import Topic from "../types/Topic";
+import Post from "../types/Post";
 
 type Props = {
-  username: string;
-  topic: Topic;
-  heading: string;
-  content: string;
+  post: Post;
 };
 
-function PostItem({ username, topic, heading, content }: Props) {
+function PostItem({ post }: Props) {
   return (
     <div>
       <Card>
         <CardContent>
-          <h2>{topic.topic}</h2>
-          <h2>Time now: {new Date().toLocaleTimeString()}</h2>
+          <h2>{post.heading}</h2>
+          <p>{post.content}</p>
+          <p>{post.time_created}</p>
         </CardContent>
       </Card>
     </div>

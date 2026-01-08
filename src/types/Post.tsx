@@ -1,11 +1,10 @@
-import Topic from "./Topic";
-
 type Post = {
-  username: string;
-  topic: Topic;
+  id: number;
+  user_id: number;
+  topic_id: number;
   heading: string;
   content: string;
-  timestamp: string;
+  time_created: string;
 };
 
 export default Post;

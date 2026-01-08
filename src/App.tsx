@@ -1,8 +1,4 @@
-import React from "react";
 import "./App.css";
-import TopicItem from "./components/TopicItem";
-import PostItem from "./components/PostItem";
-import ReplyItem from "./components/ReplyItem";
 import Login from "./pages/Login";
 import PostPage from "./pages/PostPage";
 import Register from "./pages/Register";

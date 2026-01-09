@@ -1,20 +1,57 @@
-import Post from "../types/Post";
 import { Card, CardContent } from "@mui/material";
+import Reply from "../types/Reply";
+import User from "../types/User";
+import { IconButton } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { red, yellow } from "@mui/material/colors";
 
 type Props = {
-  username: string;
-  post: Post;
-  content: string;
+  reply: Reply;
+  user: User;
+  updateReply: (reply: Reply) => void;
+  deleteReply: (replyId: number) => Promise<void>;
 };
 
-function ReplyItem({ username, post, content }: Props) {
+function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
+  const userId = sessionStorage.getItem("userId");
+  const byUser = Number(userId) === reply.user_id;
+
   return (
     <div>
       <Card>
         <CardContent>
-          <h3>Reply by: {username}</h3>
-          <p>{content}</p>
-          <p>In response to post titled: {post.heading}</p>
+          <p>{reply.content}</p>
+          <p>{reply.time_created}</p>
+          <p>By: {user.username}</p>
+          {byUser && (
+            <div>
+              <IconButton
+                aria-label="Edit Reply"
+                sx={{
+                  color: yellow[500],
+                  "&:hover": {
+                    color: yellow[700],
+                  },
+                }}
+                onClick={() => updateReply(reply)}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                aria-label="Delete Reply"
+                sx={{
+                  color: red[500],
+                  "&:hover": {
+                    color: red[700],
+                  },
+                }}
+                onClick={() => deleteReply(reply.id)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

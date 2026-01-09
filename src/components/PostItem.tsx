@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@mui/material";
+import { Link } from "react-router-dom";
 import Post from "../types/Post";
 import User from "../types/User";
 import { IconButton } from "@mui/material";
@@ -18,7 +19,7 @@ function PostItem({ post, user, updatePost, deletePost }: Props) {
   const byUser = Number(userId) === post.user_id;
 
   return (
-    <div>
+    <Link to={`/replies/${post.id}`} style={{ textDecoration: "none" }}>
       <Card>
         <CardContent>
           <h2>{post.heading}</h2>
@@ -55,7 +56,7 @@ function PostItem({ post, user, updatePost, deletePost }: Props) {
           )}
         </CardContent>
       </Card>
-    </div>
+    </Link>
   );
 }
 

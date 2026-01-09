@@ -1,10 +1,9 @@
-import Post from "./Post";
-
 type Reply = {
-  username: string;
-  post: Post;
+  id: number;
+  user_id: number;
+  post_id: number;
   content: string;
-  timestamp: string;
+  time_created: string;
 };
 
 export default Reply;

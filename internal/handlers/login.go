@@ -19,7 +19,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	var user User
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		http.Error(w, "Invalid input", 400)
+		http.Error(w, "Invalid username input", 400)
 		return
 	}
 	db := database.GetDB()
@@ -40,7 +40,7 @@ func HandleRegister(w http.ResponseWriter, r *http.Request) {
 	var user User
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		http.Error(w, "Invalid input", 400)
+		http.Error(w, "Invalid usernameinput", 400)
 		return
 	}
 	db := database.GetDB()

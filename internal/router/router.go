@@ -18,5 +18,6 @@ func setUpRoutes(r chi.Router) {
 		r.Get("/topics", handlers.HandleGetTopic)
 		r.Get("/posts/{topicId}", handlers.HandleGetPost)
 		r.Post("/posts", handlers.HandleCreatePost)
+		r.Get("/users", handlers.HandleGetAllUsers)
 	})
 }

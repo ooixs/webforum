@@ -4,6 +4,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { useState, useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Post from "../types/Post";
+import User from "../types/User";
 import PostItem from "../components/PostItem";
 
 function PostPage() {
@@ -18,6 +19,7 @@ function PostPage() {
   const [heading, setHeading] = useState("");
   const [content, setContent] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [newestPostId, setNewestPostId] = useState<number | null>(null);
 
   function expand() {
@@ -63,11 +65,34 @@ function PostPage() {
     fetchPosts();
   }, [newestPostId]);
 
+  useEffect(() => {
+    async function fetchUsers() {
+      const res = await fetch("/api/users");
+      if (!res.ok) {
+        const err = await res.text();
+        console.error("Error:", res.status, err);
+      } else {
+        const data = await res.json();
+        setUsers(data || []);
+      }
+    }
+    fetchUsers();
+  }, []);
+
   return (
     <div>
       <h1>Posts</h1>
       {posts.length !== 0 ? (
-        posts.map((post) => <PostItem key={post.id} post={post} />)
+        posts.map((post) => (
+          <PostItem
+            key={post.id}
+            username={
+              users.find((user) => user.id === post.user_id)?.username ||
+              "Unknown"
+            }
+            post={post}
+          />
+        ))
       ) : (
         <p>No posts yet!</p>
       )}

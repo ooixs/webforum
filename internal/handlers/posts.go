@@ -37,11 +37,22 @@ func HandleCreatePost(w http.ResponseWriter, r *http.Request) {
 	var post Post
 	err := json.NewDecoder(r.Body).Decode(&post)
 	if err != nil {
-		http.Error(w, "Invalid input", 400)
+		http.Error(w, "Invalid post input", 400)
 		return
 	}
 	db := database.GetDB()
 	res, err := models.CreatePost(db, post.TopicId, post.UserId, post.Heading, post.Content)
+	if err != nil {
+		http.Error(w, "Server error", 500)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(res)
+}
+
+func HandleGetAllUsers(w http.ResponseWriter, r *http.Request) {
+	db := database.GetDB()
+	res, err := models.GetAllUsers(db)
 	if err != nil {
 		http.Error(w, "Server error", 500)
 		return

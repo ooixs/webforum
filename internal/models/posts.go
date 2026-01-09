@@ -39,3 +39,21 @@ func CreatePost(db *pgxpool.Pool, topicId int, userId int, heading string, conte
 	err := row.Scan(&postId)
 	return postId, err
 }
+
+func GetAllUsers(db *pgxpool.Pool) ([]User, error) {
+	var users []User
+	rows, err := db.Query(context.Background(), "SELECT id, username FROM users")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var user User
+		err := rows.Scan(&user.ID, &user.Username)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+	return users, nil
+}

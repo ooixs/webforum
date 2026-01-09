@@ -18,7 +18,7 @@ type Post struct {
 
 func GetPost(db *pgxpool.Pool, topicId int) ([]Post, error) {
 	var posts []Post
-	rows, err := db.Query(context.Background(), "SELECT * FROM posts WHERE topic_id=$1", topicId)
+	rows, err := db.Query(context.Background(), "SELECT * FROM posts WHERE topic_id=$1 ORDER BY time_created DESC", topicId)
 	if err != nil {
 		return nil, err
 	}
@@ -33,11 +33,19 @@ func GetPost(db *pgxpool.Pool, topicId int) ([]Post, error) {
 	}
 	return posts, nil
 }
-func CreatePost(db *pgxpool.Pool, topicId int, userId int, heading string, content string) (int, error) {
-	var postId int
-	row := db.QueryRow(context.Background(), "INSERT INTO posts (topic_id, user_id, heading, content) VALUES ($1, $2, $3, $4) RETURNING id", topicId, userId, heading, content)
-	err := row.Scan(&postId)
-	return postId, err
+func CreatePost(db *pgxpool.Pool, topicId int, userId int, heading string, content string) (error) {
+	_, err := db.Exec(context.Background(), "INSERT INTO posts (topic_id, user_id, heading, content) VALUES ($1, $2, $3, $4)", topicId, userId, heading, content)
+	return err
+}
+
+func UpdatePost(db *pgxpool.Pool, postId int, heading string, content string) error {
+	_, err := db.Exec(context.Background(), "UPDATE posts SET heading=$1, content=$2 WHERE id=$3", heading, content, postId)
+	return err
+}
+
+func DeletePost(db *pgxpool.Pool, postId int) error {
+	_, err := db.Exec(context.Background(), "DELETE FROM posts WHERE id=$1", postId)
+	return err
 }
 
 func GetAllUsers(db *pgxpool.Pool) ([]User, error) {

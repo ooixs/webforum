@@ -1,11 +1,12 @@
 import { TextField, Card, CardContent, IconButton, Zoom } from "@mui/material";
-import { blue } from "@mui/material/colors";
+import { blue, red } from "@mui/material/colors";
 import SendIcon from "@mui/icons-material/Send";
 import { useState, useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Post from "../types/Post";
 import User from "../types/User";
 import PostItem from "../components/PostItem";
+import CloseIcon from "@mui/icons-material/Close";
 
 function PostPage() {
   const userId = sessionStorage.getItem("userId");
@@ -20,13 +21,23 @@ function PostPage() {
   const [content, setContent] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
   const [users, setUsers] = useState<User[]>([]);
-  const [newestPostId, setNewestPostId] = useState<number | null>(null);
+  const [refreshCounter, setRefreshCounter] = useState(0);
+  const [editing, setEditing] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   function expand() {
     setExpanded(true);
   }
 
-  async function handleClick() {
+  function closeTextField() {
+    setContent("");
+    setHeading("");
+    setExpanded(false);
+    setEditing(false);
+    setEditingId(null);
+  }
+
+  async function handleAdd() {
     const res = await fetch("/api/posts", {
       method: "POST",
       headers: {
@@ -39,15 +50,59 @@ function PostPage() {
         user_id: Number(userId),
       }),
     });
-    setContent("");
-    setHeading("");
-    setExpanded(false);
+    closeTextField();
     if (!res.ok) {
       const err = await res.text();
       console.error("Error:", res.status, err);
     } else {
-      const data = await res.json();
-      setNewestPostId(data);
+      setRefreshCounter(refreshCounter + 1);
+    }
+  }
+
+  function updatePost(post: Post) {
+    setEditing(true);
+    setEditingId(post.id);
+    setHeading(post.heading);
+    setContent(post.content);
+    setExpanded(true);
+  }
+
+  async function handleUpdate() {
+    const res = await fetch("/api/posts/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: editingId,
+        heading: heading,
+        content: content,
+      }),
+    });
+    closeTextField();
+    if (!res.ok) {
+      const err = await res.text();
+      console.error("Error:", res.status, err);
+    } else {
+      setRefreshCounter(refreshCounter + 1);
+    }
+  }
+
+  async function handleDelete(postId: number) {
+    const res = await fetch("/api/posts/delete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: postId,
+      }),
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      console.error("Error:", res.status, err);
+    } else {
+      setRefreshCounter(refreshCounter + 1);
     }
   }
 
@@ -63,7 +118,7 @@ function PostPage() {
       }
     }
     fetchPosts();
-  }, [newestPostId]);
+  }, [refreshCounter]);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -86,11 +141,15 @@ function PostPage() {
         posts.map((post) => (
           <PostItem
             key={post.id}
-            username={
-              users.find((user) => user.id === post.user_id)?.username ||
-              "Unknown"
+            user={
+              users.find((user) => user.id === post.user_id) || {
+                id: 0,
+                username: "Unknown",
+              }
             }
             post={post}
+            updatePost={updatePost}
+            deletePost={handleDelete}
           />
         ))
       ) : (
@@ -98,7 +157,7 @@ function PostPage() {
       )}
       <Card
         sx={{
-          position: "fixed",
+          position: "sticky",
           bottom: 0,
           left: 0,
           backgroundColor: "black",
@@ -106,6 +165,7 @@ function PostPage() {
         }}
       >
         <CardContent>
+          {editing && <p>Editing</p>}
           {isExpanded && (
             <TextField
               label="Heading"
@@ -126,7 +186,7 @@ function PostPage() {
           />
           <Zoom in={isExpanded}>
             <IconButton
-              onClick={handleClick}
+              onClick={editing ? handleUpdate : handleAdd}
               sx={{
                 color: "white",
                 bgcolor: blue[500],
@@ -135,9 +195,22 @@ function PostPage() {
                 },
               }}
               aria-label="send post"
-              component="span"
             >
               <SendIcon />
+            </IconButton>
+          </Zoom>
+          <Zoom in={isExpanded}>
+            <IconButton
+              aria-label="Cancel"
+              sx={{
+                color: red[500],
+                "&:hover": {
+                  color: red[700],
+                },
+              }}
+              onClick={closeTextField}
+            >
+              <CloseIcon />
             </IconButton>
           </Zoom>
         </CardContent>

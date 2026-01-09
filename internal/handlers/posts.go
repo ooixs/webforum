@@ -17,6 +17,16 @@ type Post struct {
 	Content string `json:"content"`
 }
 
+type PostUpdate struct {
+	Id int `json:"id"`
+	Heading string `json:"heading"`
+	Content string `json:"content"`
+}
+
+type PostDelete struct {
+	Id int `json:"id"`
+}
+
 func HandleGetPost(w http.ResponseWriter, r *http.Request) {
 	topicId := chi.URLParam(r, "topicId")
 	db := database.GetDB()
@@ -41,13 +51,41 @@ func HandleCreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	db := database.GetDB()
-	res, err := models.CreatePost(db, post.TopicId, post.UserId, post.Heading, post.Content)
+	err = models.CreatePost(db, post.TopicId, post.UserId, post.Heading, post.Content)
 	if err != nil {
 		http.Error(w, "Server error", 500)
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(res)
+}
+
+func HandleUpdatePost(w http.ResponseWriter, r *http.Request) {
+	var post PostUpdate
+	err := json.NewDecoder(r.Body).Decode(&post)
+	if err != nil {
+		http.Error(w, "Invalid post input", 400)
+		return
+	}
+	db := database.GetDB()
+	err = models.UpdatePost(db, post.Id, post.Heading, post.Content)
+	if err != nil {
+		http.Error(w, "Server error", 500)
+		return
+	}
+}
+
+func HandleDeletePost(w http.ResponseWriter, r *http.Request) {
+	var post PostDelete
+	err := json.NewDecoder(r.Body).Decode(&post)
+	if err != nil {
+		http.Error(w, "Invalid ID", 400)
+		return
+	}
+	db := database.GetDB()
+	err = models.DeletePost(db, post.Id)
+	if err != nil {
+		http.Error(w, "Server error", 500)
+		return
+	}
 }
 
 func HandleGetAllUsers(w http.ResponseWriter, r *http.Request) {

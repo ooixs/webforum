@@ -28,7 +28,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		if errors.Is(err, pgx.ErrNoRows) {
 			http.Error(w, "User not found", 404)
 		} else {
-			http.Error(w, "Server error", 500)
+			http.Error(w, "Get user server error", 500)
 		}
 		return
 	}
@@ -40,7 +40,7 @@ func HandleRegister(w http.ResponseWriter, r *http.Request) {
 	var user User
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		http.Error(w, "Invalid usernameinput", 400)
+		http.Error(w, "Invalid username input", 400)
 		return
 	}
 	db := database.GetDB()
@@ -50,7 +50,7 @@ func HandleRegister(w http.ResponseWriter, r *http.Request) {
 		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
 			http.Error(w, "Username already taken", 409)
 		} else {
-			http.Error(w, "Server error", 500)
+			http.Error(w, "Create user server error", 500)
 		}
 		return
 	}

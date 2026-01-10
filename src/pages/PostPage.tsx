@@ -162,6 +162,7 @@ function PostPage() {
           left: 0,
           backgroundColor: "black",
           width: "100%",
+          zIndex: 3,
         }}
       >
         <CardContent>

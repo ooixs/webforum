@@ -8,11 +8,11 @@ import (
 	"github.com/ooixs/webforum/internal/models"
 )
 
-func HandleGetTopic(w http.ResponseWriter, r *http.Request) {
+func HandleGetAllUsers(w http.ResponseWriter, r *http.Request) {
 	db := database.GetDB()
-	res, err := models.GetTopic(db)
+	res, err := models.GetAllUsers(db)
 	if err != nil {
-		http.Error(w, "Get topic server error", 500)
+		http.Error(w, "Get all users server error", 500)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")

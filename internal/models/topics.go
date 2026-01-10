@@ -12,7 +12,7 @@ type Topic struct {
 
 func GetTopic(db *pgxpool.Pool) ([]Topic, error) {
 	var topics []Topic
-	rows, err := db.Query(context.Background(), "SELECT id, topic FROM topics")
+	rows, err := db.Query(context.Background(), "SELECT * FROM topics")
 	if err != nil {
         return nil, err
     }

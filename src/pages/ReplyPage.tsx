@@ -4,6 +4,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { useState, useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Reply from "../types/Reply";
+import Post from "../types/Post";
 import User from "../types/User";
 import ReplyItem from "../components/ReplyItem";
 import CloseIcon from "@mui/icons-material/Close";
@@ -18,6 +19,7 @@ function ReplyPage() {
 
   const [isExpanded, setExpanded] = useState(false);
   const [content, setContent] = useState("");
+  const [post, setPost] = useState<Post | null>(null);
   const [replies, setReplies] = useState<Reply[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [refreshCounter, setRefreshCounter] = useState(0);
@@ -129,9 +131,38 @@ function ReplyPage() {
     fetchUsers();
   }, []);
 
+  useEffect(() => {
+    async function fetchPost() {
+      const res = await fetch("/api/post/" + postId);
+      if (!res.ok) {
+        const err = await res.text();
+        console.error("Error:", res.status, err);
+      } else {
+        const data = await res.json();
+        setPost(data);
+      }
+    }
+    fetchPost();
+  }, []);
+
   return (
     <div>
-      <h1>(Add original post here)</h1>
+      {post ? (
+        <Card>
+          <CardContent>
+            <h2>{post.heading}</h2>
+            <p>{post.content}</p>
+            <p>{post.time_created}</p>
+            <p>
+              By:{" "}
+              {users.find((user) => user.id === post.user_id)?.username ||
+                "Unknown"}
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <h1>Post not found!</h1>
+      )}
       {replies.length !== 0 ? (
         replies.map((reply) => (
           <ReplyItem

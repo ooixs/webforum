@@ -16,7 +16,7 @@ type Post struct {
 	TimeCreated time.Time `json:"time_created"`
 }
 
-func GetPost(db *pgxpool.Pool, topicId int) ([]Post, error) {
+func GetPosts(db *pgxpool.Pool, topicId int) ([]Post, error) {
 	var posts []Post
 	rows, err := db.Query(context.Background(), "SELECT * FROM posts WHERE topic_id=$1 ORDER BY time_created DESC", topicId)
 	if err != nil {
@@ -33,6 +33,7 @@ func GetPost(db *pgxpool.Pool, topicId int) ([]Post, error) {
 	}
 	return posts, nil
 }
+
 func CreatePost(db *pgxpool.Pool, topicId int, userId int, heading string, content string) (error) {
 	_, err := db.Exec(context.Background(), "INSERT INTO posts (topic_id, user_id, heading, content) VALUES ($1, $2, $3, $4)", topicId, userId, heading, content)
 	return err
@@ -44,24 +45,10 @@ func UpdatePost(db *pgxpool.Pool, postId int, heading string, content string) er
 }
 
 func DeletePost(db *pgxpool.Pool, postId int) error {
-	_, err := db.Exec(context.Background(), "DELETE FROM posts WHERE id=$1", postId)
-	return err
-}
-
-func GetAllUsers(db *pgxpool.Pool) ([]User, error) {
-	var users []User
-	rows, err := db.Query(context.Background(), "SELECT id, username FROM users")
+	_, err := db.Exec(context.Background(), "DELETE FROM replies WHERE post_id=$1", postId)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	defer rows.Close()
-	for rows.Next() {
-		var user User
-		err := rows.Scan(&user.ID, &user.Username)
-		if err != nil {
-			return nil, err
-		}
-		users = append(users, user)
-	}
-	return users, nil
+	_, err = db.Exec(context.Background(), "DELETE FROM posts WHERE id=$1", postId)
+	return err
 }

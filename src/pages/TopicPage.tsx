@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Box, Grid } from "@mui/material";
 import { Navigate } from "react-router-dom";
 import Topic from "../types/Topic";
 import TopicItem from "../components/TopicItem";
@@ -25,14 +26,16 @@ function TopicPage() {
   }, []);
 
   return (
-    <div>
+    <Box>
       <h1>Topics</h1>
-      {topics.length !== 0 ? (
-        topics.map((topic) => <TopicItem key={topic.id} topic={topic} />)
-      ) : (
-        <p>No topics available!</p>
-      )}
-    </div>
+      <Grid container spacing={1}>
+        {topics.length !== 0 ? (
+          topics.map((topic) => <TopicItem key={topic.id} topic={topic} />)
+        ) : (
+          <p>No topics available!</p>
+        )}
+      </Grid>
+    </Box>
   );
 }
 

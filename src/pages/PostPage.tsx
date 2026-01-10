@@ -136,7 +136,8 @@ function PostPage() {
 
   return (
     <div>
-      <h1>Posts</h1>
+      <h1>(Insert topic here)</h1>
+      <hr />
       {posts.length !== 0 ? (
         posts.map((post) => (
           <PostItem
@@ -160,7 +161,7 @@ function PostPage() {
           position: "sticky",
           bottom: 0,
           left: 0,
-          backgroundColor: "black",
+          backgroundColor: "#202020",
           width: "100%",
           zIndex: 3,
         }}

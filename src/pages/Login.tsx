@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -35,7 +35,20 @@ function Login() {
   }
 
   return (
-    <div>
+    <Box
+      sx={{
+        padding: "40px",
+        backgroundColor: "#242424",
+        border: "1px solid rgba(255, 255, 255, 0.1)",
+        boxShadow: "0 10px 40px rgba(0,0,0,0.4)",
+        margin: "auto",
+        borderRadius: "16px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        width: "300px",
+      }}
+    >
       <h1>Login</h1>
       <TextField
         label="username"
@@ -43,12 +56,10 @@ function Login() {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-      <br />
       <Button onClick={handleClick} sx={{ mt: 2 }} variant="contained">
         Login
       </Button>
       {userId !== 0 && <Navigate to="/topics" replace={true} />}
-      <br />
       <p style={{ color: "red" }}>
         {taken ? "" : "Username does not exist. Please register instead."}
         {hasOtherError ? otherError : ""}
@@ -56,7 +67,7 @@ function Login() {
       <p>
         First time user? <Link to="/register">Register</Link> here instead.
       </p>
-    </div>
+    </Box>
   );
 }
 

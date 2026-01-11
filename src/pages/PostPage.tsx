@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Post from "../types/Post";
 import User from "../types/User";
+import Topic from "../types/Topic";
 import PostItem from "../components/PostItem";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -21,6 +22,7 @@ function PostPage() {
   const [content, setContent] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const [topic, setTopic] = useState<Topic | null>(null);
   const [refreshCounter, setRefreshCounter] = useState(0);
   const [editing, setEditing] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -134,9 +136,23 @@ function PostPage() {
     fetchUsers();
   }, []);
 
+  useEffect(() => {
+    async function fetchTopic() {
+      const res = await fetch("/api/topic/" + topicId);
+      if (!res.ok) {
+        const err = await res.text();
+        console.error("Error:", res.status, err);
+      } else {
+        const data = await res.json();
+        setTopic(data);
+      }
+    }
+    fetchTopic();
+  }, []);
+
   return (
     <div>
-      <h1>(Insert topic here)</h1>
+      <h1>{topic ? topic.topic : "Loading Topic..."}</h1>
       <hr />
       {posts.length !== 0 ? (
         posts.map((post) => (

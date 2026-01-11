@@ -37,36 +37,44 @@ function Login() {
   return (
     <Box
       sx={{
-        padding: "40px",
-        backgroundColor: "#242424",
-        border: "1px solid rgba(255, 255, 255, 0.1)",
-        boxShadow: "0 10px 40px rgba(0,0,0,0.4)",
-        margin: "auto",
-        borderRadius: "16px",
         display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-        width: "300px",
+        alignItems: "center",
+        height: "100vh",
       }}
     >
-      <h1>Login</h1>
-      <TextField
-        label="username"
-        variant="outlined"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <Button onClick={handleClick} sx={{ mt: 2 }} variant="contained">
-        Login
-      </Button>
-      {userId !== 0 && <Navigate to="/topics" replace={true} />}
-      <p style={{ color: "red" }}>
-        {taken ? "" : "Username does not exist. Please register instead."}
-        {hasOtherError ? otherError : ""}
-      </p>
-      <p>
-        First time user? <Link to="/register">Register</Link> here instead.
-      </p>
+      <Box
+        sx={{
+          padding: "40px",
+          backgroundColor: "#242424",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+          boxShadow: "0 10px 40px rgba(0,0,0,0.4)",
+          margin: "auto",
+          borderRadius: "16px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+          width: "300px",
+        }}
+      >
+        <h1>Login</h1>
+        <TextField
+          label="username"
+          variant="outlined"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <Button onClick={handleClick} sx={{ mt: 2 }} variant="contained">
+          Login
+        </Button>
+        {userId !== 0 && <Navigate to="/topics" replace={true} />}
+        <p style={{ color: "red" }}>
+          {taken ? "" : "Username does not exist. Please register instead."}
+          {hasOtherError ? otherError : ""}
+        </p>
+        <p>
+          First time user? <Link to="/register">Register</Link> here instead.
+        </p>
+      </Box>
     </Box>
   );
 }

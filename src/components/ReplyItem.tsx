@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@mui/material";
+import { Card, CardContent, Box } from "@mui/material";
 import Reply from "../types/Reply";
 import User from "../types/User";
 import { IconButton } from "@mui/material";
@@ -18,7 +18,7 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
   const byUser = Number(userId) === reply.user_id;
 
   return (
-    <div>
+    <Box>
       <Card>
         <CardContent>
           <p>{reply.content}</p>
@@ -54,7 +54,8 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
           )}
         </CardContent>
       </Card>
-    </div>
+      <hr />
+    </Box>
   );
 }
 

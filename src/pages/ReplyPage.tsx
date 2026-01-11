@@ -148,9 +148,15 @@ function ReplyPage() {
   return (
     <div>
       {post ? (
-        <Card>
+        <Card
+          sx={{
+            position: "relative",
+            backgroundColor: "#191919",
+            backgroundImage: "none",
+          }}
+        >
           <CardContent>
-            <h2>{post.heading}</h2>
+            <h1>{post.heading}</h1>
             <p>{post.content}</p>
             <p>{post.time_created}</p>
             <p>
@@ -161,8 +167,9 @@ function ReplyPage() {
           </CardContent>
         </Card>
       ) : (
-        <h1>Post not found!</h1>
+        <h1>Loading Post...</h1>
       )}
+      <hr />
       {replies.length !== 0 ? (
         replies.map((reply) => (
           <ReplyItem

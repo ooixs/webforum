@@ -87,3 +87,19 @@ func HandleDeletePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func HandleGetTopicForPosts(w http.ResponseWriter, r *http.Request) {
+	topicId := chi.URLParam(r, "topicId")
+	db := database.GetDB()
+	topicIdInt, err := strconv.Atoi(topicId)
+	if err != nil {
+		http.Error(w, "Invalid topic ID", 400)
+		return
+	}
+	res, err := models.GetTopicForPosts(db, topicIdInt)
+	if err != nil {
+		http.Error(w, "Get topic server error", 500)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(res)
+}

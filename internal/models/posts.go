@@ -13,7 +13,7 @@ type Post struct {
 	UserId int `json:"user_id"`
 	Heading string `json:"heading"`
 	Content string `json:"content"`
-	TimeCreated time.Time `json:"time_created"`
+	TimeCreated string `json:"time_created"`
 }
 
 func GetPosts(db *pgxpool.Pool, topicId int) ([]Post, error) {
@@ -25,10 +25,12 @@ func GetPosts(db *pgxpool.Pool, topicId int) ([]Post, error) {
 	defer rows.Close()
 	for rows.Next() {
 		var post Post
-		err := rows.Scan(&post.ID, &post.TopicId, &post.UserId, &post.Heading, &post.Content, &post.TimeCreated)
+		var unformattedTime time.Time
+		err := rows.Scan(&post.ID, &post.TopicId, &post.UserId, &post.Heading, &post.Content, &unformattedTime)
 		if err != nil {
 			return nil, err
 		}
+		post.TimeCreated = unformattedTime.Format("02 Jan 2006 at 15:03")
 		posts = append(posts, post)
 	}
 	return posts, nil
@@ -51,4 +53,11 @@ func DeletePost(db *pgxpool.Pool, postId int) error {
 	}
 	_, err = db.Exec(context.Background(), "DELETE FROM posts WHERE id=$1", postId)
 	return err
+}
+
+func GetTopicForPosts(db *pgxpool.Pool, topicId int) (*Topic, error) {
+	var topic Topic
+	row := db.QueryRow(context.Background(), "SELECT * FROM topics WHERE id=$1", topicId)
+	err := row.Scan(&topic.ID, &topic.Topic)
+	return &topic, err
 }

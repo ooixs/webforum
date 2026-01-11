@@ -12,7 +12,7 @@ type Reply struct {
 	PostId int `json:"post_id"`
 	UserId int `json:"user_id"`
 	Content string `json:"content"`
-	TimeCreated time.Time `json:"time_created"`
+	TimeCreated string `json:"time_created"`
 }
 
 func GetReplies(db *pgxpool.Pool, postId int) ([]Reply, error) {
@@ -24,10 +24,12 @@ func GetReplies(db *pgxpool.Pool, postId int) ([]Reply, error) {
 	defer rows.Close()
 	for rows.Next() {
 		var reply Reply
-		err := rows.Scan(&reply.ID, &reply.PostId, &reply.UserId, &reply.Content, &reply.TimeCreated)
+		var unformattedTime time.Time
+		err := rows.Scan(&reply.ID, &reply.PostId, &reply.UserId, &reply.Content, &unformattedTime)
 		if err != nil {
 			return nil, err
 		}
+		reply.TimeCreated = unformattedTime.Format("02 Jan 2006 at 15:03")
 		replies = append(replies, reply)
 	}
 	return replies, nil
@@ -49,7 +51,9 @@ func DeleteReply(db *pgxpool.Pool, replyId int) error {
 
 func GetPostForReplies(db *pgxpool.Pool, postId int) (*Post, error) {
 	var post Post
+	var unformattedTime time.Time
 	row := db.QueryRow(context.Background(), "SELECT * FROM posts WHERE id=$1", postId)
-	err := row.Scan(&post.ID, &post.TopicId, &post.UserId, &post.Heading, &post.Content, &post.TimeCreated)
+	err := row.Scan(&post.ID, &post.TopicId, &post.UserId, &post.Heading, &post.Content, &unformattedTime)
+	post.TimeCreated = unformattedTime.Format("02 Jan 2006 at 15:03")
 	return &post, err
 }

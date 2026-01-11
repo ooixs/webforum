@@ -36,36 +36,44 @@ function Register() {
   return (
     <Box
       sx={{
-        padding: "40px",
-        backgroundColor: "#242424",
-        border: "1px solid rgba(255, 255, 255, 0.1)",
-        boxShadow: "0 10px 40px rgba(0,0,0,0.4)",
-        margin: "auto",
-        borderRadius: "16px",
         display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-        width: "300px",
+        alignItems: "center",
+        height: "100vh",
       }}
     >
-      <h1>Register</h1>
-      <TextField
-        label="username"
-        variant="outlined"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <Button onClick={handleClick} sx={{ mt: 2 }} variant="contained">
-        Register
-      </Button>
-      {userId !== 0 && <Navigate to="/topics" replace={true} />}
-      <p style={{ color: "red" }}>
-        {taken ? "Username is taken. Please choose another username." : ""}
-        {hasOtherError ? otherError : ""}
-      </p>
-      <p>
-        Registered? <Link to="/">Login</Link> here instead.
-      </p>
+      <Box
+        sx={{
+          padding: "40px",
+          backgroundColor: "#242424",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+          boxShadow: "0 10px 40px rgba(0,0,0,0.4)",
+          margin: "auto",
+          borderRadius: "16px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+          width: "300px",
+        }}
+      >
+        <h1>Register</h1>
+        <TextField
+          label="username"
+          variant="outlined"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <Button onClick={handleClick} sx={{ mt: 2 }} variant="contained">
+          Register
+        </Button>
+        {userId !== 0 && <Navigate to="/topics" replace={true} />}
+        <p style={{ color: "red" }}>
+          {taken ? "Username is taken. Please choose another username." : ""}
+          {hasOtherError ? otherError : ""}
+        </p>
+        <p>
+          Registered? <Link to="/">Login</Link> here instead.
+        </p>
+      </Box>
     </Box>
   );
 }

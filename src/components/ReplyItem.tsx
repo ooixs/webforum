@@ -19,7 +19,13 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
 
   return (
     <Box>
-      <Card>
+      <Card
+        sx={{
+          position: "relative",
+          backgroundColor: "#191919",
+          backgroundImage: "none",
+        }}
+      >
         <CardContent>
           <p>{reply.content}</p>
           <p>{reply.time_created}</p>
@@ -29,6 +35,9 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
               <IconButton
                 aria-label="Edit Reply"
                 sx={{
+                  zIndex: 1,
+                  position: "relative",
+                  backgroundColor: "#303030",
                   color: yellow[500],
                   "&:hover": {
                     color: yellow[700],
@@ -41,6 +50,9 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
               <IconButton
                 aria-label="Delete Reply"
                 sx={{
+                  zIndex: 1,
+                  position: "relative",
+                  backgroundColor: "#303030",
                   color: red[500],
                   "&:hover": {
                     color: red[700],

@@ -1,4 +1,4 @@
-import { TextField, Card, CardContent, IconButton, Zoom } from "@mui/material";
+import { TextField, Box, Grid, IconButton, Zoom } from "@mui/material";
 import { blue, red } from "@mui/material/colors";
 import SendIcon from "@mui/icons-material/Send";
 import { useState, useEffect } from "react";
@@ -24,7 +24,7 @@ function PostPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [topic, setTopic] = useState<Topic | null>(null);
   const [refreshCounter, setRefreshCounter] = useState(0);
-  const [editing, setEditing] = useState(false);
+  const [isEditing, setEditing] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
   function expand() {
@@ -161,7 +161,7 @@ function PostPage() {
             user={
               users.find((user) => user.id === post.user_id) || {
                 id: 0,
-                username: "Unknown",
+                username: "Loading Username...",
               }
             }
             post={post}
@@ -172,67 +172,96 @@ function PostPage() {
       ) : (
         <p>No posts yet!</p>
       )}
-      <Card
+      <Grid
+        container
         sx={{
           position: "sticky",
           bottom: 0,
           left: 0,
-          backgroundColor: "#202020",
+          paddingBottom: "20px",
+          paddingLeft: "20px",
+          backgroundColor: "#181818",
           width: "100%",
           zIndex: 3,
+          boxShadow: "0px -5px 30px 10px #181818",
+          height: isExpanded ? (isEditing ? "255px" : "200px") : "80px",
         }}
       >
-        <CardContent>
-          {editing && <p>Editing</p>}
-          {isExpanded && (
+        <Grid size={12}>
+          {isEditing && <p style={{ textAlign: "left" }}>(Editing mode)</p>}
+        </Grid>
+        <Grid size={11}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              alignItems: "center",
+            }}
+          >
+            {isExpanded && (
+              <TextField
+                label="Heading"
+                value={heading}
+                onChange={(e) => setHeading(e.target.value)}
+                variant="filled"
+                fullWidth
+              />
+            )}
             <TextField
-              label="Heading"
-              value={heading}
-              onChange={(e) => setHeading(e.target.value)}
+              onClick={expand}
+              label={isExpanded ? "Content" : "New Post"}
               variant="filled"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              rows={isExpanded ? 3 : 1}
+              multiline={isExpanded}
+              fullWidth
             />
-          )}
-          <br />
-          <TextField
-            onClick={expand}
-            label={isExpanded ? "Content" : "New Post"}
-            variant="filled"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            rows={isExpanded ? 3 : 1}
-            multiline={isExpanded}
-          />
-          <Zoom in={isExpanded}>
-            <IconButton
-              onClick={editing ? handleUpdate : handleAdd}
-              sx={{
-                color: "white",
-                bgcolor: blue[500],
-                "&:hover": {
-                  bgcolor: blue[700],
-                },
-              }}
-              aria-label="send post"
-            >
-              <SendIcon />
-            </IconButton>
-          </Zoom>
-          <Zoom in={isExpanded}>
-            <IconButton
-              aria-label="Cancel"
-              sx={{
-                color: red[500],
-                "&:hover": {
-                  color: red[700],
-                },
-              }}
-              onClick={closeTextField}
-            >
-              <CloseIcon />
-            </IconButton>
-          </Zoom>
-        </CardContent>
-      </Card>
+          </Box>
+        </Grid>
+        <Grid size={1}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "90px",
+              alignItems: "center",
+            }}
+          >
+            <Zoom in={isExpanded}>
+              <IconButton
+                aria-label="Cancel"
+                sx={{
+                  backgroundColor: "#303030",
+                  color: red[500],
+                  "&:hover": {
+                    color: red[700],
+                  },
+                }}
+                onClick={closeTextField}
+              >
+                <CloseIcon />
+              </IconButton>
+            </Zoom>
+            <Zoom in={isExpanded}>
+              <IconButton
+                onClick={isEditing ? handleUpdate : handleAdd}
+                sx={{
+                  color: "white",
+                  backgroundColor: blue[500],
+                  "&:hover": {
+                    backgroundColor: blue[700],
+                  },
+                }}
+                aria-label="send post"
+              >
+                <SendIcon />
+              </IconButton>
+            </Zoom>
+          </Box>
+        </Grid>
+      </Grid>
     </div>
   );
 }

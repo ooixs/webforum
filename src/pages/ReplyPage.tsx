@@ -1,4 +1,12 @@
-import { TextField, Card, CardContent, IconButton, Zoom } from "@mui/material";
+import {
+  TextField,
+  Card,
+  CardContent,
+  Grid,
+  Box,
+  IconButton,
+  Zoom,
+} from "@mui/material";
 import { blue, red } from "@mui/material/colors";
 import SendIcon from "@mui/icons-material/Send";
 import { useState, useEffect } from "react";
@@ -23,7 +31,7 @@ function ReplyPage() {
   const [replies, setReplies] = useState<Reply[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [refreshCounter, setRefreshCounter] = useState(0);
-  const [editing, setEditing] = useState(false);
+  const [isEditing, setEditing] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
   function expand() {
@@ -162,7 +170,7 @@ function ReplyPage() {
             <p>
               By:{" "}
               {users.find((user) => user.id === post.user_id)?.username ||
-                "Unknown"}
+                "Loading Username..."}
             </p>
           </CardContent>
         </Card>
@@ -177,7 +185,7 @@ function ReplyPage() {
             user={
               users.find((user) => user.id === reply.user_id) || {
                 id: 0,
-                username: "Unknown",
+                username: "Loading Username...",
               }
             }
             reply={reply}
@@ -188,18 +196,26 @@ function ReplyPage() {
       ) : (
         <p>No replies yet!</p>
       )}
-      <Card
+      <Grid
+        container
         sx={{
           position: "sticky",
           bottom: 0,
           left: 0,
-          backgroundColor: "black",
+          backgroundColor: "#181818",
           width: "100%",
+          zIndex: 2,
+          paddingLeft: "20px",
+          paddingBottom: "20px",
+          justifyContent: "space-between",
+          boxShadow: "0px -5px 30px 10px #181818",
+          height: isExpanded ? (isEditing ? "185px" : "130px") : "80px",
         }}
       >
-        <CardContent>
-          {editing && <p>Editing</p>}
-          <br />
+        <Grid size={12}>
+          {isEditing && <p style={{ textAlign: "left" }}>(Editing mode)</p>}
+        </Grid>
+        <Grid size={11}>
           <TextField
             onClick={expand}
             label={isExpanded ? "Content" : "New Reply"}
@@ -208,38 +224,51 @@ function ReplyPage() {
             onChange={(e) => setContent(e.target.value)}
             rows={isExpanded ? 3 : 1}
             multiline={isExpanded}
+            fullWidth
           />
-          <Zoom in={isExpanded}>
-            <IconButton
-              onClick={editing ? handleUpdate : handleAdd}
-              sx={{
-                color: "white",
-                bgcolor: blue[500],
-                "&:hover": {
-                  bgcolor: blue[700],
-                },
-              }}
-              aria-label="send reply"
-            >
-              <SendIcon />
-            </IconButton>
-          </Zoom>
-          <Zoom in={isExpanded}>
-            <IconButton
-              aria-label="Cancel"
-              sx={{
-                color: red[500],
-                "&:hover": {
-                  color: red[700],
-                },
-              }}
-              onClick={closeTextField}
-            >
-              <CloseIcon />
-            </IconButton>
-          </Zoom>
-        </CardContent>
-      </Card>
+        </Grid>
+        <Grid size={1}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              alignItems: "center",
+            }}
+          >
+            <Zoom in={isExpanded}>
+              <IconButton
+                aria-label="Cancel"
+                sx={{
+                  backgroundColor: "#303030",
+                  color: red[500],
+                  "&:hover": {
+                    color: red[700],
+                  },
+                }}
+                onClick={closeTextField}
+              >
+                <CloseIcon />
+              </IconButton>
+            </Zoom>
+            <Zoom in={isExpanded}>
+              <IconButton
+                onClick={isEditing ? handleUpdate : handleAdd}
+                sx={{
+                  color: "white",
+                  backgroundColor: blue[500],
+                  "&:hover": {
+                    backgroundColor: blue[700],
+                  },
+                }}
+                aria-label="send reply"
+              >
+                <SendIcon />
+              </IconButton>
+            </Zoom>
+          </Box>
+        </Grid>
+      </Grid>
     </div>
   );
 }

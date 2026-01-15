@@ -1,13 +1,14 @@
 import { TextField, Box, Grid, IconButton, Zoom } from "@mui/material";
-import { blue, red } from "@mui/material/colors";
+import { blue, red, grey } from "@mui/material/colors";
 import SendIcon from "@mui/icons-material/Send";
 import { useState, useEffect } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams, useNavigate } from "react-router-dom";
 import Post from "../types/Post";
 import User from "../types/User";
 import Topic from "../types/Topic";
 import PostItem from "../components/PostItem";
 import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function PostPage() {
   const userId = sessionStorage.getItem("userId");
@@ -16,6 +17,7 @@ function PostPage() {
   }
 
   const { topicId } = useParams<{ topicId: string }>();
+  const navigate = useNavigate();
 
   const [isExpanded, setExpanded] = useState(false);
   const [heading, setHeading] = useState("");
@@ -152,7 +154,33 @@ function PostPage() {
 
   return (
     <div>
-      <h1>{topic ? topic.topic : "Loading Topic..."}</h1>
+      <Grid container>
+        <Grid
+          size={1}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <IconButton
+            aria-label="Back"
+            onClick={() => navigate(-1)}
+            sx={{
+              backgroundColor: "#303030",
+              color: grey[200],
+              "&:hover": {
+                color: grey[400],
+              },
+            }}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        </Grid>
+        <Grid size={10}>
+          <h1>{topic ? topic.topic : "Loading Topic..."}</h1>
+        </Grid>
+      </Grid>
       <hr />
       {posts.length !== 0 ? (
         posts.map((post) => (

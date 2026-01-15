@@ -7,15 +7,16 @@ import {
   IconButton,
   Zoom,
 } from "@mui/material";
-import { blue, red } from "@mui/material/colors";
+import { blue, red, grey } from "@mui/material/colors";
 import SendIcon from "@mui/icons-material/Send";
 import { useState, useEffect } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams, useNavigate } from "react-router-dom";
 import Reply from "../types/Reply";
 import Post from "../types/Post";
 import User from "../types/User";
 import ReplyItem from "../components/ReplyItem";
 import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function ReplyPage() {
   const userId = sessionStorage.getItem("userId");
@@ -24,6 +25,7 @@ function ReplyPage() {
   }
 
   const { postId } = useParams<{ postId: string }>();
+  const navigate = useNavigate();
 
   const [isExpanded, setExpanded] = useState(false);
   const [content, setContent] = useState("");
@@ -155,28 +157,55 @@ function ReplyPage() {
 
   return (
     <div>
-      {post ? (
-        <Card
+      <Grid container>
+        <Grid
+          size={1}
           sx={{
-            position: "relative",
-            backgroundColor: "#191919",
-            backgroundImage: "none",
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            paddingTop: "50px",
           }}
         >
-          <CardContent>
-            <h1>{post.heading}</h1>
-            <p>{post.content}</p>
-            <p>{post.time_created}</p>
-            <p>
-              By:{" "}
-              {users.find((user) => user.id === post.user_id)?.username ||
-                "Loading Username..."}
-            </p>
-          </CardContent>
-        </Card>
-      ) : (
-        <h1>Loading Post...</h1>
-      )}
+          <IconButton
+            aria-label="Back"
+            onClick={() => navigate(-1)}
+            sx={{
+              backgroundColor: "#303030",
+              color: grey[200],
+              "&:hover": {
+                color: grey[400],
+              },
+            }}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        </Grid>
+        <Grid size={10}>
+          {post ? (
+            <Card
+              sx={{
+                position: "relative",
+                backgroundColor: "#191919",
+                backgroundImage: "none",
+              }}
+            >
+              <CardContent>
+                <h1>{post.heading}</h1>
+                <p>{post.content}</p>
+                <p>{post.time_created}</p>
+                <p>
+                  By:{" "}
+                  {users.find((user) => user.id === post.user_id)?.username ||
+                    "Loading Username..."}
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            <h1>Loading Post...</h1>
+          )}
+        </Grid>
+      </Grid>
       <hr />
       {replies.length !== 0 ? (
         replies.map((reply) => (

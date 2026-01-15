@@ -1,3 +1,5 @@
+## The following is a placeholder README, the instructions to start the app will be done up soon.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

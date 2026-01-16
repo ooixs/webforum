@@ -1,4 +1,4 @@
-import { Box, Card, CardContent } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import Post from "../types/Post";
 import User from "../types/User";
@@ -20,7 +20,8 @@ function PostItem({ post, user, updatePost, deletePost }: Props) {
 
   return (
     <Box>
-      <Card
+      <Grid
+        container
         sx={{
           position: "relative",
           backgroundColor: "#191919",
@@ -29,27 +30,36 @@ function PostItem({ post, user, updatePost, deletePost }: Props) {
           "&:hover": {
             backgroundColor: "#242424",
           },
+          textAlign: "left",
+          paddingLeft: 2,
         }}
       >
-        <CardContent>
-          <Link
-            to={`/replies/${post.id}`}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              zIndex: 1,
-            }}
-          />
-          <h2>{post.heading}</h2>
-          <p>{post.content}</p>
-          <p>{post.time_created}</p>
-          <p>By: {user.username}</p>
-          <p>{post.edited ? "(Edited)" : ""}</p>
+        <Link
+          to={`/replies/${post.id}`}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 1,
+          }}
+        />
+        <Grid size={12}>
+          <h2 style={{ margin: 0 }}>{post.heading}</h2>
+        </Grid>
+        <Grid size={12}>
+          <p style={{ marginTop: 5, marginBottom: 0 }}>{post.content}</p>
+        </Grid>
+        <Grid size={10.5}>
+          <p>
+            Created by <i>{user.username}</i> on {post.time_created}
+            {post.edited ? " (Edited)" : ""}
+          </p>
+        </Grid>
+        <Grid size={1.5}>
           {byUser && (
-            <Box>
+            <Box sx={{ display: "flex", gap: "5px" }}>
               <IconButton
                 aria-label="Edit Post"
                 sx={{
@@ -88,8 +98,8 @@ function PostItem({ post, user, updatePost, deletePost }: Props) {
               </IconButton>
             </Box>
           )}
-        </CardContent>
-      </Card>
+        </Grid>
+      </Grid>
       <hr />
     </Box>
   );

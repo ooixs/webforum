@@ -30,6 +30,7 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
           <p>{reply.content}</p>
           <p>{reply.time_created}</p>
           <p>By: {user.username}</p>
+          <p>{reply.edited ? "(Edited)" : ""}</p>
           {byUser && (
             <div>
               <IconButton

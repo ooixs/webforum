@@ -26,7 +26,7 @@ function TopicPage() {
   }, []);
 
   return (
-    <Box>
+    <Box sx={{ paddingTop: 5 }}>
       <h1>Topics</h1>
       <Grid container spacing={1}>
         {topics.length !== 0 ? (

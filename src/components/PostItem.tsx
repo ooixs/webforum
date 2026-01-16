@@ -47,6 +47,7 @@ function PostItem({ post, user, updatePost, deletePost }: Props) {
           <p>{post.content}</p>
           <p>{post.time_created}</p>
           <p>By: {user.username}</p>
+          <p>{post.edited ? "(Edited)" : ""}</p>
           {byUser && (
             <Box>
               <IconButton

@@ -11,7 +11,8 @@ CREATE TABLE users (
 --Create topics table
 CREATE TABLE topics (
 	id SERIAL PRIMARY KEY,
-	topic VARCHAR(100) UNIQUE
+	topic VARCHAR(100) UNIQUE,
+	topic_icon VARCHAR(100)
 )
 
 --Create posts table
@@ -21,7 +22,8 @@ CREATE TABLE posts (
 	user_id INTEGER REFERENCES users(id),
 	heading TEXT,
 	content TEXT,
-	time_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	time_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	edited BOOLEAN DEFAULT FALSE
 )
 
 --Create replies table
@@ -30,8 +32,9 @@ CREATE TABLE replies (
     post_id INTEGER REFERENCES posts(id),
     user_id INTEGER REFERENCES users(id),
     content TEXT,
-    time_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    time_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	edited BOOLEAN DEFAULT FALSE
 )
 
 --Insert values into topics table
-INSERT INTO topics(topics) VALUES ('Tech'), ('Games'), ('Lifestyle'), ('Music'), ('Automotive'), ('Culture')
+INSERT INTO topics(topic, topic_icon) VALUES ('Tech', 'techIcon'), ('Games', 'gamesIcon'), ('Lifestyle', 'lifestyleIcon'), ('Music', 'musicIcon'), ('Automotive', 'automotiveIcon'), ('Culture', 'cultureIcon')

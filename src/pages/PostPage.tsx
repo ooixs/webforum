@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { Navigate, useParams, useNavigate } from "react-router-dom";
 import Post from "../types/Post";
 import User from "../types/User";
-import Topic from "../types/Topic";
 import PostItem from "../components/PostItem";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -24,7 +23,7 @@ function PostPage() {
   const [content, setContent] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
   const [users, setUsers] = useState<User[]>([]);
-  const [topic, setTopic] = useState<Topic | null>(null);
+  const [topicName, setTopicName] = useState<string | null>(null);
   const [refreshCounter, setRefreshCounter] = useState(0);
   const [isEditing, setEditing] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -146,7 +145,7 @@ function PostPage() {
         console.error("Error:", res.status, err);
       } else {
         const data = await res.json();
-        setTopic(data);
+        setTopicName(data);
       }
     }
     fetchTopic();
@@ -178,7 +177,7 @@ function PostPage() {
           </IconButton>
         </Grid>
         <Grid size={10}>
-          <h1>{topic ? topic.topic : "Loading Topic..."}</h1>
+          <h1>{topicName ? topicName : "Loading Topic..."}</h1>
         </Grid>
       </Grid>
       <hr />

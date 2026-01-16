@@ -14,6 +14,7 @@ type Post struct {
 	Heading string `json:"heading"`
 	Content string `json:"content"`
 	TimeCreated string `json:"time_created"`
+	Edited bool `json:"edited"`
 }
 
 func GetPosts(db *pgxpool.Pool, topicId int) ([]Post, error) {
@@ -26,7 +27,7 @@ func GetPosts(db *pgxpool.Pool, topicId int) ([]Post, error) {
 	for rows.Next() {
 		var post Post
 		var unformattedTime time.Time
-		err := rows.Scan(&post.ID, &post.TopicId, &post.UserId, &post.Heading, &post.Content, &unformattedTime)
+		err := rows.Scan(&post.ID, &post.TopicId, &post.UserId, &post.Heading, &post.Content, &unformattedTime, &post.Edited)
 		if err != nil {
 			return nil, err
 		}
@@ -42,7 +43,7 @@ func CreatePost(db *pgxpool.Pool, topicId int, userId int, heading string, conte
 }
 
 func UpdatePost(db *pgxpool.Pool, postId int, heading string, content string) error {
-	_, err := db.Exec(context.Background(), "UPDATE posts SET heading=$1, content=$2 WHERE id=$3", heading, content, postId)
+	_, err := db.Exec(context.Background(), "UPDATE posts SET heading=$1, content=$2, edited=true WHERE id=$3", heading, content, postId)
 	return err
 }
 
@@ -55,9 +56,9 @@ func DeletePost(db *pgxpool.Pool, postId int) error {
 	return err
 }
 
-func GetTopicForPosts(db *pgxpool.Pool, topicId int) (*Topic, error) {
-	var topic Topic
-	row := db.QueryRow(context.Background(), "SELECT * FROM topics WHERE id=$1", topicId)
-	err := row.Scan(&topic.ID, &topic.Topic)
-	return &topic, err
+func GetTopicForPosts(db *pgxpool.Pool, topicId int) (string, error) {
+	var topicName string
+	row := db.QueryRow(context.Background(), "SELECT topic FROM topics WHERE id=$1", topicId)
+	err := row.Scan(&topicName)
+	return topicName, err
 }

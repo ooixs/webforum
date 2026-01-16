@@ -199,6 +199,7 @@ function ReplyPage() {
                   {users.find((user) => user.id === post.user_id)?.username ||
                     "Loading Username..."}
                 </p>
+                <p>{post.edited ? "(Edited)" : ""}</p>
               </CardContent>
             </Card>
           ) : (

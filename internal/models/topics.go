@@ -8,6 +8,7 @@ import (
 type Topic struct {
 	ID   int    `json:"id"`
 	Topic string `json:"topic"`
+	TopicIcon string `json:"topic_icon"`
 }
 
 func GetTopic(db *pgxpool.Pool) ([]Topic, error) {
@@ -19,7 +20,7 @@ func GetTopic(db *pgxpool.Pool) ([]Topic, error) {
 	defer rows.Close()
 	for rows.Next() {
 		var topic Topic
-		err := rows.Scan(&topic.ID, &topic.Topic)
+		err := rows.Scan(&topic.ID, &topic.Topic, &topic.TopicIcon)
 		if err != nil {
 			return nil, err
 		}

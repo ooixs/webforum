@@ -152,7 +152,7 @@ function PostPage() {
   }, []);
 
   return (
-    <div>
+    <Box sx={{ maxWidth: "960px", margin: "0 auto" }}>
       <Grid container>
         <Grid
           size={1}
@@ -289,7 +289,7 @@ function PostPage() {
           </Box>
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 }
 

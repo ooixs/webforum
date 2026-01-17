@@ -156,8 +156,8 @@ function ReplyPage() {
   }, []);
 
   return (
-    <div>
-      <Grid container>
+    <Box sx={{ maxWidth: "960px", margin: "0 auto" }}>
+      <Grid container sx={{ textAlign: "left" }}>
         <Grid
           size={1}
           sx={{
@@ -181,25 +181,28 @@ function ReplyPage() {
             <ArrowBackIcon />
           </IconButton>
         </Grid>
-        <Grid size={10}>
+        <Grid size={11}>
           {post ? (
             <Card
               sx={{
                 position: "relative",
                 backgroundColor: "#191919",
                 backgroundImage: "none",
+                color: grey[200],
               }}
             >
               <CardContent>
-                <h1>{post.heading}</h1>
+                <h2 style={{ fontSize: "30px", margin: 0 }}>{post.heading}</h2>
                 <p>{post.content}</p>
-                <p>{post.time_created}</p>
-                <p>
-                  By:{" "}
-                  {users.find((user) => user.id === post.user_id)?.username ||
-                    "Loading Username..."}
+                <p style={{ color: grey[500], fontFamily: "Lato" }}>
+                  Posted by{" "}
+                  <i>
+                    {users.find((user) => user.id === post.user_id)?.username ||
+                      "Loading Username..."}
+                  </i>{" "}
+                  on {post.time_created}
+                  {post.edited ? " (Edited)" : ""}
                 </p>
-                <p>{post.edited ? "(Edited)" : ""}</p>
               </CardContent>
             </Card>
           ) : (
@@ -299,7 +302,7 @@ function ReplyPage() {
           </Box>
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 }
 

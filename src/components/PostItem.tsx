@@ -5,7 +5,7 @@ import User from "../types/User";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { red, yellow } from "@mui/material/colors";
+import { red, yellow, grey } from "@mui/material/colors";
 
 type Props = {
   post: Post;
@@ -52,14 +52,14 @@ function PostItem({ post, user, updatePost, deletePost }: Props) {
           <p style={{ marginTop: 5, marginBottom: 0 }}>{post.content}</p>
         </Grid>
         <Grid size={10.5}>
-          <p>
-            Created by <i>{user.username}</i> on {post.time_created}
+          <p style={{ color: grey[500], fontFamily: "Lato" }}>
+            Posted by <i>{user.username}</i> on {post.time_created}
             {post.edited ? " (Edited)" : ""}
           </p>
         </Grid>
         <Grid size={1.5}>
           {byUser && (
-            <Box sx={{ display: "flex", gap: "5px" }}>
+            <Box sx={{ display: "flex", gap: "5px", marginTop: 1 }}>
               <IconButton
                 aria-label="Edit Post"
                 sx={{

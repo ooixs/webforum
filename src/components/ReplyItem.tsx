@@ -1,10 +1,10 @@
-import { Card, CardContent, Box } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import Reply from "../types/Reply";
 import User from "../types/User";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { red, yellow } from "@mui/material/colors";
+import { red, yellow, grey } from "@mui/material/colors";
 
 type Props = {
   reply: Reply;
@@ -19,20 +19,37 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
 
   return (
     <Box>
-      <Card
+      <Grid
+        container
         sx={{
           position: "relative",
           backgroundColor: "#191919",
           backgroundImage: "none",
+          textAlign: "left",
+          paddingLeft: 2,
         }}
       >
-        <CardContent>
-          <p>{reply.content}</p>
-          <p>{reply.time_created}</p>
-          <p>By: {user.username}</p>
-          <p>{reply.edited ? "(Edited)" : ""}</p>
+        <Grid size={12}>
+          <p
+            style={{
+              color: grey[300],
+              fontSize: "15px",
+              marginTop: 5,
+              marginBottom: 0,
+            }}
+          >
+            {reply.content}
+          </p>
+        </Grid>
+        <Grid size={10.5}>
+          <p style={{ color: grey[500], fontFamily: "Lato" }}>
+            Replied by <i>{user.username}</i> on {reply.time_created}
+            {reply.edited ? " (Edited)" : ""}
+          </p>
+        </Grid>
+        <Grid size={1.5}>
           {byUser && (
-            <div>
+            <Box sx={{ display: "flex", gap: "5px", marginTop: 1 }}>
               <IconButton
                 aria-label="Edit Reply"
                 sx={{
@@ -63,10 +80,10 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
               >
                 <DeleteIcon />
               </IconButton>
-            </div>
+            </Box>
           )}
-        </CardContent>
-      </Card>
+        </Grid>
+      </Grid>
       <hr />
     </Box>
   );

@@ -46,10 +46,33 @@ function PostItem({ post, user, updatePost, deletePost }: Props) {
           }}
         />
         <Grid size={12}>
-          <h2 style={{ margin: 0 }}>{post.heading}</h2>
+          <h2
+            style={{
+              margin: 0,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: 6,
+              WebkitBoxOrient: "vertical",
+            }}
+          >
+            {post.heading}
+          </h2>
         </Grid>
         <Grid size={12}>
-          <p style={{ marginTop: 5, marginBottom: 0 }}>{post.content}</p>
+          <p
+            style={{
+              marginTop: 5,
+              marginBottom: 0,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: 6,
+              WebkitBoxOrient: "vertical",
+            }}
+          >
+            {post.content}
+          </p>
         </Grid>
         <Grid size={10.5}>
           <p style={{ color: grey[500], fontFamily: "Lato" }}>

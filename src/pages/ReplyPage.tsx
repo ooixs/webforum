@@ -6,6 +6,7 @@ import {
   Box,
   IconButton,
   Zoom,
+  Button,
 } from "@mui/material";
 import { blue, red, grey } from "@mui/material/colors";
 import SendIcon from "@mui/icons-material/Send";
@@ -247,6 +248,7 @@ function ReplyPage() {
             width: "100%",
             zIndex: 2,
             paddingLeft: "20px",
+            paddingRight: "20px",
             paddingBottom: "20px",
             justifyContent: "space-between",
             boxShadow: "0px -5px 30px 10px #181818",
@@ -256,59 +258,67 @@ function ReplyPage() {
           <Grid size={12}>
             {isEditing && <p style={{ textAlign: "left" }}>(Editing mode)</p>}
           </Grid>
-          <Grid size={11}>
-            <TextField
-              onClick={expand}
-              label={isExpanded ? "Content" : "New Reply"}
-              variant="filled"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              rows={isExpanded ? 3 : 1}
-              multiline={isExpanded}
-              fullWidth
-            />
-          </Grid>
-          <Grid size={1}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "20px",
-                alignItems: "center",
-              }}
-            >
-              <Zoom in={isExpanded}>
-                <IconButton
-                  aria-label="Cancel"
+          {isExpanded ? (
+            <Grid container size={12}>
+              <Grid size={11}>
+                <TextField
+                  onClick={expand}
+                  label="Content"
+                  variant="filled"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  rows={3}
+                  multiline
+                  fullWidth
+                />
+              </Grid>
+              <Grid size={1}>
+                <Box
                   sx={{
-                    backgroundColor: "#303030",
-                    color: red[500],
-                    "&:hover": {
-                      color: red[700],
-                    },
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "20px",
+                    alignItems: "center",
                   }}
-                  onClick={closeTextField}
                 >
-                  <CloseIcon />
-                </IconButton>
-              </Zoom>
-              <Zoom in={isExpanded}>
-                <IconButton
-                  onClick={isEditing ? handleUpdate : handleAdd}
-                  sx={{
-                    color: "white",
-                    backgroundColor: blue[500],
-                    "&:hover": {
-                      backgroundColor: blue[700],
-                    },
-                  }}
-                  aria-label="send reply"
-                >
-                  <SendIcon />
-                </IconButton>
-              </Zoom>
-            </Box>
-          </Grid>
+                  <Zoom in={isExpanded}>
+                    <IconButton
+                      aria-label="Cancel"
+                      sx={{
+                        backgroundColor: "#303030",
+                        color: red[500],
+                        "&:hover": {
+                          color: red[700],
+                        },
+                      }}
+                      onClick={closeTextField}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </Zoom>
+                  <Zoom in={isExpanded}>
+                    <IconButton
+                      onClick={isEditing ? handleUpdate : handleAdd}
+                      sx={{
+                        color: "white",
+                        backgroundColor: blue[500],
+                        "&:hover": {
+                          backgroundColor: blue[700],
+                        },
+                      }}
+                      aria-label="send reply"
+                    >
+                      <SendIcon />
+                    </IconButton>
+                  </Zoom>
+                </Box>
+              </Grid>
+            </Grid>
+          ) : (
+            <Button onClick={expand} variant="outlined" fullWidth>
+              New Reply
+            </Button>
+          )}
         </Grid>
       </Box>
     </Box>

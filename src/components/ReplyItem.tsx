@@ -18,7 +18,11 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
   const byUser = Number(userId) === reply.user_id;
 
   return (
-    <Box>
+    <Box
+      sx={{
+        paddingLeft: 2,
+      }}
+    >
       <Grid
         container
         sx={{
@@ -26,7 +30,8 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
           backgroundColor: "#191919",
           backgroundImage: "none",
           textAlign: "left",
-          paddingLeft: 2,
+          paddingLeft: 3,
+          borderLeft: "2px solid #555555",
         }}
       >
         <Grid size={12}>

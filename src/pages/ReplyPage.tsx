@@ -156,43 +156,53 @@ function ReplyPage() {
   }, []);
 
   return (
-    <Box sx={{ maxWidth: "960px", margin: "0 auto" }}>
-      <Grid container sx={{ textAlign: "left" }}>
-        <Grid
-          size={1}
+    <Box>
+      <Box
+        sx={{
+          textAlign: "left",
+          width: "100%",
+          margin: "0 auto",
+          paddingTop: "30px",
+          "@media (min-width: 960px)": {
+            width: "960px",
+          },
+        }}
+      >
+        <Card
           sx={{
-            display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "center",
-            paddingTop: "50px",
+            position: "relative",
+            backgroundColor: "#191919",
+            backgroundImage: "none",
+            color: grey[200],
           }}
         >
-          <IconButton
-            aria-label="Back"
-            onClick={() => navigate(-1)}
-            sx={{
-              backgroundColor: "#303030",
-              color: grey[200],
-              "&:hover": {
-                color: grey[400],
-              },
-            }}
-          >
-            <ArrowBackIcon />
-          </IconButton>
-        </Grid>
-        <Grid size={11}>
-          {post ? (
-            <Card
-              sx={{
-                position: "relative",
-                backgroundColor: "#191919",
-                backgroundImage: "none",
-                color: grey[200],
-              }}
-            >
-              <CardContent>
-                <h2 style={{ fontSize: "30px", margin: 0 }}>{post.heading}</h2>
+          <CardContent>
+            <Grid container>
+              <Grid size={1}>
+                <IconButton
+                  aria-label="Back"
+                  onClick={() => navigate(-1)}
+                  sx={{
+                    backgroundColor: "#303030",
+                    color: grey[200],
+                    "&:hover": {
+                      color: grey[400],
+                    },
+                  }}
+                >
+                  <ArrowBackIcon />
+                </IconButton>
+              </Grid>
+              <Grid size={10}>
+                <h2
+                  style={{ fontSize: "30px", margin: 0, textAlign: "center" }}
+                >
+                  {post ? post.heading : "Loading Post..."}
+                </h2>
+              </Grid>
+            </Grid>
+            {post && (
+              <span>
                 <p>{post.content}</p>
                 <p style={{ color: grey[500], fontFamily: "Lato" }}>
                   Posted by{" "}
@@ -203,105 +213,104 @@ function ReplyPage() {
                   on {post.time_created}
                   {post.edited ? " (Edited)" : ""}
                 </p>
-              </CardContent>
-            </Card>
-          ) : (
-            <h1>Loading Post...</h1>
-          )}
-        </Grid>
-      </Grid>
-      <hr />
-      {replies.length !== 0 ? (
-        replies.map((reply) => (
-          <ReplyItem
-            key={reply.id}
-            user={
-              users.find((user) => user.id === reply.user_id) || {
-                id: 0,
-                username: "Loading Username...",
+              </span>
+            )}
+          </CardContent>
+        </Card>
+
+        <hr />
+        {replies.length !== 0 ? (
+          replies.map((reply) => (
+            <ReplyItem
+              key={reply.id}
+              user={
+                users.find((user) => user.id === reply.user_id) || {
+                  id: 0,
+                  username: "Loading Username...",
+                }
               }
-            }
-            reply={reply}
-            updateReply={updateReply}
-            deleteReply={handleDelete}
-          />
-        ))
-      ) : (
-        <p>No replies yet!</p>
-      )}
-      <Grid
-        container
-        sx={{
-          position: "sticky",
-          bottom: 0,
-          left: 0,
-          backgroundColor: "#181818",
-          width: "100%",
-          zIndex: 2,
-          paddingLeft: "20px",
-          paddingBottom: "20px",
-          justifyContent: "space-between",
-          boxShadow: "0px -5px 30px 10px #181818",
-          height: isExpanded ? (isEditing ? "185px" : "130px") : "80px",
-        }}
-      >
-        <Grid size={12}>
-          {isEditing && <p style={{ textAlign: "left" }}>(Editing mode)</p>}
+              reply={reply}
+              updateReply={updateReply}
+              deleteReply={handleDelete}
+            />
+          ))
+        ) : (
+          <p style={{ textAlign: "center" }}>No replies yet!</p>
+        )}
+        <Grid
+          container
+          sx={{
+            position: "sticky",
+            bottom: 0,
+            left: 0,
+            backgroundColor: "#181818",
+            width: "100%",
+            zIndex: 2,
+            paddingLeft: "20px",
+            paddingBottom: "20px",
+            justifyContent: "space-between",
+            boxShadow: "0px -5px 30px 10px #181818",
+            height: isExpanded ? (isEditing ? "185px" : "130px") : "80px",
+          }}
+        >
+          <Grid size={12}>
+            {isEditing && <p style={{ textAlign: "left" }}>(Editing mode)</p>}
+          </Grid>
+          <Grid size={11}>
+            <TextField
+              onClick={expand}
+              label={isExpanded ? "Content" : "New Reply"}
+              variant="filled"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              rows={isExpanded ? 3 : 1}
+              multiline={isExpanded}
+              fullWidth
+            />
+          </Grid>
+          <Grid size={1}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "20px",
+                alignItems: "center",
+              }}
+            >
+              <Zoom in={isExpanded}>
+                <IconButton
+                  aria-label="Cancel"
+                  sx={{
+                    backgroundColor: "#303030",
+                    color: red[500],
+                    "&:hover": {
+                      color: red[700],
+                    },
+                  }}
+                  onClick={closeTextField}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Zoom>
+              <Zoom in={isExpanded}>
+                <IconButton
+                  onClick={isEditing ? handleUpdate : handleAdd}
+                  sx={{
+                    color: "white",
+                    backgroundColor: blue[500],
+                    "&:hover": {
+                      backgroundColor: blue[700],
+                    },
+                  }}
+                  aria-label="send reply"
+                >
+                  <SendIcon />
+                </IconButton>
+              </Zoom>
+            </Box>
+          </Grid>
         </Grid>
-        <Grid size={11}>
-          <TextField
-            onClick={expand}
-            label={isExpanded ? "Content" : "New Reply"}
-            variant="filled"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            rows={isExpanded ? 3 : 1}
-            multiline={isExpanded}
-            fullWidth
-          />
-        </Grid>
-        <Grid size={1}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "20px",
-              alignItems: "center",
-            }}
-          >
-            <Zoom in={isExpanded}>
-              <IconButton
-                aria-label="Cancel"
-                sx={{
-                  backgroundColor: "#303030",
-                  color: red[500],
-                  "&:hover": {
-                    color: red[700],
-                  },
-                }}
-                onClick={closeTextField}
-              >
-                <CloseIcon />
-              </IconButton>
-            </Zoom>
-            <Zoom in={isExpanded}>
-              <IconButton
-                onClick={isEditing ? handleUpdate : handleAdd}
-                sx={{
-                  color: "white",
-                  backgroundColor: blue[500],
-                  "&:hover": {
-                    backgroundColor: blue[700],
-                  },
-                }}
-                aria-label="send reply"
-              >
-                <SendIcon />
-              </IconButton>
-            </Zoom>
-          </Box>
-        </Grid>
-      </Grid>
+      </Box>
     </Box>
   );
 }

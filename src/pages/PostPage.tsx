@@ -179,6 +179,14 @@ function PostPage() {
         <Grid size={10}>
           <h1>{topicName ? topicName : "Loading Topic..."}</h1>
         </Grid>
+        <Grid
+          size={1}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        ></Grid>
       </Grid>
       <hr />
       {posts.length !== 0 ? (

@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import Topic from "../types/Topic";
 import TopicItem from "../components/TopicItem";
 import Navbar from "../components/Navbar";
+import Account from "../components/Account";
 
 function TopicPage() {
   const userId = sessionStorage.getItem("userId");
@@ -29,6 +30,7 @@ function TopicPage() {
   return (
     <Box>
       <Navbar />
+      <Account />
       <Box
         sx={{
           paddingTop: 5,

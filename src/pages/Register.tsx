@@ -28,8 +28,8 @@ function Register() {
       console.error("Error:", res.status, res.statusText);
     } else {
       const data = await res.json();
-      setUserId(data.id);
-      sessionStorage.setItem("userId", data.id.toString());
+      setUserId(data);
+      sessionStorage.setItem("userId", data.toString());
     }
   }
 

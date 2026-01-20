@@ -1,10 +1,8 @@
 import { JSX, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   Box,
-  Button,
   List,
   ListItem,
   ListItemButton,
@@ -20,7 +18,6 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import Diversity2Icon from "@mui/icons-material/Diversity2";
 import SportsHandballIcon from "@mui/icons-material/SportsHandball";
 import MemoryIcon from "@mui/icons-material/Memory";
-import { red } from "@mui/material/colors";
 
 type IconMapping = Record<string, JSX.Element>;
 
@@ -34,16 +31,9 @@ function Navbar() {
     automotiveIcon: <DirectionsCarIcon sx={iconStyles} />,
     cultureIcon: <Diversity2Icon sx={iconStyles} />,
   };
-  const userId = sessionStorage.getItem("userId");
-  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   const [topics, setTopics] = useState<Topic[]>([]);
-
-  function logout() {
-    sessionStorage.removeItem("userId");
-    navigate("/", { replace: true });
-  }
 
   useEffect(() => {
     async function fetchTopics() {
@@ -72,8 +62,9 @@ function Navbar() {
             <Link
               to={`/posts/${topic.id}`}
               style={{ textDecoration: "none", color: "white" }}
+              key={topic.id}
             >
-              <ListItem key={topic.id} disablePadding>
+              <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>{iconMap[topic.topic_icon]}</ListItemIcon>
                   <ListItemText primary={topic.topic} />
@@ -85,24 +76,6 @@ function Navbar() {
           <ListItem>No topics available!</ListItem>
         )}
       </List>
-      <List sx={{ position: "absolute", bottom: 0 }}>
-        <ListItem>
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: red[600],
-              "&:hover": {
-                backgroundColor: red[800],
-              },
-              width: "218px",
-              color: "white",
-            }}
-            onClick={logout}
-          >
-            Logout
-          </Button>
-        </ListItem>
-      </List>
     </Box>
   );
 
@@ -110,10 +83,13 @@ function Navbar() {
     <Box>
       <IconButton
         sx={{
-          position: "absolute",
+          position: "fixed",
           top: 10,
           left: 10,
           backgroundColor: "#303030",
+          "@media (max-width: 1120px)": {
+            display: "none",
+          },
         }}
         size="large"
         onClick={() => setOpen(true)}

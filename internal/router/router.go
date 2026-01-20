@@ -35,6 +35,7 @@ func setUpRoutes(r chi.Router) {
 		r.Get("/post/{postId}", handlers.HandleGetPostForReplies)
 
 		//Utility, for both posts and replies
+		r.Get("/user/{userId}", handlers.HandleGetUserById)
 		r.Get("/users", handlers.HandleGetAllUsers)
 	})
 }

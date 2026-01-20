@@ -18,6 +18,13 @@ func GetUser(db *pgxpool.Pool, username string) (*User, error) {
 	return &user, err
 }
 
+func GetUserById(db *pgxpool.Pool, id int) (*User, error) {
+	var user User
+	row := db.QueryRow(context.Background(), "SELECT * FROM users WHERE id=$1", id)
+	err := row.Scan(&user.ID, &user.Username)
+	return &user, err
+}
+
 func CreateUser(db *pgxpool.Pool, username string) (int, error) {
 	var userId int
 	row := db.QueryRow(context.Background(), "INSERT INTO users (username) VALUES ($1) RETURNING id", username)

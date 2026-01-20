@@ -18,6 +18,8 @@ import User from "../types/User";
 import ReplyItem from "../components/ReplyItem";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Navbar from "../components/Navbar";
+import Account from "../components/Account";
 
 function ReplyPage() {
   const userId = sessionStorage.getItem("userId");
@@ -115,6 +117,7 @@ function ReplyPage() {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     async function fetchReplies() {
       const res = await fetch("/api/replies/" + postId);
       if (!res.ok) {
@@ -158,12 +161,14 @@ function ReplyPage() {
 
   return (
     <Box>
+      <Navbar />
+      <Account />
       <Box
         sx={{
           textAlign: "left",
           width: "100%",
           margin: "0 auto",
-          paddingTop: "30px",
+          paddingTop: "20px",
           "@media (min-width: 960px)": {
             width: "960px",
           },
@@ -182,7 +187,9 @@ function ReplyPage() {
               <Grid size={1}>
                 <IconButton
                   aria-label="Back"
-                  onClick={() => navigate(-1)}
+                  onClick={() =>
+                    navigate(post ? "/posts/" + post.topic_id : "/topics")
+                  }
                   sx={{
                     backgroundColor: "#303030",
                     color: grey[200],

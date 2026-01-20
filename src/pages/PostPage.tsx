@@ -8,6 +8,8 @@ import User from "../types/User";
 import PostItem from "../components/PostItem";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Navbar from "../components/Navbar";
+import Account from "../components/Account";
 
 function PostPage() {
   const userId = sessionStorage.getItem("userId");
@@ -110,6 +112,7 @@ function PostPage() {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     async function fetchPosts() {
       const res = await fetch("/api/posts/" + topicId);
       if (!res.ok) {
@@ -121,7 +124,7 @@ function PostPage() {
       }
     }
     fetchPosts();
-  }, [refreshCounter]);
+  }, [refreshCounter, topicId]);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -149,160 +152,164 @@ function PostPage() {
       }
     }
     fetchTopic();
-  }, []);
+  }, [topicId]);
 
   return (
-    <Box sx={{ maxWidth: "960px", margin: "0 auto" }}>
-      <Grid container>
-        <Grid
-          size={1}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <IconButton
-            aria-label="Back"
-            onClick={() => navigate(-1)}
+    <Box>
+      <Navbar />
+      <Account />
+      <Box sx={{ maxWidth: "960px", margin: "0 auto" }}>
+        <Grid container>
+          <Grid
+            size={1}
             sx={{
-              backgroundColor: "#303030",
-              color: grey[200],
-              "&:hover": {
-                color: grey[400],
-              },
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <ArrowBackIcon />
-          </IconButton>
-        </Grid>
-        <Grid size={10}>
-          <h1>{topicName ? topicName : "Loading Topic..."}</h1>
-        </Grid>
-        <Grid
-          size={1}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        ></Grid>
-      </Grid>
-      <hr />
-      {posts.length !== 0 ? (
-        posts.map((post) => (
-          <PostItem
-            key={post.id}
-            user={
-              users.find((user) => user.id === post.user_id) || {
-                id: 0,
-                username: "Loading Username...",
-              }
-            }
-            post={post}
-            updatePost={updatePost}
-            deletePost={handleDelete}
-          />
-        ))
-      ) : (
-        <p>No posts yet!</p>
-      )}
-      <Grid
-        container
-        sx={{
-          position: "sticky",
-          bottom: 0,
-          left: 0,
-          paddingBottom: "20px",
-          paddingLeft: "20px",
-          backgroundColor: "#181818",
-          width: "100%",
-          zIndex: 3,
-          boxShadow: "0px -5px 30px 10px #181818",
-          height: isExpanded ? (isEditing ? "255px" : "200px") : "80px",
-        }}
-      >
-        <Grid size={12}>
-          {isEditing && <p style={{ textAlign: "left" }}>(Editing mode)</p>}
-        </Grid>
-        {isExpanded ? (
-          <Grid container size={12}>
-            <Grid size={11}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
-                  alignItems: "center",
-                }}
-              >
-                <TextField
-                  label="Heading"
-                  value={heading}
-                  onChange={(e) => setHeading(e.target.value)}
-                  variant="filled"
-                  fullWidth
-                />
-                <TextField
-                  onClick={expand}
-                  label="Content"
-                  variant="filled"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  rows={3}
-                  multiline
-                  fullWidth
-                />
-              </Box>
-            </Grid>
-            <Grid size={1}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "90px",
-                  alignItems: "center",
-                }}
-              >
-                <Zoom in={isExpanded}>
-                  <IconButton
-                    aria-label="Cancel"
-                    sx={{
-                      backgroundColor: "#303030",
-                      color: red[500],
-                      "&:hover": {
-                        color: red[700],
-                      },
-                    }}
-                    onClick={closeTextField}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                </Zoom>
-                <Zoom in={isExpanded}>
-                  <IconButton
-                    onClick={isEditing ? handleUpdate : handleAdd}
-                    sx={{
-                      color: "white",
-                      backgroundColor: blue[500],
-                      "&:hover": {
-                        backgroundColor: blue[700],
-                      },
-                    }}
-                    aria-label="send post"
-                  >
-                    <SendIcon />
-                  </IconButton>
-                </Zoom>
-              </Box>
-            </Grid>
+            <IconButton
+              aria-label="Back"
+              onClick={() => navigate("/topics")}
+              sx={{
+                backgroundColor: "#303030",
+                color: grey[200],
+                "&:hover": {
+                  color: grey[400],
+                },
+              }}
+            >
+              <ArrowBackIcon />
+            </IconButton>
           </Grid>
+          <Grid size={10}>
+            <h1>{topicName ? topicName : "Loading Topic..."}</h1>
+          </Grid>
+          <Grid
+            size={1}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          ></Grid>
+        </Grid>
+        <hr />
+        {posts.length !== 0 ? (
+          posts.map((post) => (
+            <PostItem
+              key={post.id}
+              user={
+                users.find((user) => user.id === post.user_id) || {
+                  id: 0,
+                  username: "Loading Username...",
+                }
+              }
+              post={post}
+              updatePost={updatePost}
+              deletePost={handleDelete}
+            />
+          ))
         ) : (
-          <Button onClick={expand} variant="outlined" fullWidth>
-            New Post
-          </Button>
+          <p>No posts yet!</p>
         )}
-      </Grid>
+        <Grid
+          container
+          sx={{
+            position: "sticky",
+            bottom: 0,
+            left: 0,
+            paddingBottom: "20px",
+            paddingLeft: "20px",
+            backgroundColor: "#181818",
+            width: "100%",
+            zIndex: 3,
+            boxShadow: "0px -5px 30px 10px #181818",
+            height: isExpanded ? (isEditing ? "255px" : "200px") : "80px",
+          }}
+        >
+          <Grid size={12}>
+            {isEditing && <p style={{ textAlign: "left" }}>(Editing mode)</p>}
+          </Grid>
+          {isExpanded ? (
+            <Grid container size={12}>
+              <Grid size={11}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                    alignItems: "center",
+                  }}
+                >
+                  <TextField
+                    label="Heading"
+                    value={heading}
+                    onChange={(e) => setHeading(e.target.value)}
+                    variant="filled"
+                    fullWidth
+                  />
+                  <TextField
+                    onClick={expand}
+                    label="Content"
+                    variant="filled"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    rows={3}
+                    multiline
+                    fullWidth
+                  />
+                </Box>
+              </Grid>
+              <Grid size={1}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "90px",
+                    alignItems: "center",
+                  }}
+                >
+                  <Zoom in={isExpanded}>
+                    <IconButton
+                      aria-label="Cancel"
+                      sx={{
+                        backgroundColor: "#303030",
+                        color: red[500],
+                        "&:hover": {
+                          color: red[700],
+                        },
+                      }}
+                      onClick={closeTextField}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </Zoom>
+                  <Zoom in={isExpanded}>
+                    <IconButton
+                      onClick={isEditing ? handleUpdate : handleAdd}
+                      sx={{
+                        color: "white",
+                        backgroundColor: blue[500],
+                        "&:hover": {
+                          backgroundColor: blue[700],
+                        },
+                      }}
+                      aria-label="send post"
+                    >
+                      <SendIcon />
+                    </IconButton>
+                  </Zoom>
+                </Box>
+              </Grid>
+            </Grid>
+          ) : (
+            <Button onClick={expand} variant="outlined" fullWidth>
+              New Post
+            </Button>
+          )}
+        </Grid>
+      </Box>
     </Box>
   );
 }

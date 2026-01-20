@@ -33,6 +33,7 @@ function ReplyPage() {
 
   const [isExpanded, setExpanded] = useState(false);
   const [content, setContent] = useState("");
+  const [isContentEmpty, setContentEmpty] = useState(false);
   const [post, setPost] = useState<Post | null>(null);
   const [replies, setReplies] = useState<Reply[]>([]);
   const [users, setUsers] = useState<User[]>([]);
@@ -49,9 +50,15 @@ function ReplyPage() {
     setExpanded(false);
     setEditing(false);
     setEditingId(null);
+    setContentEmpty(false);
   }
 
   async function handleAdd() {
+    if (content.trim() === "") {
+      setContentEmpty(true);
+      return;
+    }
+    setContentEmpty(false);
     const res = await fetch("/api/replies", {
       method: "POST",
       headers: {
@@ -77,9 +84,15 @@ function ReplyPage() {
     setEditingId(reply.id);
     setContent(reply.content);
     setExpanded(true);
+    setContentEmpty(false);
   }
 
   async function handleUpdate() {
+    if (content.trim() === "") {
+      setContentEmpty(true);
+      return;
+    }
+    setContentEmpty(false);
     const res = await fetch("/api/replies/update", {
       method: "POST",
       headers: {
@@ -258,15 +271,41 @@ function ReplyPage() {
             width: "100%",
             zIndex: 2,
             paddingLeft: "20px",
-            paddingRight: "20px",
+            paddingRight: isExpanded ? "0px" : "20px",
             paddingBottom: "20px",
             justifyContent: "space-between",
-            boxShadow: "0px -5px 30px 10px #181818",
-            height: isExpanded ? (isEditing ? "185px" : "130px") : "80px",
+            boxShadow: "0px -10px 30px 10px #181818",
+            height: isExpanded
+              ? isEditing || isContentEmpty
+                ? "160px"
+                : "125px"
+              : "70px",
           }}
         >
-          <Grid size={12}>
-            {isEditing && <p style={{ textAlign: "left" }}>(Editing mode)</p>}
+          <Grid container size={12}>
+            {isEditing && (
+              <Grid size={6}>
+                <p
+                  style={{ textAlign: "left", marginTop: 0, marginBottom: 10 }}
+                >
+                  (Editing mode)
+                </p>
+              </Grid>
+            )}
+            {isContentEmpty && (
+              <Grid size={5}>
+                <p
+                  style={{
+                    color: "red",
+                    textAlign: isEditing ? "right" : "left",
+                    marginTop: 0,
+                    marginBottom: 10,
+                  }}
+                >
+                  Content cannot be empty!
+                </p>
+              </Grid>
+            )}
           </Grid>
           {isExpanded ? (
             <Grid container size={12}>

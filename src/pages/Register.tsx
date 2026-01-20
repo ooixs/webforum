@@ -4,12 +4,25 @@ import { useState } from "react";
 
 function Register() {
   const [username, setUsername] = useState("");
+  const [isEmpty, setEmpty] = useState(false);
+  const [hasWhitespaces, setHasWhitespaces] = useState(false);
   const [taken, setTaken] = useState(false);
   const [hasOtherError, setHasOtherError] = useState(false);
   const [otherError, setOtherError] = useState("");
   const [userId, setUserId] = useState(0);
 
   async function handleClick() {
+    if (username.trim() === "") {
+      setEmpty(true);
+      return;
+    }
+    if (/\s/.test(username)) {
+      setEmpty(false);
+      setHasWhitespaces(true);
+      return;
+    }
+    setEmpty(false);
+    setHasWhitespaces(false);
     const res = await fetch("/api/register", {
       method: "POST",
       headers: {
@@ -27,6 +40,8 @@ function Register() {
       }
       console.error("Error:", res.status, res.statusText);
     } else {
+      setTaken(false);
+      setHasOtherError(false);
       const data = await res.json();
       setUserId(data);
       sessionStorage.setItem("userId", data.toString());
@@ -66,12 +81,18 @@ function Register() {
           Register
         </Button>
         {userId !== 0 && <Navigate to="/topics" replace={true} />}
-        {taken && (
+        {isEmpty ? (
+          <p style={{ color: "red" }}>Username cannot be empty!</p>
+        ) : hasWhitespaces ? (
+          <p style={{ color: "red" }}>Username cannot contain spaces!</p>
+        ) : taken ? (
           <p style={{ color: "red" }}>
             Username is taken. Please choose another username.
           </p>
+        ) : (
+          hasOtherError && <p style={{ color: "red" }}>{otherError}</p>
         )}
-        {hasOtherError && <p style={{ color: "red" }}>{otherError}</p>}
+
         <p>
           Registered? <Link to="/">Login</Link> here instead.
         </p>

@@ -5,14 +5,14 @@ CREATE DATABASE forum;
 --Create users table
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
-	username VARCHAR(100) UNIQUE
+	username VARCHAR(100) UNIQUE NOT NULL
 )
 
 --Create topics table
 CREATE TABLE topics (
 	id SERIAL PRIMARY KEY,
-	topic VARCHAR(100) UNIQUE,
-	topic_icon VARCHAR(100)
+	topic VARCHAR(100) UNIQUE NOT NULL,
+	topic_icon VARCHAR(100) NOT NULL
 )
 
 --Create posts table
@@ -20,8 +20,8 @@ CREATE TABLE posts (
 	id SERIAL PRIMARY KEY,
 	topic_id INTEGER REFERENCES topics(id),
 	user_id INTEGER REFERENCES users(id),
-	heading TEXT,
-	content TEXT,
+	heading TEXT NOT NULL,
+	content TEXT NOT NULL,
 	time_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	edited BOOLEAN DEFAULT FALSE
 )
@@ -31,7 +31,7 @@ CREATE TABLE replies (
     id SERIAL PRIMARY KEY,
     post_id INTEGER REFERENCES posts(id),
     user_id INTEGER REFERENCES users(id),
-    content TEXT,
+    content TEXT NOT NULL,
     time_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	edited BOOLEAN DEFAULT FALSE
 )

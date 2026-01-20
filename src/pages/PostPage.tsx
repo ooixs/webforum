@@ -31,6 +31,8 @@ function PostPage() {
   const [isExpanded, setExpanded] = useState(false);
   const [heading, setHeading] = useState("");
   const [content, setContent] = useState("");
+  const [isHeadingEmpty, setHeadingEmpty] = useState(false);
+  const [isContentEmpty, setContentEmpty] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [topicName, setTopicName] = useState<string | null>(null);
@@ -48,9 +50,22 @@ function PostPage() {
     setExpanded(false);
     setEditing(false);
     setEditingId(null);
+    setHeadingEmpty(false);
+    setContentEmpty(false);
   }
 
   async function handleAdd() {
+    if (heading.trim() === "") {
+      setHeadingEmpty(true);
+      return;
+    }
+    if (content.trim() === "") {
+      setHeadingEmpty(false);
+      setContentEmpty(true);
+      return;
+    }
+    setHeadingEmpty(false);
+    setContentEmpty(false);
     const res = await fetch("/api/posts", {
       method: "POST",
       headers: {
@@ -78,9 +93,22 @@ function PostPage() {
     setHeading(post.heading);
     setContent(post.content);
     setExpanded(true);
+    setHeadingEmpty(false);
+    setContentEmpty(false);
   }
 
   async function handleUpdate() {
+    if (heading.trim() === "") {
+      setHeadingEmpty(true);
+      return;
+    }
+    if (content.trim() === "") {
+      setHeadingEmpty(false);
+      setContentEmpty(true);
+      return;
+    }
+    setHeadingEmpty(false);
+    setContentEmpty(false);
     const res = await fetch("/api/posts/update", {
       method: "POST",
       headers: {
@@ -230,16 +258,62 @@ function PostPage() {
             bottom: 0,
             left: 0,
             paddingBottom: "20px",
+            paddingRight: isExpanded ? "0px" : "20px",
             paddingLeft: "20px",
             backgroundColor: "#181818",
             width: "100%",
             zIndex: 3,
-            boxShadow: "0px -5px 30px 10px #181818",
-            height: isExpanded ? (isEditing ? "255px" : "200px") : "80px",
+            boxShadow: "0px -10px 30px 10px #181818",
+            height: isExpanded
+              ? isEditing || isContentEmpty || isHeadingEmpty
+                ? "225px"
+                : "192.5px"
+              : "65px",
           }}
         >
-          <Grid size={12}>
-            {isEditing && <p style={{ textAlign: "left" }}>(Editing mode)</p>}
+          <Grid container size={12}>
+            {isEditing && (
+              <Grid size={6}>
+                <p
+                  style={{
+                    textAlign: "left",
+                    marginTop: 0,
+                    marginBottom: 10,
+                  }}
+                >
+                  (Editing mode)
+                </p>
+              </Grid>
+            )}
+            {isHeadingEmpty ? (
+              <Grid size={5}>
+                <p
+                  style={{
+                    color: "red",
+                    textAlign: isEditing ? "right" : "left",
+                    marginTop: 0,
+                    marginBottom: 10,
+                  }}
+                >
+                  Heading cannot be empty!
+                </p>
+              </Grid>
+            ) : (
+              isContentEmpty && (
+                <Grid size={5}>
+                  <p
+                    style={{
+                      color: "red",
+                      textAlign: isEditing ? "right" : "left",
+                      marginTop: 0,
+                      marginBottom: 10,
+                    }}
+                  >
+                    Content cannot be empty!
+                  </p>
+                </Grid>
+              )
+            )}
           </Grid>
           {isExpanded ? (
             <Grid container size={12}>

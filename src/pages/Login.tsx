@@ -67,10 +67,12 @@ function Login() {
           Login
         </Button>
         {userId !== 0 && <Navigate to="/topics" replace={true} />}
-        <p style={{ color: "red" }}>
-          {taken ? "" : "Username does not exist. Please register instead."}
-          {hasOtherError ? otherError : ""}
-        </p>
+        {taken || (
+          <p style={{ color: "red" }}>
+            Username does not exist. Please register instead.
+          </p>
+        )}
+        {hasOtherError && <p style={{ color: "red" }}>{otherError}</p>}
         <p>
           First time user? <Link to="/register">Register</Link> here instead.
         </p>

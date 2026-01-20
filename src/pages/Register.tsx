@@ -66,10 +66,12 @@ function Register() {
           Register
         </Button>
         {userId !== 0 && <Navigate to="/topics" replace={true} />}
-        <p style={{ color: "red" }}>
-          {taken ? "Username is taken. Please choose another username." : ""}
-          {hasOtherError ? otherError : ""}
-        </p>
+        {taken && (
+          <p style={{ color: "red" }}>
+            Username is taken. Please choose another username.
+          </p>
+        )}
+        {hasOtherError && <p style={{ color: "red" }}>{otherError}</p>}
         <p>
           Registered? <Link to="/">Login</Link> here instead.
         </p>

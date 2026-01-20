@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import Post from "../types/Post";
 import User from "../types/User";
@@ -83,42 +83,47 @@ function PostItem({ post, user, updatePost, deletePost }: Props) {
         <Grid size={1.5}>
           {byUser && (
             <Box sx={{ display: "flex", gap: "5px", marginTop: 1 }}>
-              <IconButton
-                aria-label="Edit Post"
-                sx={{
-                  zIndex: 2,
-                  position: "relative",
-                  backgroundColor: "#303030",
-                  color: yellow[500],
-                  "&:hover": {
-                    color: yellow[700],
-                  },
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  updatePost(post);
-                }}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                aria-label="Delete Post"
-                sx={{
-                  zIndex: 2,
-                  position: "relative",
-                  backgroundColor: "#303030",
-                  color: red[500],
-                  "&:hover": {
-                    color: red[700],
-                  },
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deletePost(post.id);
-                }}
-              >
-                <DeleteIcon />
-              </IconButton>
+              <Tooltip title="Edit Post">
+                <IconButton
+                  aria-label="Edit Post"
+                  sx={{
+                    zIndex: 2,
+                    position: "relative",
+                    backgroundColor: "#303030",
+                    color: yellow[500],
+                    "&:hover": {
+                      color: yellow[700],
+                    },
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    updatePost(post);
+                  }}
+                >
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+
+              <Tooltip title="Delete Post">
+                <IconButton
+                  aria-label="Delete Post"
+                  sx={{
+                    zIndex: 2,
+                    position: "relative",
+                    backgroundColor: "#303030",
+                    color: red[500],
+                    "&:hover": {
+                      color: red[700],
+                    },
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deletePost(post.id);
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
             </Box>
           )}
         </Grid>

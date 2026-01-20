@@ -1,4 +1,12 @@
-import { TextField, Box, Grid, IconButton, Zoom, Button } from "@mui/material";
+import {
+  TextField,
+  Box,
+  Grid,
+  IconButton,
+  Zoom,
+  Button,
+  Tooltip,
+} from "@mui/material";
 import { blue, red, grey } from "@mui/material/colors";
 import SendIcon from "@mui/icons-material/Send";
 import { useState, useEffect } from "react";
@@ -168,19 +176,21 @@ function PostPage() {
               justifyContent: "center",
             }}
           >
-            <IconButton
-              aria-label="Back"
-              onClick={() => navigate("/topics")}
-              sx={{
-                backgroundColor: "#303030",
-                color: grey[200],
-                "&:hover": {
-                  color: grey[400],
-                },
-              }}
-            >
-              <ArrowBackIcon />
-            </IconButton>
+            <Tooltip title="Back">
+              <IconButton
+                aria-label="Back"
+                onClick={() => navigate("/topics")}
+                sx={{
+                  backgroundColor: "#303030",
+                  color: grey[200],
+                  "&:hover": {
+                    color: grey[400],
+                  },
+                }}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+            </Tooltip>
           </Grid>
           <Grid size={10}>
             <h1>{topicName ? topicName : "Loading Topic..."}</h1>
@@ -271,34 +281,38 @@ function PostPage() {
                   }}
                 >
                   <Zoom in={isExpanded}>
-                    <IconButton
-                      aria-label="Cancel"
-                      sx={{
-                        backgroundColor: "#303030",
-                        color: red[500],
-                        "&:hover": {
-                          color: red[700],
-                        },
-                      }}
-                      onClick={closeTextField}
-                    >
-                      <CloseIcon />
-                    </IconButton>
+                    <Tooltip title="Cancel">
+                      <IconButton
+                        aria-label="Cancel"
+                        sx={{
+                          backgroundColor: "#303030",
+                          color: red[500],
+                          "&:hover": {
+                            color: red[700],
+                          },
+                        }}
+                        onClick={closeTextField}
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    </Tooltip>
                   </Zoom>
                   <Zoom in={isExpanded}>
-                    <IconButton
-                      onClick={isEditing ? handleUpdate : handleAdd}
-                      sx={{
-                        color: "white",
-                        backgroundColor: blue[500],
-                        "&:hover": {
-                          backgroundColor: blue[700],
-                        },
-                      }}
-                      aria-label="send post"
-                    >
-                      <SendIcon />
-                    </IconButton>
+                    <Tooltip title="Send Post">
+                      <IconButton
+                        onClick={isEditing ? handleUpdate : handleAdd}
+                        sx={{
+                          color: "white",
+                          backgroundColor: blue[500],
+                          "&:hover": {
+                            backgroundColor: blue[700],
+                          },
+                        }}
+                        aria-label="send post"
+                      >
+                        <SendIcon />
+                      </IconButton>
+                    </Tooltip>
                   </Zoom>
                 </Box>
               </Grid>

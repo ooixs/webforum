@@ -7,6 +7,7 @@ import {
   IconButton,
   Zoom,
   Button,
+  Tooltip,
 } from "@mui/material";
 import { blue, red, grey } from "@mui/material/colors";
 import SendIcon from "@mui/icons-material/Send";
@@ -185,21 +186,23 @@ function ReplyPage() {
           <CardContent>
             <Grid container>
               <Grid size={1}>
-                <IconButton
-                  aria-label="Back"
-                  onClick={() =>
-                    navigate(post ? "/posts/" + post.topic_id : "/topics")
-                  }
-                  sx={{
-                    backgroundColor: "#303030",
-                    color: grey[200],
-                    "&:hover": {
-                      color: grey[400],
-                    },
-                  }}
-                >
-                  <ArrowBackIcon />
-                </IconButton>
+                <Tooltip title="Back">
+                  <IconButton
+                    aria-label="Back"
+                    onClick={() =>
+                      navigate(post ? "/posts/" + post.topic_id : "/topics")
+                    }
+                    sx={{
+                      backgroundColor: "#303030",
+                      color: grey[200],
+                      "&:hover": {
+                        color: grey[400],
+                      },
+                    }}
+                  >
+                    <ArrowBackIcon />
+                  </IconButton>
+                </Tooltip>
               </Grid>
               <Grid size={10}>
                 <h2
@@ -289,34 +292,68 @@ function ReplyPage() {
                   }}
                 >
                   <Zoom in={isExpanded}>
-                    <IconButton
-                      aria-label="Cancel"
-                      sx={{
-                        backgroundColor: "#303030",
-                        color: red[500],
-                        "&:hover": {
-                          color: red[700],
+                    <Tooltip
+                      title="Cancel"
+                      placement="top"
+                      slotProps={{
+                        popper: {
+                          modifiers: [
+                            {
+                              name: "offset",
+                              options: {
+                                offset: [0, -14],
+                              },
+                            },
+                          ],
                         },
                       }}
-                      onClick={closeTextField}
                     >
-                      <CloseIcon />
-                    </IconButton>
+                      <IconButton
+                        aria-label="Cancel"
+                        sx={{
+                          backgroundColor: "#303030",
+                          color: red[500],
+                          "&:hover": {
+                            color: red[700],
+                          },
+                        }}
+                        onClick={closeTextField}
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    </Tooltip>
                   </Zoom>
                   <Zoom in={isExpanded}>
-                    <IconButton
-                      onClick={isEditing ? handleUpdate : handleAdd}
-                      sx={{
-                        color: "white",
-                        backgroundColor: blue[500],
-                        "&:hover": {
-                          backgroundColor: blue[700],
+                    <Tooltip
+                      title="Send Reply"
+                      placement="bottom"
+                      slotProps={{
+                        popper: {
+                          modifiers: [
+                            {
+                              name: "offset",
+                              options: {
+                                offset: [0, -14],
+                              },
+                            },
+                          ],
                         },
                       }}
-                      aria-label="send reply"
                     >
-                      <SendIcon />
-                    </IconButton>
+                      <IconButton
+                        onClick={isEditing ? handleUpdate : handleAdd}
+                        sx={{
+                          color: "white",
+                          backgroundColor: blue[500],
+                          "&:hover": {
+                            backgroundColor: blue[700],
+                          },
+                        }}
+                        aria-label="send reply"
+                      >
+                        <SendIcon />
+                      </IconButton>
+                    </Tooltip>
                   </Zoom>
                 </Box>
               </Grid>

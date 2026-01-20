@@ -1,4 +1,4 @@
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Tooltip } from "@mui/material";
 import Reply from "../types/Reply";
 import User from "../types/User";
 import { IconButton } from "@mui/material";
@@ -55,36 +55,40 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
         <Grid size={1.5}>
           {byUser && (
             <Box sx={{ display: "flex", gap: "5px", marginTop: 1 }}>
-              <IconButton
-                aria-label="Edit Reply"
-                sx={{
-                  zIndex: 1,
-                  position: "relative",
-                  backgroundColor: "#303030",
-                  color: yellow[500],
-                  "&:hover": {
-                    color: yellow[700],
-                  },
-                }}
-                onClick={() => updateReply(reply)}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                aria-label="Delete Reply"
-                sx={{
-                  zIndex: 1,
-                  position: "relative",
-                  backgroundColor: "#303030",
-                  color: red[500],
-                  "&:hover": {
-                    color: red[700],
-                  },
-                }}
-                onClick={() => deleteReply(reply.id)}
-              >
-                <DeleteIcon />
-              </IconButton>
+              <Tooltip title="Edit Reply">
+                <IconButton
+                  aria-label="Edit Reply"
+                  sx={{
+                    zIndex: 1,
+                    position: "relative",
+                    backgroundColor: "#303030",
+                    color: yellow[500],
+                    "&:hover": {
+                      color: yellow[700],
+                    },
+                  }}
+                  onClick={() => updateReply(reply)}
+                >
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Delete Reply">
+                <IconButton
+                  aria-label="Delete Reply"
+                  sx={{
+                    zIndex: 1,
+                    position: "relative",
+                    backgroundColor: "#303030",
+                    color: red[500],
+                    "&:hover": {
+                      color: red[700],
+                    },
+                  }}
+                  onClick={() => deleteReply(reply.id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
             </Box>
           )}
         </Grid>

@@ -9,6 +9,7 @@ import {
   ListItemIcon,
   ListItemText,
   IconButton,
+  Tooltip,
 } from "@mui/material";
 import Topic from "../types/Topic";
 import { Link } from "react-router-dom";
@@ -81,21 +82,23 @@ function Navbar() {
 
   return (
     <Box>
-      <IconButton
-        sx={{
-          position: "fixed",
-          top: 10,
-          left: 10,
-          backgroundColor: "#303030",
-          "@media (max-width: 1120px)": {
-            display: "none",
-          },
-        }}
-        size="large"
-        onClick={() => setOpen(true)}
-      >
-        <MenuIcon />
-      </IconButton>
+      <Tooltip title="Navigation Menu">
+        <IconButton
+          sx={{
+            position: "fixed",
+            top: 10,
+            left: 10,
+            backgroundColor: "#303030",
+            "@media (max-width: 1120px)": {
+              display: "none",
+            },
+          }}
+          size="large"
+          onClick={() => setOpen(true)}
+        >
+          <MenuIcon />
+        </IconButton>
+      </Tooltip>
       <Drawer
         slotProps={{
           paper: {

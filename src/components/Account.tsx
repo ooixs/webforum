@@ -13,12 +13,14 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
+import Confirmation from "./Confirmation";
 
-export default function AccountMenu() {
+function AccountMenu() {
   const userId = sessionStorage.getItem("userId");
   const navigate = useNavigate();
 
   const [user, setUser] = useState("");
+  const [isLoggingOut, setLoggingOut] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -28,9 +30,17 @@ export default function AccountMenu() {
   function handleClose() {
     setAnchorEl(null);
   }
-  function logout() {
+  function handleYes() {
+    setLoggingOut(false);
     sessionStorage.removeItem("userId");
     navigate("/", { replace: true });
+  }
+  function handleNo() {
+    setLoggingOut(false);
+  }
+  function handleLogout() {
+    setAnchorEl(null);
+    setLoggingOut(true);
   }
 
   useEffect(() => {
@@ -58,6 +68,9 @@ export default function AccountMenu() {
         },
       }}
     >
+      {isLoggingOut && (
+        <Confirmation type="logout" handleYes={handleYes} handleNo={handleNo} />
+      )}
       <Tooltip title="Account info">
         <IconButton
           onClick={handleClick}
@@ -118,7 +131,7 @@ export default function AccountMenu() {
           <Avatar /> <ListItemText primary={user} />
         </ListItem>
         <Divider />
-        <MenuItem onClick={logout}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
@@ -128,3 +141,5 @@ export default function AccountMenu() {
     </Box>
   );
 }
+
+export default AccountMenu;

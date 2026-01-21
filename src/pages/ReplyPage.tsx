@@ -113,6 +113,7 @@ function ReplyPage() {
   }
 
   async function handleDelete(replyId: number) {
+    closeTextField();
     const res = await fetch("/api/replies/delete", {
       method: "POST",
       headers: {
@@ -176,7 +177,6 @@ function ReplyPage() {
   return (
     <Box>
       <Navbar />
-      <Account />
       <Box
         sx={{
           textAlign: "left",
@@ -223,6 +223,27 @@ function ReplyPage() {
                 >
                   {post ? post.heading : "Loading Post..."}
                 </h2>
+              </Grid>
+              <Grid
+                size={1}
+                sx={{
+                  display: "flex",
+                  justifyContent: "right",
+                  textAlign: "center",
+                }}
+              >
+                <Box
+                  sx={{
+                    "@media (min-width:1120px)": {
+                      position: "fixed",
+                      top: 10,
+                      right: 10,
+                      zIndex: 1000,
+                    },
+                  }}
+                >
+                  <Account />
+                </Box>
               </Grid>
             </Grid>
             {post && (

@@ -1,11 +1,12 @@
-import { Box, Grid, Tooltip } from "@mui/material";
+import { Box, Grid, Tooltip, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import Post from "../types/Post";
 import User from "../types/User";
-import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { red, yellow, grey } from "@mui/material/colors";
+import { useState } from "react";
+import Confirmation from "./Confirmation";
 
 type Props = {
   post: Post;
@@ -18,8 +19,32 @@ function PostItem({ post, user, updatePost, deletePost }: Props) {
   const userId = sessionStorage.getItem("userId");
   const byUser = Number(userId) === post.user_id;
 
+  const [isDeleting, setDeleting] = useState(false);
+
+  function handleYes() {
+    setDeleting(false);
+    deletePost(post.id);
+  }
+  function handleNo() {
+    setDeleting(false);
+  }
+  function handleDelete() {
+    setDeleting(true);
+  }
+
   return (
-    <Box>
+    <Box
+      sx={{
+        textAlign: "center",
+      }}
+    >
+      {isDeleting && (
+        <Confirmation
+          type="post deletion"
+          handleYes={handleYes}
+          handleNo={handleNo}
+        />
+      )}
       <Grid
         container
         sx={{
@@ -118,7 +143,7 @@ function PostItem({ post, user, updatePost, deletePost }: Props) {
                   }}
                   onClick={(e) => {
                     e.stopPropagation();
-                    deletePost(post.id);
+                    handleDelete();
                   }}
                 >
                   <DeleteIcon />

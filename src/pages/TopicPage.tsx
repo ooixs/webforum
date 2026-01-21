@@ -3,7 +3,6 @@ import { Box, Grid } from "@mui/material";
 import { Navigate } from "react-router-dom";
 import Topic from "../types/Topic";
 import TopicItem from "../components/TopicItem";
-import Navbar from "../components/Navbar";
 import Account from "../components/Account";
 
 function TopicPage() {
@@ -29,8 +28,16 @@ function TopicPage() {
 
   return (
     <Box>
-      <Navbar />
-      <Account />
+      <Box
+        sx={{
+          position: "fixed",
+          top: 10,
+          right: 10,
+          zIndex: 1000,
+        }}
+      >
+        <Account />
+      </Box>
       <Box
         sx={{
           paddingTop: 5,

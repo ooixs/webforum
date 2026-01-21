@@ -58,16 +58,7 @@ function AccountMenu() {
   }, []);
 
   return (
-    <Box
-      sx={{
-        position: "absolute",
-        top: 10,
-        right: 10,
-        "@media (max-width: 1120px)": {
-          display: "none",
-        },
-      }}
-    >
+    <Box>
       {isLoggingOut && (
         <Confirmation type="logout" handleYes={handleYes} handleNo={handleNo} />
       )}
@@ -95,6 +86,7 @@ function AccountMenu() {
         id="account-menu"
         open={open}
         onClose={handleClose}
+        disableScrollLock={true}
         slotProps={{
           paper: {
             elevation: 0,

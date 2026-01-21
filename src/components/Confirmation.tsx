@@ -16,23 +16,24 @@ function Confirmation({ type, handleYes, handleNo }: Props) {
         position: "fixed",
         top: 0,
         left: 0,
-        bgcolor: "rgba(0, 0, 0, 0.5)",
+        bgcolor: "rgba(0, 0, 0, 0.7)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         zIndex: 1000,
       }}
     >
       <Card
         sx={{
-          position: "fixed",
-          top: "40%",
-          left: "40%",
-          width: "20%",
-          height: "20%",
+          width: "80%",
+          maxWidth: "400px",
           backgroundColor: "#191919",
           backgroundImage: "none",
+          padding: 2,
         }}
       >
         <CardContent>
-          <Grid container>
+          <Grid container spacing={3}>
             <Grid size={12} sx={{ textAlign: "center" }}>
               <h2>Confirm {type}?</h2>
             </Grid>

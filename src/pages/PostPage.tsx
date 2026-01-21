@@ -130,6 +130,7 @@ function PostPage() {
   }
 
   async function handleDelete(postId: number) {
+    closeTextField();
     const res = await fetch("/api/posts/delete", {
       method: "POST",
       headers: {
@@ -193,7 +194,6 @@ function PostPage() {
   return (
     <Box>
       <Navbar />
-      <Account />
       <Box sx={{ maxWidth: "960px", margin: "0 auto" }}>
         <Grid container>
           <Grid
@@ -230,7 +230,20 @@ function PostPage() {
               alignItems: "center",
               justifyContent: "center",
             }}
-          ></Grid>
+          >
+            <Box
+              sx={{
+                "@media (min-width:1120px)": {
+                  position: "fixed",
+                  top: 10,
+                  right: 10,
+                  zIndex: 1000,
+                },
+              }}
+            >
+              <Account />
+            </Box>
+          </Grid>
         </Grid>
         <hr />
         {posts.length !== 0 ? (

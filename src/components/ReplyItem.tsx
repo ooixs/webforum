@@ -5,6 +5,8 @@ import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { red, yellow, grey } from "@mui/material/colors";
+import { useState } from "react";
+import Confirmation from "./Confirmation";
 
 type Props = {
   reply: Reply;
@@ -17,12 +19,33 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
   const userId = sessionStorage.getItem("userId");
   const byUser = Number(userId) === reply.user_id;
 
+  const [isDeleting, setDeleting] = useState(false);
+
+  function handleYes() {
+    setDeleting(false);
+    deleteReply(reply.id);
+  }
+  function handleNo() {
+    setDeleting(false);
+  }
+  function handleDelete() {
+    setDeleting(true);
+  }
+
   return (
     <Box
       sx={{
         paddingLeft: 2,
+        textAlign: "center",
       }}
     >
+      {isDeleting && (
+        <Confirmation
+          type="reply deletion"
+          handleYes={handleYes}
+          handleNo={handleNo}
+        />
+      )}
       <Grid
         container
         sx={{
@@ -84,7 +107,7 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
                       color: red[700],
                     },
                   }}
-                  onClick={() => deleteReply(reply.id)}
+                  onClick={handleDelete}
                 >
                   <DeleteIcon />
                 </IconButton>

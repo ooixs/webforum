@@ -36,7 +36,7 @@ function ReplyPage() {
   const [isContentEmpty, setContentEmpty] = useState(false);
   const [post, setPost] = useState<Post | null>(null);
   const [replies, setReplies] = useState<Reply[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<Map<Number, string>>(new Map());
   const [refreshCounter, setRefreshCounter] = useState(0);
   const [isEditing, setEditing] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -154,7 +154,10 @@ function ReplyPage() {
         console.error("Error:", res.status, err);
       } else {
         const data = await res.json();
-        setUsers(data || []);
+        const userMap = new Map<Number, string>(
+          data.map((user: User) => [user.id, user.username]),
+        );
+        setUsers(userMap || {});
       }
     }
     fetchUsers();
@@ -251,11 +254,8 @@ function ReplyPage() {
                 <p>{post.content}</p>
                 <p style={{ color: grey[500], fontFamily: "Lato" }}>
                   Posted by{" "}
-                  <i>
-                    {users.find((user) => user.id === post.user_id)?.username ||
-                      "Loading Username..."}
-                  </i>{" "}
-                  on {post.time_created}
+                  <i>{users.get(post.user_id) || "Loading Username..."}</i> on{" "}
+                  {post.time_created}
                   {post.edited ? " (Edited)" : ""}
                 </p>
               </span>
@@ -268,12 +268,7 @@ function ReplyPage() {
           replies.map((reply) => (
             <ReplyItem
               key={reply.id}
-              user={
-                users.find((user) => user.id === reply.user_id) || {
-                  id: 0,
-                  username: "Loading Username...",
-                }
-              }
+              username={users.get(reply.user_id) || "Loading Username..."}
               reply={reply}
               updateReply={updateReply}
               deleteReply={handleDelete}

@@ -34,7 +34,7 @@ function PostPage() {
   const [isHeadingEmpty, setHeadingEmpty] = useState(false);
   const [isContentEmpty, setContentEmpty] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<Map<Number, string>>(new Map());
   const [topicName, setTopicName] = useState<string | null>(null);
   const [refreshCounter, setRefreshCounter] = useState(0);
   const [isEditing, setEditing] = useState(false);
@@ -171,7 +171,10 @@ function PostPage() {
         console.error("Error:", res.status, err);
       } else {
         const data = await res.json();
-        setUsers(data || []);
+        const userMap = new Map<Number, string>(
+          data.map((user: User) => [user.id, user.username]),
+        );
+        setUsers(userMap || {});
       }
     }
     fetchUsers();
@@ -250,12 +253,7 @@ function PostPage() {
           posts.map((post) => (
             <PostItem
               key={post.id}
-              user={
-                users.find((user) => user.id === post.user_id) || {
-                  id: 0,
-                  username: "Loading Username...",
-                }
-              }
+              username={users.get(post.user_id) || "Loading Username..."}
               post={post}
               updatePost={updatePost}
               deletePost={handleDelete}

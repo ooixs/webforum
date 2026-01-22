@@ -1,6 +1,5 @@
 import { Grid, Box, Tooltip } from "@mui/material";
 import Reply from "../types/Reply";
-import User from "../types/User";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -10,12 +9,12 @@ import Confirmation from "./Confirmation";
 
 type Props = {
   reply: Reply;
-  user: User;
+  username: string;
   updateReply: (reply: Reply) => void;
   deleteReply: (replyId: number) => Promise<void>;
 };
 
-function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
+function ReplyItem({ reply, username, updateReply, deleteReply }: Props) {
   const userId = sessionStorage.getItem("userId");
   const byUser = Number(userId) === reply.user_id;
 
@@ -71,7 +70,7 @@ function ReplyItem({ reply, user, updateReply, deleteReply }: Props) {
         </Grid>
         <Grid size={10.5}>
           <p style={{ color: grey[500], fontFamily: "Lato" }}>
-            Replied by <i>{user.username}</i> on {reply.time_created}
+            Replied by <i>{username}</i> on {reply.time_created}
             {reply.edited ? " (Edited)" : ""}
           </p>
         </Grid>

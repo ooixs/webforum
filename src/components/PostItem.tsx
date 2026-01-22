@@ -1,7 +1,6 @@
 import { Box, Grid, Tooltip, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import Post from "../types/Post";
-import User from "../types/User";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { red, yellow, grey } from "@mui/material/colors";
@@ -10,12 +9,12 @@ import Confirmation from "./Confirmation";
 
 type Props = {
   post: Post;
-  user: User;
+  username: string;
   updatePost: (post: Post) => void;
   deletePost: (postId: number) => Promise<void>;
 };
 
-function PostItem({ post, user, updatePost, deletePost }: Props) {
+function PostItem({ post, username, updatePost, deletePost }: Props) {
   const userId = sessionStorage.getItem("userId");
   const byUser = Number(userId) === post.user_id;
 
@@ -101,7 +100,7 @@ function PostItem({ post, user, updatePost, deletePost }: Props) {
         </Grid>
         <Grid size={10.5}>
           <p style={{ color: grey[500], fontFamily: "Lato" }}>
-            Posted by <i>{user.username}</i> on {post.time_created}
+            Posted by <i>{username}</i> on {post.time_created}
             {post.edited ? " (Edited)" : ""}
           </p>
         </Grid>

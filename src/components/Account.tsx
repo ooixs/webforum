@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import Confirmation from "./Confirmation";
 
+//Creates an icon at the top right of the webpage which opens a menu with the user's username and option to logout
 function AccountMenu() {
   const userId = sessionStorage.getItem("userId");
   const navigate = useNavigate();
@@ -24,12 +25,15 @@ function AccountMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  //Handles open and close of username menu popup
   function handleClick(event: React.MouseEvent<HTMLElement>) {
     setAnchorEl(event.currentTarget);
   }
   function handleClose() {
     setAnchorEl(null);
   }
+
+  //Handles user's choice of whether to logout
   function handleYes() {
     setLoggingOut(false);
     sessionStorage.removeItem("userId");
@@ -38,11 +42,14 @@ function AccountMenu() {
   function handleNo() {
     setLoggingOut(false);
   }
+
+  //Triggers when user clicks "logout" on account information menu
   function handleLogout() {
     setAnchorEl(null);
     setLoggingOut(true);
   }
 
+  //Fetch all topics from database
   useEffect(() => {
     async function fetchTopics() {
       const res = await fetch("/api/user/" + userId);
@@ -59,9 +66,12 @@ function AccountMenu() {
 
   return (
     <Box>
+      {/* Creates logout confirmation popup whenever the user wants to logout */}
       {isLoggingOut && (
         <Confirmation type="logout" handleYes={handleYes} handleNo={handleNo} />
       )}
+
+      {/* Creates a user icon on the top left which shows the username menu when clicked */}
       <Tooltip title="Account info">
         <IconButton
           onClick={handleClick}
@@ -81,6 +91,8 @@ function AccountMenu() {
           </Avatar>
         </IconButton>
       </Tooltip>
+
+      {/* Creates username menu with logout option */}
       <Menu
         anchorEl={anchorEl}
         id="account-menu"

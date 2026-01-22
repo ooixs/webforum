@@ -20,6 +20,7 @@ import Navbar from "../components/Navbar";
 import Account from "../components/Account";
 
 function PostPage() {
+  //Redirects the user to the login page if not logged in
   const userId = sessionStorage.getItem("userId");
   if (!userId) {
     return <Navigate to="/" replace={true} />;
@@ -40,10 +41,12 @@ function PostPage() {
   const [isEditing, setEditing] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
+  //Makes the "Post Item" button area expand to textfields for the user to create their post
   function expand() {
     setExpanded(true);
   }
 
+  //Handles logic to close the textfields
   function closeTextField() {
     setContent("");
     setHeading("");
@@ -54,11 +57,15 @@ function PostPage() {
     setContentEmpty(false);
   }
 
+  //Handles logic to add a new post to the database
   async function handleAdd() {
+    //Checks whether the heading contains only whitespaces or is empty
     if (heading.trim() === "") {
       setHeadingEmpty(true);
       return;
     }
+
+    //Checks whether the content contains only whitespaces or is empty
     if (content.trim() === "") {
       setHeadingEmpty(false);
       setContentEmpty(true);
@@ -83,6 +90,7 @@ function PostPage() {
       const err = await res.text();
       console.error("Error:", res.status, err);
     } else {
+      //Refreshes the posts to include the newly created post
       setRefreshCounter(refreshCounter + 1);
     }
   }
@@ -290,6 +298,7 @@ function PostPage() {
                     textAlign: "left",
                     marginTop: 0,
                     marginBottom: 10,
+                    color: grey[500],
                   }}
                 >
                   (Editing mode)

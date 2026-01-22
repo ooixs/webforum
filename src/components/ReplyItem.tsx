@@ -14,12 +14,14 @@ type Props = {
   deleteReply: (replyId: number) => Promise<void>;
 };
 
+//Creates the template for a reply component
 function ReplyItem({ reply, username, updateReply, deleteReply }: Props) {
   const userId = sessionStorage.getItem("userId");
   const byUser = Number(userId) === reply.user_id;
 
   const [isDeleting, setDeleting] = useState(false);
 
+  //Handles user's choice of whether to delete a reply
   function handleYes() {
     setDeleting(false);
     deleteReply(reply.id);
@@ -27,6 +29,8 @@ function ReplyItem({ reply, username, updateReply, deleteReply }: Props) {
   function handleNo() {
     setDeleting(false);
   }
+
+  //Triggers when user clicks the delete button on one of their replies
   function handleDelete() {
     setDeleting(true);
   }
@@ -38,6 +42,7 @@ function ReplyItem({ reply, username, updateReply, deleteReply }: Props) {
         textAlign: "center",
       }}
     >
+      {/* Creates delete confirmation popup whenever the user wants to delete a reply */}
       {isDeleting && (
         <Confirmation
           type="reply deletion"
@@ -45,6 +50,8 @@ function ReplyItem({ reply, username, updateReply, deleteReply }: Props) {
           handleNo={handleNo}
         />
       )}
+
+      {/* Creates a reply item */}
       <Grid
         container
         sx={{
@@ -74,6 +81,8 @@ function ReplyItem({ reply, username, updateReply, deleteReply }: Props) {
             {reply.edited ? " (Edited)" : ""}
           </p>
         </Grid>
+
+        {/* Only the replies by the user has an edit and delete button on the post */}
         <Grid size={1.5}>
           {byUser && (
             <Box sx={{ display: "flex", gap: "5px", marginTop: 1 }}>

@@ -15,6 +15,7 @@ const darkTheme = createTheme({
 
 function App() {
   return (
+    //Makes the app dark themed
     <ThemeProvider theme={darkTheme}>
       <div className="App">
         <BrowserRouter>

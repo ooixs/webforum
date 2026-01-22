@@ -10,6 +10,7 @@ function Login() {
   const [otherError, setOtherError] = useState("");
   const [userId, setUserId] = useState(0);
 
+  //Handles login logic
   async function handleClick() {
     const res = await fetch("/api/login", {
       method: "POST",
@@ -20,6 +21,7 @@ function Login() {
     });
     if (!res.ok) {
       const err = await res.text();
+      //If error thrown is user not found, then the username is not registered yet
       if (err.startsWith("User not found")) {
         setTaken(false);
       } else {

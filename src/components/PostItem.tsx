@@ -14,12 +14,14 @@ type Props = {
   deletePost: (postId: number) => Promise<void>;
 };
 
+//Creates the template for a post component
 function PostItem({ post, username, updatePost, deletePost }: Props) {
   const userId = sessionStorage.getItem("userId");
   const byUser = Number(userId) === post.user_id;
 
   const [isDeleting, setDeleting] = useState(false);
 
+  //Handles user's choice of whether to delete a post
   function handleYes() {
     setDeleting(false);
     deletePost(post.id);
@@ -27,6 +29,8 @@ function PostItem({ post, username, updatePost, deletePost }: Props) {
   function handleNo() {
     setDeleting(false);
   }
+
+  //Triggers when user clicks the delete button on one of their posts
   function handleDelete() {
     setDeleting(true);
   }
@@ -37,6 +41,7 @@ function PostItem({ post, username, updatePost, deletePost }: Props) {
         textAlign: "center",
       }}
     >
+      {/* Creates delete confirmation popup whenever the user wants to delete a post */}
       {isDeleting && (
         <Confirmation
           type="post deletion"
@@ -44,6 +49,8 @@ function PostItem({ post, username, updatePost, deletePost }: Props) {
           handleNo={handleNo}
         />
       )}
+
+      {/* Creates a post item */}
       <Grid
         container
         sx={{
@@ -58,6 +65,7 @@ function PostItem({ post, username, updatePost, deletePost }: Props) {
           paddingLeft: 2,
         }}
       >
+        {/* Clicking anywhere on the post would bring them to the respective reply section of the post */}
         <Link
           to={`/replies/${post.id}`}
           style={{
@@ -104,6 +112,8 @@ function PostItem({ post, username, updatePost, deletePost }: Props) {
             {post.edited ? " (Edited)" : ""}
           </p>
         </Grid>
+
+        {/* Only the posts created by the user has an edit and delete button on the post */}
         <Grid size={1.5}>
           {byUser && (
             <Box sx={{ display: "flex", gap: "5px", marginTop: 1 }}>

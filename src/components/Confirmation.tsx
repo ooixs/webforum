@@ -7,6 +7,7 @@ type Props = {
   handleNo: () => void;
 };
 
+//Popup with yes and no buttons to confirm or cancel actions of {type} (types include logout/deleting posts or replies)
 function Confirmation({ type, handleYes, handleNo }: Props) {
   return (
     <Box

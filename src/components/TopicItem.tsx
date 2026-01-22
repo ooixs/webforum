@@ -15,9 +15,11 @@ type Props = {
 };
 type IconMapping = Record<string, JSX.Element>;
 
+//Creates the template for a topic component
 function TopicItem({ topic }: Props) {
   const iconStyles = { fontSize: "60px", color: blue[500] };
 
+  //Defining the icon types for the respective topics
   const iconMap: IconMapping = {
     techIcon: <MemoryIcon sx={iconStyles} />,
     gamesIcon: <SportsEsportsIcon sx={iconStyles} />,
@@ -29,6 +31,7 @@ function TopicItem({ topic }: Props) {
 
   return (
     <Grid size={4}>
+      {/* Clicking anywhere on the topic component would bring them to the respective post section of the topic */}
       <Link to={`/posts/${topic.id}`} style={{ textDecoration: "none" }}>
         <Card
           sx={{

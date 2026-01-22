@@ -22,8 +22,11 @@ import MemoryIcon from "@mui/icons-material/Memory";
 
 type IconMapping = Record<string, JSX.Element>;
 
+//Creates a navigation bar on the posts and replies page for the user to navigate to any topic
 function Navbar() {
   const iconStyles = { fontSize: "30px" };
+
+  //Defining the icon types for the respective topics
   const iconMap: IconMapping = {
     techIcon: <MemoryIcon sx={iconStyles} />,
     gamesIcon: <SportsEsportsIcon sx={iconStyles} />,
@@ -36,6 +39,7 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   const [topics, setTopics] = useState<Topic[]>([]);
 
+  //Fetching all topics from the database
   useEffect(() => {
     async function fetchTopics() {
       const res = await fetch("/api/topics");
@@ -50,6 +54,7 @@ function Navbar() {
     fetchTopics();
   }, []);
 
+  //Creates the navigation bar for the topics
   const DrawerList = (
     <Box sx={{ width: 250 }} onClick={() => setOpen(false)}>
       <List>
@@ -82,6 +87,7 @@ function Navbar() {
 
   return (
     <Box>
+      {/* Creates the button which expands the navigation bar */}
       <Tooltip title="Navigation Menu">
         <IconButton
           sx={{
@@ -99,6 +105,8 @@ function Navbar() {
           <MenuIcon />
         </IconButton>
       </Tooltip>
+
+      {/* Navigation bar for the topics */}
       <Drawer
         slotProps={{
           paper: {

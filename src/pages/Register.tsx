@@ -11,11 +11,14 @@ function Register() {
   const [otherError, setOtherError] = useState("");
   const [userId, setUserId] = useState(0);
 
+  //Handles register logic
   async function handleClick() {
+    //Checks whether username only consists of whitespaces or is empty
     if (username.trim() === "") {
       setEmpty(true);
       return;
     }
+    //Checks whether username contains whitespaces
     if (/\s/.test(username)) {
       setEmpty(false);
       setHasWhitespaces(true);
@@ -23,6 +26,7 @@ function Register() {
     }
     setEmpty(false);
     setHasWhitespaces(false);
+    //Tries fetching username from database to check whether it exists
     const res = await fetch("/api/register", {
       method: "POST",
       headers: {

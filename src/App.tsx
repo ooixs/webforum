@@ -1,11 +1,13 @@
-import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 import Login from "./pages/Login";
 import PostPage from "./pages/PostPage";
 import Register from "./pages/Register";
 import ReplyPage from "./pages/ReplyPage";
 import TopicPage from "./pages/TopicPage";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import "./App.css";
 
 const darkTheme = createTheme({
   palette: {

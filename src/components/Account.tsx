@@ -1,8 +1,6 @@
-import Logout from "@mui/icons-material/Logout";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
-  Box,
   Avatar,
   Menu,
   MenuItem,
@@ -13,6 +11,7 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
+import Logout from "@mui/icons-material/Logout";
 import Confirmation from "./Confirmation";
 
 //Creates an icon at the top right of the webpage which opens a menu with the user's username and option to logout
@@ -65,7 +64,7 @@ function AccountMenu() {
   }, []);
 
   return (
-    <Box>
+    <>
       {/* Creates logout confirmation popup whenever the user wants to logout */}
       {isLoggingOut && (
         <Confirmation type="logout" handleYes={handleYes} handleNo={handleNo} />
@@ -142,7 +141,7 @@ function AccountMenu() {
           Logout
         </MenuItem>
       </Menu>
-    </Box>
+    </>
   );
 }
 

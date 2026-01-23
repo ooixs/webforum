@@ -1,6 +1,7 @@
-import { Button, TextField, Box } from "@mui/material";
-import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+
+import { Button, TextField, Box } from "@mui/material";
 
 function Register() {
   const [username, setUsername] = useState("");

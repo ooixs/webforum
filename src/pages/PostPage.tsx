@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import { Navigate, useParams, useNavigate } from "react-router-dom";
+
 import {
   TextField,
   Box,
@@ -9,15 +12,14 @@ import {
 } from "@mui/material";
 import { blue, red, grey } from "@mui/material/colors";
 import SendIcon from "@mui/icons-material/Send";
-import { useState, useEffect } from "react";
-import { Navigate, useParams, useNavigate } from "react-router-dom";
-import Post from "../types/Post";
-import User from "../types/User";
-import PostItem from "../components/PostItem";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
+import Post from "../types/Post";
+import User from "../types/User";
 import Navbar from "../components/Navbar";
 import Account from "../components/Account";
+import PostItem from "../components/PostItem";
 
 function PostPage() {
   //Redirects the user to the login page if not logged in
@@ -210,7 +212,7 @@ function PostPage() {
   }, [topicId]);
 
   return (
-    <Box>
+    <>
       {/* Creates the topics navbar button at the top left of the page */}
       <Navbar />
       <Box sx={{ maxWidth: "960px", margin: "0 auto" }}>
@@ -437,7 +439,7 @@ function PostPage() {
           )}
         </Grid>
       </Box>
-    </Box>
+    </>
   );
 }
 

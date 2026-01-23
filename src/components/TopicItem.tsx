@@ -1,14 +1,16 @@
-import { Card, CardContent, Grid } from "@mui/material";
-import { Link } from "react-router-dom";
-import Topic from "../types/Topic";
 import { JSX } from "react";
+import { Link } from "react-router-dom";
+
+import { Card, CardContent, Grid } from "@mui/material";
+import { blue } from "@mui/material/colors";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import Diversity2Icon from "@mui/icons-material/Diversity2";
 import SportsHandballIcon from "@mui/icons-material/SportsHandball";
 import MemoryIcon from "@mui/icons-material/Memory";
-import { blue } from "@mui/material/colors";
+
+import Topic from "../types/Topic";
 
 type Props = {
   topic: Topic;

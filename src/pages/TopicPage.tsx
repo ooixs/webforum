@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Box, Grid } from "@mui/material";
 import { Navigate } from "react-router-dom";
+
+import { Box, Grid } from "@mui/material";
+
 import Topic from "../types/Topic";
 import TopicItem from "../components/TopicItem";
 import Account from "../components/Account";
@@ -27,7 +29,7 @@ function TopicPage() {
   }, []);
 
   return (
-    <Box>
+    <>
       {/* Creates the user icon on the top-right of the page */}
       <Box
         sx={{
@@ -58,7 +60,7 @@ function TopicPage() {
           )}
         </Grid>
       </Box>
-    </Box>
+    </>
   );
 }
 

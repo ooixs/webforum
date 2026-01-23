@@ -1,6 +1,6 @@
 import { JSX, useEffect, useState } from "react";
-import Drawer from "@mui/material/Drawer";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Link } from "react-router-dom";
+
 import {
   Box,
   List,
@@ -10,15 +10,17 @@ import {
   ListItemText,
   IconButton,
   Tooltip,
+  Drawer,
 } from "@mui/material";
-import Topic from "../types/Topic";
-import { Link } from "react-router-dom";
+import MenuIcon from "@mui/icons-material/Menu";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import Diversity2Icon from "@mui/icons-material/Diversity2";
 import SportsHandballIcon from "@mui/icons-material/SportsHandball";
 import MemoryIcon from "@mui/icons-material/Memory";
+
+import Topic from "../types/Topic";
 
 type IconMapping = Record<string, JSX.Element>;
 
@@ -86,7 +88,7 @@ function Navbar() {
   );
 
   return (
-    <Box>
+    <>
       {/* Creates the button which expands the navigation bar */}
       {/* To prevent component congestion, the button only appears when the width of the page is above 1120px */}
       <Tooltip title="Navigation Menu">
@@ -119,7 +121,7 @@ function Navbar() {
       >
         {DrawerList}
       </Drawer>
-    </Box>
+    </>
   );
 }
 

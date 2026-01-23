@@ -34,8 +34,8 @@ function Confirmation({ type, handleYes, handleNo }: Props) {
         }}
       >
         <CardContent>
-          <Grid container spacing={3}>
-            <Grid size={12} sx={{ textAlign: "center" }}>
+          <Grid container spacing={3} sx={{ textAlign: "center" }}>
+            <Grid size={12}>
               <h2>Confirm {type}?</h2>
             </Grid>
             <Grid size={6}>

@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import { Navigate, useParams, useNavigate } from "react-router-dom";
+
 import {
   TextField,
   Card,
@@ -11,16 +14,15 @@ import {
 } from "@mui/material";
 import { blue, red, grey } from "@mui/material/colors";
 import SendIcon from "@mui/icons-material/Send";
-import { useState, useEffect } from "react";
-import { Navigate, useParams, useNavigate } from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 import Reply from "../types/Reply";
 import Post from "../types/Post";
 import User from "../types/User";
-import ReplyItem from "../components/ReplyItem";
-import CloseIcon from "@mui/icons-material/Close";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Navbar from "../components/Navbar";
 import Account from "../components/Account";
+import ReplyItem from "../components/ReplyItem";
 
 function ReplyPage() {
   const userId = sessionStorage.getItem("userId");
@@ -178,7 +180,7 @@ function ReplyPage() {
   }, []);
 
   return (
-    <Box>
+    <>
       {/* Creates the topics navbar button at the top left of the page */}
       <Navbar />
       <Box
@@ -442,7 +444,7 @@ function ReplyPage() {
           )}
         </Grid>
       </Box>
-    </Box>
+    </>
   );
 }
 

@@ -1,10 +1,12 @@
-import { Box, Grid, Tooltip, IconButton } from "@mui/material";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import Post from "../types/Post";
+
+import { Box, Grid, Tooltip, IconButton } from "@mui/material";
+import { red, yellow, grey } from "@mui/material/colors";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { red, yellow, grey } from "@mui/material/colors";
-import { useState } from "react";
+
+import Post from "../types/Post";
 import Confirmation from "./Confirmation";
 
 type Props = {
@@ -36,11 +38,7 @@ function PostItem({ post, username, updatePost, deletePost }: Props) {
   }
 
   return (
-    <Box
-      sx={{
-        textAlign: "center",
-      }}
-    >
+    <>
       {/* Creates delete confirmation popup whenever the user wants to delete a post */}
       {isDeleting && (
         <Confirmation
@@ -165,7 +163,7 @@ function PostItem({ post, username, updatePost, deletePost }: Props) {
         </Grid>
       </Grid>
       <hr />
-    </Box>
+    </>
   );
 }
 

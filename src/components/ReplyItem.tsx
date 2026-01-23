@@ -1,10 +1,11 @@
-import { Grid, Box, Tooltip } from "@mui/material";
-import Reply from "../types/Reply";
-import { IconButton } from "@mui/material";
+import { useState } from "react";
+
+import { Grid, Box, Tooltip, IconButton } from "@mui/material";
+import { red, yellow, grey, blue } from "@mui/material/colors";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { red, yellow, grey, blue } from "@mui/material/colors";
-import { useState } from "react";
+
+import Reply from "../types/Reply";
 import Confirmation from "./Confirmation";
 
 type Props = {
@@ -40,7 +41,6 @@ function ReplyItem({ reply, username, isOp, updateReply, deleteReply }: Props) {
     <Box
       sx={{
         paddingLeft: 2,
-        textAlign: "center",
       }}
     >
       {/* Creates delete confirmation popup whenever the user wants to delete a reply */}
@@ -79,15 +79,16 @@ function ReplyItem({ reply, username, isOp, updateReply, deleteReply }: Props) {
           <p style={{ color: grey[400], fontFamily: "Lato" }}>
             Replied by <i>{username}</i>{" "}
             {isOp && (
-              <span
-                style={{
+              <Box
+                component="span"
+                sx={{
                   color: blue[600],
                   fontWeight: "bold",
                   fontSize: "0.85em",
                 }}
               >
                 [OP]
-              </span>
+              </Box>
             )}
             {" • "}
             {reply.time_created}

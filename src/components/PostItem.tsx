@@ -107,8 +107,10 @@ function PostItem({ post, username, updatePost, deletePost }: Props) {
           </p>
         </Grid>
         <Grid size={10.5}>
-          <p style={{ color: grey[500], fontFamily: "Lato" }}>
-            Posted by <i>{username}</i> on {post.time_created}
+          <p style={{ color: grey[400], fontFamily: "Lato" }}>
+            Posted by <i>{username}</i>
+            {" • "}
+            {post.time_created}
             {post.edited ? " (Edited)" : ""}
           </p>
         </Grid>

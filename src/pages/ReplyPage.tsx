@@ -252,9 +252,10 @@ function ReplyPage() {
             {post && (
               <span>
                 <p>{post.content}</p>
-                <p style={{ color: grey[500], fontFamily: "Lato" }}>
+                <p style={{ color: grey[400], fontFamily: "Lato" }}>
                   Posted by{" "}
-                  <i>{users.get(post.user_id) || "Loading Username..."}</i> on{" "}
+                  <i>{users.get(post.user_id) || "Loading Username..."}</i>
+                  {" • "}
                   {post.time_created}
                   {post.edited ? " (Edited)" : ""}
                 </p>
@@ -265,15 +266,20 @@ function ReplyPage() {
 
         <hr />
         {replies.length !== 0 ? (
-          replies.map((reply) => (
-            <ReplyItem
-              key={reply.id}
-              username={users.get(reply.user_id) || "Loading Username..."}
-              reply={reply}
-              updateReply={updateReply}
-              deleteReply={handleDelete}
-            />
-          ))
+          replies.map((reply) => {
+            const isOp = reply.user_id === post?.user_id;
+
+            return (
+              <ReplyItem
+                key={reply.id}
+                username={users.get(reply.user_id) || "Loading Username..."}
+                isOp={isOp}
+                reply={reply}
+                updateReply={updateReply}
+                deleteReply={handleDelete}
+              />
+            );
+          })
         ) : (
           <p style={{ textAlign: "center" }}>No replies yet!</p>
         )}

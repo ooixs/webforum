@@ -49,9 +49,9 @@ function AccountMenu() {
     setLoggingOut(true);
   }
 
-  //Fetch all topics from database
+  //Fetch current user information from database
   useEffect(() => {
-    async function fetchTopics() {
+    async function fetchUser() {
       const res = await fetch("/api/user/" + userId);
       if (!res.ok) {
         const err = await res.text();
@@ -61,7 +61,7 @@ function AccountMenu() {
         setUser(data.username);
       }
     }
-    fetchTopics();
+    fetchUser();
   }, []);
 
   return (

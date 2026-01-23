@@ -3,19 +3,20 @@ import Reply from "../types/Reply";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { red, yellow, grey } from "@mui/material/colors";
+import { red, yellow, grey, blue } from "@mui/material/colors";
 import { useState } from "react";
 import Confirmation from "./Confirmation";
 
 type Props = {
   reply: Reply;
   username: string;
+  isOp: boolean;
   updateReply: (reply: Reply) => void;
   deleteReply: (replyId: number) => Promise<void>;
 };
 
 //Creates the template for a reply component
-function ReplyItem({ reply, username, updateReply, deleteReply }: Props) {
+function ReplyItem({ reply, username, isOp, updateReply, deleteReply }: Props) {
   const userId = sessionStorage.getItem("userId");
   const byUser = Number(userId) === reply.user_id;
 
@@ -66,7 +67,6 @@ function ReplyItem({ reply, username, updateReply, deleteReply }: Props) {
         <Grid size={12}>
           <p
             style={{
-              color: grey[300],
               fontSize: "15px",
               marginTop: 5,
               marginBottom: 0,
@@ -76,8 +76,21 @@ function ReplyItem({ reply, username, updateReply, deleteReply }: Props) {
           </p>
         </Grid>
         <Grid size={10.5}>
-          <p style={{ color: grey[500], fontFamily: "Lato" }}>
-            Replied by <i>{username}</i> on {reply.time_created}
+          <p style={{ color: grey[400], fontFamily: "Lato" }}>
+            Replied by <i>{username}</i>{" "}
+            {isOp && (
+              <span
+                style={{
+                  color: blue[600],
+                  fontWeight: "bold",
+                  fontSize: "0.85em",
+                }}
+              >
+                [OP]
+              </span>
+            )}
+            {" • "}
+            {reply.time_created}
             {reply.edited ? " (Edited)" : ""}
           </p>
         </Grid>

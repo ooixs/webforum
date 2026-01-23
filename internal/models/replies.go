@@ -16,6 +16,7 @@ type Reply struct {
 	Edited bool `json:"edited"`
 }
 
+//Gets all replies for a post
 func GetReplies(db *pgxpool.Pool, postId int) ([]Reply, error) {
 	var replies []Reply
 	rows, err := db.Query(context.Background(), "SELECT * FROM replies WHERE post_id=$1 ORDER BY time_created DESC", postId)
@@ -35,21 +36,26 @@ func GetReplies(db *pgxpool.Pool, postId int) ([]Reply, error) {
 	}
 	return replies, nil
 }
+
+//Adds a newly created reply to the database
 func CreateReply(db *pgxpool.Pool, postId int, userId int, content string) (error) {
 	_, err := db.Exec(context.Background(), "INSERT INTO replies (post_id, user_id, content) VALUES ($1, $2, $3)", postId, userId, content)
 	return err
 }
 
+//Updates the reply content in the database
 func UpdateReply(db *pgxpool.Pool, replyId int, content string) error {
 	_, err := db.Exec(context.Background(), "UPDATE replies SET content=$1, edited=true WHERE id=$2", content, replyId)
 	return err
 }
 
+//Deletes the reply in the database
 func DeleteReply(db *pgxpool.Pool, replyId int) error {
 	_, err := db.Exec(context.Background(), "DELETE FROM replies WHERE id=$1", replyId)
 	return err
 }
 
+//Gets the post associated with the replies
 func GetPostForReplies(db *pgxpool.Pool, postId int) (*Post, error) {
 	var post Post
 	var unformattedTime time.Time

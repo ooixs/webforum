@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -11,6 +12,7 @@ type Topic struct {
 	TopicIcon string `json:"topic_icon"`
 }
 
+//Gets all of the topics in the database
 func GetTopic(db *pgxpool.Pool) ([]Topic, error) {
 	var topics []Topic
 	rows, err := db.Query(context.Background(), "SELECT * FROM topics")

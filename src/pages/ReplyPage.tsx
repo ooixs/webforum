@@ -179,6 +179,7 @@ function ReplyPage() {
 
   return (
     <Box>
+      {/* Creates the topics navbar button at the top left of the page */}
       <Navbar />
       <Box
         sx={{
@@ -191,6 +192,7 @@ function ReplyPage() {
           },
         }}
       >
+        {/* Renders the post at the top of the page, with the back button rendered beside the post title */}
         <Card
           sx={{
             position: "relative",
@@ -220,6 +222,8 @@ function ReplyPage() {
                   </IconButton>
                 </Tooltip>
               </Grid>
+
+              {/* Renders the post heading */}
               <Grid size={10}>
                 <h2
                   style={{ fontSize: "30px", margin: 0, textAlign: "center" }}
@@ -227,6 +231,8 @@ function ReplyPage() {
                   {post ? post.heading : "Loading Post..."}
                 </h2>
               </Grid>
+
+              {/* If the window viewport is small, the user icon is also rendered beside the post title instead of sticking to the top right of the screen */}
               <Grid
                 size={1}
                 sx={{
@@ -249,6 +255,8 @@ function ReplyPage() {
                 </Box>
               </Grid>
             </Grid>
+
+            {/* Renders the post content */}
             {post && (
               <span>
                 <p>{post.content}</p>
@@ -263,8 +271,9 @@ function ReplyPage() {
             )}
           </CardContent>
         </Card>
-
         <hr />
+
+        {/* Render the replies */}
         {replies.length !== 0 ? (
           replies.map((reply) => {
             const isOp = reply.user_id === post?.user_id;
@@ -283,6 +292,8 @@ function ReplyPage() {
         ) : (
           <p style={{ textAlign: "center" }}>No replies yet!</p>
         )}
+
+        {/* Creates the content textfield at the bottom of the page for the user to create a post */}
         <Grid
           container
           sx={{
@@ -304,6 +315,7 @@ function ReplyPage() {
               : "70px",
           }}
         >
+          {/* Displays whether the user is in editing mode, and/or any input errors in the textfield */}
           <Grid container size={12}>
             {isEditing && (
               <Grid size={6}>
@@ -329,6 +341,8 @@ function ReplyPage() {
               </Grid>
             )}
           </Grid>
+
+          {/* Creates the content textfield, and the cancel and post buttons at the side of the textfield */}
           {isExpanded ? (
             <Grid container size={12}>
               <Grid size={11}>
@@ -352,6 +366,7 @@ function ReplyPage() {
                     alignItems: "center",
                   }}
                 >
+                  {/* As there is no heading textfield for replies, the cancel and send buttons are closer to each other, hence the position of the button tooltips have to be shifted to prevent the tooltips from blocking either button */}
                   <Zoom in={isExpanded}>
                     <Tooltip
                       title="Cancel"
@@ -420,6 +435,7 @@ function ReplyPage() {
               </Grid>
             </Grid>
           ) : (
+            //Renders a "New Reply" button to expand the textfield for the user to create a reply
             <Button onClick={expand} variant="outlined" fullWidth>
               New Reply
             </Button>

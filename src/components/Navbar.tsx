@@ -88,6 +88,7 @@ function Navbar() {
   return (
     <Box>
       {/* Creates the button which expands the navigation bar */}
+      {/* To prevent component congestion, the button only appears when the width of the page is above 1120px */}
       <Tooltip title="Navigation Menu">
         <IconButton
           sx={{

@@ -25,6 +25,7 @@ type ReplyDelete struct {
 	Id int `json:"id"`
 }
 
+//Gets all replies for a post
 func HandleGetReplies(w http.ResponseWriter, r *http.Request) {
 	postId := chi.URLParam(r, "postId")
 	db := database.GetDB()
@@ -41,6 +42,7 @@ func HandleGetReplies(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(res)
 }
 
+//Adds a newly created reply to the database
 func HandleCreateReply(w http.ResponseWriter, r *http.Request) {
 	var reply Reply
 	err := json.NewDecoder(r.Body).Decode(&reply)
@@ -56,6 +58,7 @@ func HandleCreateReply(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//Updates the reply content in the database
 func HandleUpdateReply(w http.ResponseWriter, r *http.Request) {
 	var reply ReplyUpdate
 	err := json.NewDecoder(r.Body).Decode(&reply)
@@ -71,6 +74,7 @@ func HandleUpdateReply(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//Deletes the reply in the database
 func HandleDeleteReply(w http.ResponseWriter, r *http.Request) {
 	var reply ReplyDelete
 	err := json.NewDecoder(r.Body).Decode(&reply)
@@ -86,6 +90,7 @@ func HandleDeleteReply(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//Gets the post associated with the replies
 func HandleGetPostForReplies(w http.ResponseWriter, r *http.Request) {
 	postId := chi.URLParam(r, "postId")
 	db := database.GetDB()

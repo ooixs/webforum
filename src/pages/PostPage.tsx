@@ -46,7 +46,7 @@ function PostPage() {
     setExpanded(true);
   }
 
-  //Handles logic to close the textfields
+  //Handles logic to close the heading and content textfields
   function closeTextField() {
     setContent("");
     setHeading("");
@@ -90,11 +90,11 @@ function PostPage() {
       const err = await res.text();
       console.error("Error:", res.status, err);
     } else {
-      //Refreshes the posts to include the newly created post
       setRefreshCounter(refreshCounter + 1);
     }
   }
 
+  //Initiates settings for users to edit a post
   function updatePost(post: Post) {
     setEditing(true);
     setEditingId(post.id);
@@ -105,7 +105,9 @@ function PostPage() {
     setContentEmpty(false);
   }
 
+  //Handles backend to edit a post
   async function handleUpdate() {
+    //Heading or content cannot be empty or only contain whitespaces
     if (heading.trim() === "") {
       setHeadingEmpty(true);
       return;
@@ -137,6 +139,7 @@ function PostPage() {
     }
   }
 
+  //Handles backend to delete a post
   async function handleDelete(postId: number) {
     closeTextField();
     const res = await fetch("/api/posts/delete", {
@@ -156,6 +159,8 @@ function PostPage() {
     }
   }
 
+  //Fetches all posts for the selected topic
+  //Refreshes every time a post is edited, deleted or added (through refreshCounter), or when the topicId is changed through the navigation sidebar
   useEffect(() => {
     window.scrollTo(0, 0);
     async function fetchPosts() {
@@ -171,6 +176,7 @@ function PostPage() {
     fetchPosts();
   }, [refreshCounter, topicId]);
 
+  //Fetches the data of all users who have registered, to be used to match their usernames to the posts they create
   useEffect(() => {
     async function fetchUsers() {
       const res = await fetch("/api/users");
@@ -188,6 +194,7 @@ function PostPage() {
     fetchUsers();
   }, []);
 
+  //Fetches the selected topic
   useEffect(() => {
     async function fetchTopic() {
       const res = await fetch("/api/topic/" + topicId);
@@ -204,8 +211,10 @@ function PostPage() {
 
   return (
     <Box>
+      {/* Creates the topics navbar button at the top left of the page */}
       <Navbar />
       <Box sx={{ maxWidth: "960px", margin: "0 auto" }}>
+        {/* Top bar of the posts page, containing the back button and the topic name */}
         <Grid container>
           <Grid
             size={1}
@@ -234,6 +243,8 @@ function PostPage() {
           <Grid size={10}>
             <h1>{topicName ? topicName : "Loading Topic..."}</h1>
           </Grid>
+
+          {/* If the window viewport is small, the user icon is also rendered in the top bar instead of sticking to the top right of the screen */}
           <Grid
             size={1}
             sx={{
@@ -257,6 +268,8 @@ function PostPage() {
           </Grid>
         </Grid>
         <hr />
+
+        {/* Render the posts */}
         {posts.length !== 0 ? (
           posts.map((post) => (
             <PostItem
@@ -270,6 +283,8 @@ function PostPage() {
         ) : (
           <p>No posts yet!</p>
         )}
+
+        {/* Creates the heading and content textfields at the bottom of the page for the user to create a post */}
         <Grid
           container
           sx={{
@@ -290,6 +305,7 @@ function PostPage() {
               : "65px",
           }}
         >
+          {/* Displays whether the user is in editing mode, and/or any input errors in the textfields */}
           <Grid container size={12}>
             {isEditing && (
               <Grid size={6}>
@@ -335,6 +351,8 @@ function PostPage() {
               )
             )}
           </Grid>
+
+          {/* Creates the heading and content textfields, and the cancel and post buttons at the side of the textfields */}
           {isExpanded ? (
             <Grid container size={12}>
               <Grid size={11}>
@@ -412,6 +430,7 @@ function PostPage() {
               </Grid>
             </Grid>
           ) : (
+            //Renders a "New Post" button to expand the textfields for the user to create a post
             <Button onClick={expand} variant="outlined" fullWidth>
               New Post
             </Button>

@@ -17,6 +17,7 @@ type Post struct {
 	Edited bool `json:"edited"`
 }
 
+//Gets all posts for a topic
 func GetPosts(db *pgxpool.Pool, topicId int) ([]Post, error) {
 	var posts []Post
 	rows, err := db.Query(context.Background(), "SELECT * FROM posts WHERE topic_id=$1 ORDER BY time_created DESC", topicId)
@@ -37,16 +38,19 @@ func GetPosts(db *pgxpool.Pool, topicId int) ([]Post, error) {
 	return posts, nil
 }
 
+//Adds a newly created post to the database
 func CreatePost(db *pgxpool.Pool, topicId int, userId int, heading string, content string) (error) {
 	_, err := db.Exec(context.Background(), "INSERT INTO posts (topic_id, user_id, heading, content) VALUES ($1, $2, $3, $4)", topicId, userId, heading, content)
 	return err
 }
 
+//Updates the post heading and content in the database
 func UpdatePost(db *pgxpool.Pool, postId int, heading string, content string) error {
 	_, err := db.Exec(context.Background(), "UPDATE posts SET heading=$1, content=$2, edited=true WHERE id=$3", heading, content, postId)
 	return err
 }
 
+//Deletes the post in the database
 func DeletePost(db *pgxpool.Pool, postId int) error {
 	_, err := db.Exec(context.Background(), "DELETE FROM replies WHERE post_id=$1", postId)
 	if err != nil {
@@ -56,6 +60,7 @@ func DeletePost(db *pgxpool.Pool, postId int) error {
 	return err
 }
 
+//Gets the topic associated with the posts
 func GetTopicForPosts(db *pgxpool.Pool, topicId int) (string, error) {
 	var topicName string
 	row := db.QueryRow(context.Background(), "SELECT topic FROM topics WHERE id=$1", topicId)

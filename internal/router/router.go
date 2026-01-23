@@ -12,30 +12,28 @@ func Setup() chi.Router {
 }
 
 func setUpRoutes(r chi.Router) {
-	r.Group(func(r chi.Router) {
-		//For Login/Register
-		r.Post("/login", handlers.HandleLogin)
-		r.Post("/register", handlers.HandleRegister)
+	//For Login/Register
+	r.Post("/login", handlers.HandleLogin)
+	r.Post("/register", handlers.HandleRegister)
 
-		//For Topics
-		r.Get("/topics", handlers.HandleGetTopic)
+	//For Topics
+	r.Get("/topics", handlers.HandleGetTopic)
 
-		//For Posts
-		r.Get("/posts/{topicId}", handlers.HandleGetPosts)
-		r.Post("/posts", handlers.HandleCreatePost)
-		r.Post("/posts/update", handlers.HandleUpdatePost)
-		r.Post("/posts/delete", handlers.HandleDeletePost)
-		r.Get("/topic/{topicId}", handlers.HandleGetTopicForPosts)
-		
-		//For Replies
-		r.Get("/replies/{postId}", handlers.HandleGetReplies)
-		r.Post("/replies", handlers.HandleCreateReply)
-		r.Post("/replies/update", handlers.HandleUpdateReply)
-		r.Post("/replies/delete", handlers.HandleDeleteReply)
-		r.Get("/post/{postId}", handlers.HandleGetPostForReplies)
+	//For Posts
+	r.Get("/posts/{topicId}", handlers.HandleGetPosts)
+	r.Post("/posts", handlers.HandleCreatePost)
+	r.Post("/posts/update", handlers.HandleUpdatePost)
+	r.Post("/posts/delete", handlers.HandleDeletePost)
+	r.Get("/topic/{topicId}", handlers.HandleGetTopicForPosts)
+	
+	//For Replies
+	r.Get("/replies/{postId}", handlers.HandleGetReplies)
+	r.Post("/replies", handlers.HandleCreateReply)
+	r.Post("/replies/update", handlers.HandleUpdateReply)
+	r.Post("/replies/delete", handlers.HandleDeleteReply)
+	r.Get("/post/{postId}", handlers.HandleGetPostForReplies)
 
-		//Utility, for both posts and replies
-		r.Get("/user/{userId}", handlers.HandleGetUserById)
-		r.Get("/users", handlers.HandleGetAllUsers)
-	})
+	//Utility, for both posts and replies
+	r.Get("/user/{userId}", handlers.HandleGetUserById)
+	r.Get("/users", handlers.HandleGetAllUsers)
 }

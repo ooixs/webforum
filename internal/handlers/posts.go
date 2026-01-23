@@ -27,6 +27,7 @@ type PostDelete struct {
 	Id int `json:"id"`
 }
 
+//Gets all posts for a topic
 func HandleGetPosts(w http.ResponseWriter, r *http.Request) {
 	topicId := chi.URLParam(r, "topicId")
 	db := database.GetDB()
@@ -43,6 +44,7 @@ func HandleGetPosts(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(res)
 }
 
+//Adds a newly created post to the database
 func HandleCreatePost(w http.ResponseWriter, r *http.Request) {
 	var post Post
 	err := json.NewDecoder(r.Body).Decode(&post)
@@ -58,6 +60,7 @@ func HandleCreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//Updates the post heading and content in the database
 func HandleUpdatePost(w http.ResponseWriter, r *http.Request) {
 	var post PostUpdate
 	err := json.NewDecoder(r.Body).Decode(&post)
@@ -73,6 +76,7 @@ func HandleUpdatePost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//Deletes the post in the database
 func HandleDeletePost(w http.ResponseWriter, r *http.Request) {
 	var post PostDelete
 	err := json.NewDecoder(r.Body).Decode(&post)
@@ -88,6 +92,7 @@ func HandleDeletePost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//Gets the topic associated with the posts
 func HandleGetTopicForPosts(w http.ResponseWriter, r *http.Request) {
 	topicId := chi.URLParam(r, "topicId")
 	db := database.GetDB()

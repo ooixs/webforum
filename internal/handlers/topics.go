@@ -8,6 +8,7 @@ import (
 	"github.com/ooixs/webforum/internal/models"
 )
 
+//Gets all of the topics in the database
 func HandleGetTopic(w http.ResponseWriter, r *http.Request) {
 	db := database.GetDB()
 	res, err := models.GetTopic(db)

@@ -10,6 +10,7 @@ import (
 	"github.com/ooixs/webforum/internal/models"
 )
 
+//Gets the username of a user when given the id of the user
 func HandleGetUserById(w http.ResponseWriter, r *http.Request) {
 	userId := chi.URLParam(r, "userId")
 	userIdInt, err := strconv.Atoi(userId)
@@ -27,6 +28,7 @@ func HandleGetUserById(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(res)
 }
 
+//Gets all of the users from the database
 func HandleGetAllUsers(w http.ResponseWriter, r *http.Request) {
 	db := database.GetDB()
 	res, err := models.GetAllUsers(db)

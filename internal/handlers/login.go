@@ -15,6 +15,7 @@ type User struct {
 	Username string `json:"username"`
 }
 
+//Checks whether the username the user enters is in the database for login purposes
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	var user User
 	err := json.NewDecoder(r.Body).Decode(&user)
@@ -36,6 +37,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(res)
 }
 
+//Checks whether the username the user enters is in the database, and if not, adds it to the database and registers the user
 func HandleRegister(w http.ResponseWriter, r *http.Request) {
 	var user User
 	err := json.NewDecoder(r.Body).Decode(&user)

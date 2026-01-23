@@ -28,6 +28,7 @@ function TopicPage() {
 
   return (
     <Box>
+      {/* Creates the user icon on the top-right of the page */}
       <Box
         sx={{
           position: "fixed",
@@ -38,6 +39,8 @@ function TopicPage() {
       >
         <Account />
       </Box>
+
+      {/* Creates the topics menu */}
       <Box
         sx={{
           paddingTop: 5,

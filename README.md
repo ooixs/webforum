@@ -1,8 +1,9 @@
 # Webforum for CVWO Assignment
 
-## By Ooi Xuan Shan
+### By Ooi Xuan Shan
 
-## Getting Started
+The online version of the app can be found on [https://webforum-frontend.onrender.com](https://webforum-frontend.onrender.com)
+(Note that the backend may take up to 50 seconds to start up due to Render web hosting limitations, hence it will take some time to login or register)
 
 ### Running the app
 
@@ -35,6 +36,8 @@ npm run dev
 ```cmd
 go run cmd/server/main.go
 ```
+
+8. Open [http://localhost:5173](http://localhost:5173) to view the webforum in the browser.
 
 ## AI Usage
 

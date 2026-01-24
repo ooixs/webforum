@@ -1,7 +1,10 @@
 package router
 
 import (
+	"os"
+
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
 	"github.com/ooixs/webforum/internal/handlers"
 )
 
@@ -12,6 +15,18 @@ func Setup() chi.Router {
 }
 
 func setUpRoutes(r chi.Router) {
+	frontendURL := os.Getenv("FRONTEND_URL") 
+    if frontendURL == "" {
+        frontendURL = "http://localhost:5173"
+    }
+
+	r.Use(cors.Handler(cors.Options{
+        AllowedOrigins:   []string{frontendURL}, 
+        AllowedMethods:   []string{"GET", "POST", "OPTIONS"},
+        AllowedHeaders:   []string{"Accept", "Content-Type", "Authorization"},
+        AllowCredentials: true,
+    }))
+
 	r.Route("/api", func(r chi.Router) {
 		//For Login/Register
 		r.Post("/login", handlers.HandleLogin)

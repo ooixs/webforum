@@ -8,6 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import Post from "../types/Post";
 import Confirmation from "./Confirmation";
+import Timestring from "./Timestring";
 
 type Props = {
   post: Post;
@@ -108,8 +109,14 @@ function PostItem({ post, username, updatePost, deletePost }: Props) {
           <p style={{ color: grey[400], fontFamily: "Lato" }}>
             Posted by <i>{username}</i>
             {" • "}
-            {post.time_created}
-            {post.time_edited && " (Edited " + post.time_edited + ")"}
+            <Timestring time={post.time_created} />
+            {post.time_edited && (
+              <>
+                {" (Edited "}
+                <Timestring time={post.time_edited} />
+                {")"}
+              </>
+            )}
           </p>
         </Grid>
 

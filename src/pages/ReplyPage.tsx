@@ -23,6 +23,7 @@ import User from "../types/User";
 import Navbar from "../components/Navbar";
 import Account from "../components/Account";
 import ReplyItem from "../components/ReplyItem";
+import Timestring from "../components/Timestring";
 
 function ReplyPage() {
   //Redirects the user to the login page if not logged in
@@ -268,8 +269,14 @@ function ReplyPage() {
                   Posted by{" "}
                   <i>{users.get(post.user_id) || "Loading Username..."}</i>
                   {" • "}
-                  {post.time_created}
-                  {post.time_edited && " (Edited " + post.time_edited + ")"}
+                  <Timestring time={post.time_created} />
+                  {post.time_edited && (
+                    <>
+                      {" (Edited "}
+                      <Timestring time={post.time_edited} />
+                      {")"}
+                    </>
+                  )}
                 </p>
               </span>
             )}

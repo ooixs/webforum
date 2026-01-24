@@ -2,7 +2,6 @@ package models
 
 import (
 	"context"
-	"database/sql"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -14,8 +13,8 @@ type Post struct {
 	UserId int `json:"user_id"`
 	Heading string `json:"heading"`
 	Content string `json:"content"`
-	TimeCreated string `json:"time_created"`
-	TimeEdited string `json:"time_edited"`
+	TimeCreated time.Time `json:"time_created"`
+	TimeEdited *time.Time `json:"time_edited,omitempty"`
 }
 
 //Gets all posts for a topic
@@ -28,17 +27,12 @@ func GetPosts(db *pgxpool.Pool, topicId int) ([]Post, error) {
 	defer rows.Close()
 	for rows.Next() {
 		var post Post
-		var unformattedTime time.Time
-		var unformattedEditTime sql.NullTime
-		err := rows.Scan(&post.ID, &post.TopicId, &post.UserId, &post.Heading, &post.Content, &unformattedTime, &unformattedEditTime)
+		err := rows.Scan(&post.ID, &post.TopicId, &post.UserId, &post.Heading, &post.Content, &post.TimeCreated, &post.TimeEdited)
 		if err != nil {
 			return nil, err
 		}
-		post.TimeCreated = unformattedTime.Format("02 Jan 2006 at 15:04")
-		if unformattedEditTime.Valid {
-			post.TimeEdited = unformattedEditTime.Time.Format("02 Jan 2006 at 15:04")
-		} else {
-			post.TimeEdited = ""
+		if post.TimeEdited != nil && post.TimeEdited.IsZero() {
+			post.TimeEdited = nil
 		}
 		posts = append(posts, post)
 	}

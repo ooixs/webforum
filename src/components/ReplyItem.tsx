@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import Reply from "../types/Reply";
 import Confirmation from "./Confirmation";
+import Timestring from "./Timestring";
 
 type Props = {
   reply: Reply;
@@ -91,8 +92,14 @@ function ReplyItem({ reply, username, isOp, updateReply, deleteReply }: Props) {
               </Box>
             )}
             {" • "}
-            {reply.time_created}
-            {reply.time_edited && " (Edited " + reply.time_edited + ")"}
+            <Timestring time={reply.time_created} />
+            {reply.time_edited && (
+              <>
+                {" (Edited "}
+                <Timestring time={reply.time_edited} />
+                {")"}
+              </>
+            )}
           </p>
         </Grid>
 

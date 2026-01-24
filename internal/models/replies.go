@@ -2,7 +2,6 @@ package models
 
 import (
 	"context"
-	"database/sql"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -13,8 +12,8 @@ type Reply struct {
 	PostId int `json:"post_id"`
 	UserId int `json:"user_id"`
 	Content string `json:"content"`
-	TimeCreated string `json:"time_created"`
-	TimeEdited string `json:"time_edited"`
+	TimeCreated time.Time `json:"time_created"`
+	TimeEdited *time.Time `json:"time_edited,omitempty"`
 }
 
 //Gets all replies for a post
@@ -27,17 +26,12 @@ func GetReplies(db *pgxpool.Pool, postId int) ([]Reply, error) {
 	defer rows.Close()
 	for rows.Next() {
 		var reply Reply
-		var unformattedTime time.Time
-		var unformattedEditTime sql.NullTime
-		err := rows.Scan(&reply.ID, &reply.PostId, &reply.UserId, &reply.Content, &unformattedTime, &unformattedEditTime)
+		err := rows.Scan(&reply.ID, &reply.PostId, &reply.UserId, &reply.Content, &reply.TimeCreated, &reply.TimeEdited)
 		if err != nil {
 			return nil, err
 		}
-		reply.TimeCreated = unformattedTime.Format("02 Jan 2006 at 15:04")
-		if unformattedEditTime.Valid {
-			reply.TimeEdited = unformattedEditTime.Time.Format("02 Jan 2006 at 15:04")
-		} else {
-			reply.TimeEdited = ""
+		if reply.TimeEdited != nil && reply.TimeEdited.IsZero() {
+			reply.TimeEdited = nil
 		}
 		replies = append(replies, reply)
 	}
@@ -65,15 +59,10 @@ func DeleteReply(db *pgxpool.Pool, replyId int) error {
 //Gets the post associated with the replies
 func GetPostForReplies(db *pgxpool.Pool, postId int) (*Post, error) {
 	var post Post
-	var unformattedTime time.Time
-	var unformattedEditTime sql.NullTime
 	row := db.QueryRow(context.Background(), "SELECT * FROM posts WHERE id=$1", postId)
-	err := row.Scan(&post.ID, &post.TopicId, &post.UserId, &post.Heading, &post.Content, &unformattedTime, &unformattedEditTime)
-	post.TimeCreated = unformattedTime.Format("02 Jan 2006 at 15:04")
-	if unformattedEditTime.Valid {
-		post.TimeEdited = unformattedEditTime.Time.Format("02 Jan 2006 at 15:04")
-	} else {
-		post.TimeEdited = ""
+	err := row.Scan(&post.ID, &post.TopicId, &post.UserId, &post.Heading, &post.Content, &post.TimeCreated, &post.TimeEdited)
+	if post.TimeEdited != nil && post.TimeEdited.IsZero() {
+		post.TimeEdited = nil
 	}
 	return &post, err
 }

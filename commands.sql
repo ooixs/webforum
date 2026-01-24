@@ -1,6 +1,10 @@
 --All code is in postgreSQL
+--Execute all of the following commands to set up the database, from top to bottom in order
+
 --Create the forum database
 CREATE DATABASE forum;
+
+--IMPORTANT: Run the following commands after connecting to the forum database
 
 --Create users table
 CREATE TABLE users (

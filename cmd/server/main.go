@@ -16,12 +16,16 @@ func main() {
 	_ = godotenv.Load()
 
 	db, err := database.InitDB(os.Getenv("DATABASE_URL"))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 	if err != nil {
 		log.Fatalf("Unable to connect to database: %v\n", err)
 	}
 	defer db.Close()
 	r := router.Setup()
-	fmt.Print("Listening on port 8080 at http://localhost:8080!")
+	fmt.Print("Listening on port " + port + " at http://localhost:" + port + "!")
 
-	log.Fatalln(http.ListenAndServe(":8080", r))
+	log.Fatalln(http.ListenAndServe(":"+port, r))
 }

@@ -2,10 +2,11 @@
 
 ### By Ooi Xuan Shan
 
-The online version of the app can be found on [https://webforum-frontend.onrender.com](https://webforum-frontend.onrender.com)
+The online version of the app can be found on [https://webforum-frontend.onrender.com](https://webforum-frontend.onrender.com).
+
 (Note that the backend may take up to 50 seconds to start up due to Render web hosting limitations, hence it will take some time to login or register)
 
-### Running the app
+## Running the app
 
 1. Fork this repo and clone it.
 2. Open a terminal and navigate to the directory containing the cloned project.

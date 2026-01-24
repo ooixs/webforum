@@ -92,7 +92,7 @@ function ReplyItem({ reply, username, isOp, updateReply, deleteReply }: Props) {
             )}
             {" • "}
             {reply.time_created}
-            {reply.time_edited && " • Edited " + reply.time_edited}
+            {reply.time_edited && " (Edited " + reply.time_edited + ")"}
           </p>
         </Grid>
 

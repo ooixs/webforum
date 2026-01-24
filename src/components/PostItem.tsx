@@ -109,7 +109,7 @@ function PostItem({ post, username, updatePost, deletePost }: Props) {
             Posted by <i>{username}</i>
             {" • "}
             {post.time_created}
-            {post.time_edited && " • Edited " + post.time_edited}
+            {post.time_edited && " (Edited " + post.time_edited + ")"}
           </p>
         </Grid>
 

@@ -18,7 +18,7 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	db, err := database.InitDB(os.Getenv("connStr"))
+	db, err := database.InitDB(os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatalf("Unable to connect to database: %v\n", err)
 	}

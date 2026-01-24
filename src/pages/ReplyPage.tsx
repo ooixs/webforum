@@ -25,11 +25,13 @@ import Account from "../components/Account";
 import ReplyItem from "../components/ReplyItem";
 
 function ReplyPage() {
+  //Redirects the user to the login page if not logged in
   const userId = sessionStorage.getItem("userId");
   if (!userId) {
     return <Navigate to="/" replace={true} />;
   }
 
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "";
   const { postId } = useParams<{ postId: string }>();
   const navigate = useNavigate();
 
@@ -61,7 +63,7 @@ function ReplyPage() {
       return;
     }
     setContentEmpty(false);
-    const res = await fetch("/api/replies", {
+    const res = await fetch(`${API_URL}/api/replies`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +97,7 @@ function ReplyPage() {
       return;
     }
     setContentEmpty(false);
-    const res = await fetch("/api/replies/update", {
+    const res = await fetch(`${API_URL}/api/replies/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -116,7 +118,7 @@ function ReplyPage() {
 
   async function handleDelete(replyId: number) {
     closeTextField();
-    const res = await fetch("/api/replies/delete", {
+    const res = await fetch(`${API_URL}/api/replies/delete`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -136,7 +138,7 @@ function ReplyPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
     async function fetchReplies() {
-      const res = await fetch("/api/replies/" + postId);
+      const res = await fetch(`${API_URL}/api/replies/${postId}`);
       if (!res.ok) {
         const err = await res.text();
         console.error("Error:", res.status, err);
@@ -150,7 +152,7 @@ function ReplyPage() {
 
   useEffect(() => {
     async function fetchUsers() {
-      const res = await fetch("/api/users");
+      const res = await fetch(`${API_URL}/api/users`);
       if (!res.ok) {
         const err = await res.text();
         console.error("Error:", res.status, err);
@@ -167,7 +169,7 @@ function ReplyPage() {
 
   useEffect(() => {
     async function fetchPost() {
-      const res = await fetch("/api/post/" + postId);
+      const res = await fetch(`${API_URL}/api/post/${postId}`);
       if (!res.ok) {
         const err = await res.text();
         console.error("Error:", res.status, err);

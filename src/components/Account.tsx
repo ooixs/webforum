@@ -16,6 +16,7 @@ import Confirmation from "./Confirmation";
 
 //Creates an icon at the top right of the webpage which opens a menu with the user's username and option to logout
 function AccountMenu() {
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "";
   const userId = sessionStorage.getItem("userId");
   const navigate = useNavigate();
 
@@ -51,7 +52,7 @@ function AccountMenu() {
   //Fetch current user information from database
   useEffect(() => {
     async function fetchUser() {
-      const res = await fetch("/api/user/" + userId);
+      const res = await fetch(`${API_URL}/api/user/${userId}`);
       if (!res.ok) {
         const err = await res.text();
         console.error("Error:", res.status, err);

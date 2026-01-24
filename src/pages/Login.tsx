@@ -4,6 +4,8 @@ import { Link, Navigate } from "react-router-dom";
 import { Box, Button, TextField } from "@mui/material";
 
 function Login() {
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "";
+
   const [username, setUsername] = useState("");
   //User can only log in if the username exists, setting to true will ensure error only comes out if username does not exist
   const [taken, setTaken] = useState(true);
@@ -13,7 +15,7 @@ function Login() {
 
   //Handles login logic
   async function handleClick() {
-    const res = await fetch("/api/login", {
+    const res = await fetch(`${API_URL}/api/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

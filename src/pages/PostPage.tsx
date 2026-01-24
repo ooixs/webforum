@@ -28,6 +28,7 @@ function PostPage() {
     return <Navigate to="/" replace={true} />;
   }
 
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "";
   const { topicId } = useParams<{ topicId: string }>();
   const navigate = useNavigate();
 
@@ -75,7 +76,7 @@ function PostPage() {
     }
     setHeadingEmpty(false);
     setContentEmpty(false);
-    const res = await fetch("/api/posts", {
+    const res = await fetch(`${API_URL}/api/posts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -121,7 +122,7 @@ function PostPage() {
     }
     setHeadingEmpty(false);
     setContentEmpty(false);
-    const res = await fetch("/api/posts/update", {
+    const res = await fetch(`${API_URL}/api/posts/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -144,7 +145,7 @@ function PostPage() {
   //Handles backend to delete a post
   async function handleDelete(postId: number) {
     closeTextField();
-    const res = await fetch("/api/posts/delete", {
+    const res = await fetch(`${API_URL}/api/posts/delete`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -166,7 +167,7 @@ function PostPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
     async function fetchPosts() {
-      const res = await fetch("/api/posts/" + topicId);
+      const res = await fetch(`${API_URL}/api/posts/${topicId}`);
       if (!res.ok) {
         const err = await res.text();
         console.error("Error:", res.status, err);
@@ -181,7 +182,7 @@ function PostPage() {
   //Fetches the data of all users who have registered, to be used to match their usernames to the posts they create
   useEffect(() => {
     async function fetchUsers() {
-      const res = await fetch("/api/users");
+      const res = await fetch(`${API_URL}/api/users`);
       if (!res.ok) {
         const err = await res.text();
         console.error("Error:", res.status, err);
@@ -199,7 +200,7 @@ function PostPage() {
   //Fetches the selected topic
   useEffect(() => {
     async function fetchTopic() {
-      const res = await fetch("/api/topic/" + topicId);
+      const res = await fetch(`${API_URL}/api/topic/${topicId}`);
       if (!res.ok) {
         const err = await res.text();
         console.error("Error:", res.status, err);

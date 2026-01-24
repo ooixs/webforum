@@ -26,6 +26,7 @@ type IconMapping = Record<string, JSX.Element>;
 
 //Creates a navigation bar on the posts and replies page for the user to navigate to any topic
 function Navbar() {
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "";
   const iconStyles = { fontSize: "30px" };
 
   //Defining the icon types for the respective topics
@@ -44,7 +45,7 @@ function Navbar() {
   //Fetching all topics from the database
   useEffect(() => {
     async function fetchTopics() {
-      const res = await fetch("/api/topics");
+      const res = await fetch(`${API_URL}/api/topics`);
       if (!res.ok) {
         const err = await res.text();
         console.error("Error:", res.status, err);

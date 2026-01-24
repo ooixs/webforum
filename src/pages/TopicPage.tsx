@@ -8,15 +8,19 @@ import TopicItem from "../components/TopicItem";
 import Account from "../components/Account";
 
 function TopicPage() {
+  //Redirects the user to the login page if not logged in
   const userId = sessionStorage.getItem("userId");
   if (!userId) {
     return <Navigate to="/" replace={true} />;
   }
+
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "";
+
   const [topics, setTopics] = useState<Topic[]>([]);
 
   useEffect(() => {
     async function fetchTopics() {
-      const res = await fetch("/api/topics");
+      const res = await fetch(`${API_URL}/api/topics`);
       if (!res.ok) {
         const err = await res.text();
         console.error("Error:", res.status, err);

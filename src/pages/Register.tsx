@@ -4,6 +4,8 @@ import { Link, Navigate } from "react-router-dom";
 import { Button, TextField, Box } from "@mui/material";
 
 function Register() {
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "";
+
   const [username, setUsername] = useState("");
   const [isEmpty, setEmpty] = useState(false);
   const [hasWhitespaces, setHasWhitespaces] = useState(false);
@@ -28,7 +30,7 @@ function Register() {
     setEmpty(false);
     setHasWhitespaces(false);
     //Tries fetching username from database to check whether it exists
-    const res = await fetch("/api/register", {
+    const res = await fetch(`${API_URL}/api/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

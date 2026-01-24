@@ -1,22 +1,19 @@
 package main
 
 import (
-	"os"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/ooixs/webforum/internal/router"
 	"github.com/ooixs/webforum/internal/database"
+	"github.com/ooixs/webforum/internal/router"
 )
 
 func main() {
 	//Loads .env file for the database connection string
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	_ = godotenv.Load()
 
 	db, err := database.InitDB(os.Getenv("DATABASE_URL"))
 	if err != nil {

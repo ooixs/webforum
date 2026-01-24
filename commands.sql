@@ -22,8 +22,8 @@ CREATE TABLE posts (
 	user_id INTEGER REFERENCES users(id),
 	heading TEXT NOT NULL,
 	content TEXT NOT NULL,
-	time_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	edited BOOLEAN DEFAULT FALSE
+	time_created TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+	time_edited TIMESTAMPTZ,
 )
 
 --Create replies table
@@ -32,8 +32,8 @@ CREATE TABLE replies (
     post_id INTEGER REFERENCES posts(id),
     user_id INTEGER REFERENCES users(id),
     content TEXT NOT NULL,
-    time_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	edited BOOLEAN DEFAULT FALSE
+    time_created TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+	time_edited TIMESTAMPTZ,
 )
 
 --Insert values into topics table

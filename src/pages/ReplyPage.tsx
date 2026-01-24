@@ -269,7 +269,7 @@ function ReplyPage() {
                   <i>{users.get(post.user_id) || "Loading Username..."}</i>
                   {" • "}
                   {post.time_created}
-                  {post.edited ? " (Edited)" : ""}
+                  {post.time_edited && " • Edited " + post.time_edited}
                 </p>
               </span>
             )}

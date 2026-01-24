@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -13,7 +14,7 @@ type Reply struct {
 	UserId int `json:"user_id"`
 	Content string `json:"content"`
 	TimeCreated string `json:"time_created"`
-	Edited bool `json:"edited"`
+	TimeEdited string `json:"time_edited"`
 }
 
 //Gets all replies for a post
@@ -27,11 +28,17 @@ func GetReplies(db *pgxpool.Pool, postId int) ([]Reply, error) {
 	for rows.Next() {
 		var reply Reply
 		var unformattedTime time.Time
-		err := rows.Scan(&reply.ID, &reply.PostId, &reply.UserId, &reply.Content, &unformattedTime, &reply.Edited)
+		var unformattedEditTime sql.NullTime
+		err := rows.Scan(&reply.ID, &reply.PostId, &reply.UserId, &reply.Content, &unformattedTime, &unformattedEditTime)
 		if err != nil {
 			return nil, err
 		}
-		reply.TimeCreated = unformattedTime.Format("02 Jan 2006 at 15:03")
+		reply.TimeCreated = unformattedTime.Format("02 Jan 2006 at 15:04")
+		if unformattedEditTime.Valid {
+			reply.TimeEdited = unformattedEditTime.Time.Format("02 Jan 2006 at 15:04")
+		} else {
+			reply.TimeEdited = ""
+		}
 		replies = append(replies, reply)
 	}
 	return replies, nil
@@ -45,7 +52,7 @@ func CreateReply(db *pgxpool.Pool, postId int, userId int, content string) (erro
 
 //Updates the reply content in the database
 func UpdateReply(db *pgxpool.Pool, replyId int, content string) error {
-	_, err := db.Exec(context.Background(), "UPDATE replies SET content=$1, edited=true WHERE id=$2", content, replyId)
+	_, err := db.Exec(context.Background(), "UPDATE replies SET content=$1, time_edited=CURRENT_TIMESTAMP WHERE id=$2", content, replyId)
 	return err
 }
 
@@ -59,8 +66,14 @@ func DeleteReply(db *pgxpool.Pool, replyId int) error {
 func GetPostForReplies(db *pgxpool.Pool, postId int) (*Post, error) {
 	var post Post
 	var unformattedTime time.Time
+	var unformattedEditTime sql.NullTime
 	row := db.QueryRow(context.Background(), "SELECT * FROM posts WHERE id=$1", postId)
-	err := row.Scan(&post.ID, &post.TopicId, &post.UserId, &post.Heading, &post.Content, &unformattedTime, &post.Edited)
-	post.TimeCreated = unformattedTime.Format("02 Jan 2006 at 15:03")
+	err := row.Scan(&post.ID, &post.TopicId, &post.UserId, &post.Heading, &post.Content, &unformattedTime, &unformattedEditTime)
+	post.TimeCreated = unformattedTime.Format("02 Jan 2006 at 15:04")
+	if unformattedEditTime.Valid {
+		post.TimeEdited = unformattedEditTime.Time.Format("02 Jan 2006 at 15:04")
+	} else {
+		post.TimeEdited = ""
+	}
 	return &post, err
 }

@@ -5,7 +5,7 @@ type Post = {
   heading: string;
   content: string;
   time_created: string;
-  edited: boolean;
+  time_edited: string;
 };
 
 export default Post;

@@ -27,7 +27,7 @@ CREATE TABLE posts (
 	heading TEXT NOT NULL,
 	content TEXT NOT NULL,
 	time_created TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-	time_edited TIMESTAMPTZ,
+	time_edited TIMESTAMPTZ
 )
 
 --Create replies table
@@ -37,7 +37,7 @@ CREATE TABLE replies (
     user_id INTEGER REFERENCES users(id),
     content TEXT NOT NULL,
     time_created TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-	time_edited TIMESTAMPTZ,
+	time_edited TIMESTAMPTZ
 )
 
 --Insert values into topics table

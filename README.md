@@ -24,7 +24,7 @@ npm install
 DATABASE_URL=postgres://username:password@localhost:5432/forum
 ```
 
-&ensp;Replace `username` and `password` with the username and password to your PostgreSQL database.
+&emsp;Replace `username` and `password` with the username and password to your PostgreSQL database.
 
 6. Start the frontend server using the same terminal by running this command:
 

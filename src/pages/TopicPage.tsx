@@ -18,6 +18,7 @@ function TopicPage() {
 
   const [topics, setTopics] = useState<Topic[]>([]);
 
+  //Fetches all topics from the database
   useEffect(() => {
     async function fetchTopics() {
       const res = await fetch(`${API_URL}/api/topics`);

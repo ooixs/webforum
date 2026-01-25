@@ -46,10 +46,12 @@ function ReplyPage() {
   const [isEditing, setEditing] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
+  //Makes the "Post Item" button area expand to a textfield for the user to create their reply
   function expand() {
     setExpanded(true);
   }
 
+  //Handles logic to close the content textfield
   function closeTextField() {
     setContent("");
     setExpanded(false);
@@ -58,7 +60,9 @@ function ReplyPage() {
     setContentEmpty(false);
   }
 
+  //Handles logic to add a new reply to the database
   async function handleAdd() {
+    //Checks whether the content contains only whitespaces or is empty
     if (content.trim() === "") {
       setContentEmpty(true);
       return;
@@ -84,6 +88,7 @@ function ReplyPage() {
     }
   }
 
+  //Initiates settings for users to edit a reply
   function updateReply(reply: Reply) {
     setEditing(true);
     setEditingId(reply.id);
@@ -92,7 +97,9 @@ function ReplyPage() {
     setContentEmpty(false);
   }
 
+  //Handles backend to edit a reply
   async function handleUpdate() {
+    //Content cannot be empty or only contain whitespaces
     if (content.trim() === "") {
       setContentEmpty(true);
       return;
@@ -117,6 +124,7 @@ function ReplyPage() {
     }
   }
 
+  //Handles backend to delete a reply
   async function handleDelete(replyId: number) {
     closeTextField();
     const res = await fetch(`${API_URL}/api/replies/delete`, {
@@ -136,6 +144,8 @@ function ReplyPage() {
     }
   }
 
+  //Fetches all replies for the selected post
+  //Refreshes every time a reply is edited, deleted or added (through refreshCounter)
   useEffect(() => {
     window.scrollTo(0, 0);
     async function fetchReplies() {
@@ -151,6 +161,7 @@ function ReplyPage() {
     fetchReplies();
   }, [refreshCounter]);
 
+  //Fetches the data of all users who have registered, to be used to match their usernames to the replies they create
   useEffect(() => {
     async function fetchUsers() {
       const res = await fetch(`${API_URL}/api/users`);
@@ -168,6 +179,7 @@ function ReplyPage() {
     fetchUsers();
   }, []);
 
+  //Fetches the content for the selected post
   useEffect(() => {
     async function fetchPost() {
       const res = await fetch(`${API_URL}/api/post/${postId}`);

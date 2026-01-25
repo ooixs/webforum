@@ -42,7 +42,7 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   const [topics, setTopics] = useState<Topic[]>([]);
 
-  //Fetching all topics from the database
+  //Fetches all topics from the database
   useEffect(() => {
     async function fetchTopics() {
       const res = await fetch(`${API_URL}/api/topics`);

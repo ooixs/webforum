@@ -21,10 +21,10 @@ npm install
 5. Create a `.env` file in the project root and enter the following environment variable:
 
 ```
-DATABASE_URL=postgres://(username):(password)@localhost:5432/forum
+DATABASE_URL=postgres://username:password@localhost:5432/forum
 ```
 
-Replace `username` and `password` with the username and password to your PostgreSQL database.
+&ensp;Replace `username` and `password` with the username and password to your PostgreSQL database.
 
 6. Start the frontend server using the same terminal by running this command:
 
@@ -42,4 +42,18 @@ go run cmd/server/main.go
 
 ## AI Usage
 
-More details of the usage of AI can be found under AI_usage.docx, for better formatting.
+The following is a summary of my AI usage, with all prompts given to Gemini unless otherwise specified:
+
+• GitHub Copilot is used only for repetitive tasks, like formatting code I have written before (e.g. code formatting for a reply is similar to that of a post, except without the heading). I only use it when I already know exactly how the code should look.
+&ensp;o Copilot is turned off when I am writing unfamiliar code, such as when creating my first async functions in the frontend and Go queries to PostgreSQL in the backend.
+• Searching for guides on Go, React, and integration between frontend and backend.
+• Learning more about pgx and pgxpool for database connections.
+• Understanding communication with backend using the ‘/api’ proxy.
+• Understanding the backend directory structure.
+• Learning how useEffect controls when data updates and components render.
+• Finding UI and UX recommendations for the posts and replies pages.
+• Learning more about the behaviour of React Link component when moving between different pages.
+• Learning how to fix CORS issues so the frontend and backend can communicate securely on Render.
+• Understanding how to make timestamps sync to local time.
+
+More details of the usage of AI can be found under [AI_usage.docx](/AI_usage.docx), for better formatting.

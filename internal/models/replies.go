@@ -39,7 +39,7 @@ func GetReplies(db *pgxpool.Pool, postId int) ([]Reply, error) {
 }
 
 //Adds a newly created reply to the database
-func CreateReply(db *pgxpool.Pool, postId int, userId int, content string) (error) {
+func CreateReply(db *pgxpool.Pool, postId int, userId int, content string) error {
 	_, err := db.Exec(context.Background(), "INSERT INTO replies (post_id, user_id, content) VALUES ($1, $2, $3)", postId, userId, content)
 	return err
 }

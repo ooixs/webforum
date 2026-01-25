@@ -44,7 +44,7 @@ go run cmd/server/main.go
 
 The following is a summary of my AI usage, with all prompts given to Gemini unless otherwise specified:
 
-- GitHub Copilot is used only for repetitive tasks, like formatting code I have written before (e.g. code formatting for a reply is similar to that of a post, except without the heading). I only use it when I already know exactly how the code should look.
+- GitHub Copilot is used only for repetitive tasks, such as writing code for a reply item that mirrors the structure of a post. I only use it when I already have the full logic and code mapped out in my head.
   - Copilot is turned off when I am writing unfamiliar code, such as when creating my first async functions in the frontend and Go queries to PostgreSQL in the backend.
 - Searching for guides on Go, React, and integration between frontend and backend.
 - Learning more about pgx and pgxpool for database connections.
